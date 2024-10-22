@@ -193,10 +193,10 @@ public class MusoniService {
                         log.info("Posted Tranasction: {} ", response);
 
 
-                        String sms_depsot = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been deposited to  Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
-                        smsService.sendSingle(phone_number, sms_depsot);
+                            String sms_depsot = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been deposited to  Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
+                            smsService.sendSingle(phone_number, sms_depsot);
 
-                        log.info("SMS SENT: {} ", sms_depsot);
+                            log.info("SMS SENT: {} ", sms_depsot);
 
 
                     }else {
@@ -205,7 +205,7 @@ public class MusoniService {
                 }catch (Exception e){
                     List<PostGlResponseDTO> responseDTO = postGlService.getAllPostGlByRef(pastelTransReq.getReference());
                     if(responseDTO.size() !=0){
-                        log.info("TRANSACTION SAVED <<<>>>");
+                     log.info("TRANSACTION SAVED <<<>>>");
                     }
                     log.info("Failed to save Transaction : {}", e.getMessage());
 
@@ -215,28 +215,28 @@ public class MusoniService {
         }
     }
 
-    //    LocalDate disbursementDate;
+//    LocalDate disbursementDate;
     public List<TransactionDTO> getTransactionsByLoanId(int loanId) throws JsonProcessingException {
         List<TransactionDTO> response = restClient.getTransactionsByLoanId(loanId);
         log.info("Loan Transactions : {}", response.toString());
 
 //        disbursementDate = restClient.getDisbursementDate(response);
 
-        return response;
+         return response;
     }
 
     public List<SavingsTransactionDTO> getTransactionsBySavingsId(int loanId) throws JsonProcessingException {
         List<SavingsTransactionDTO> response = restClient.getTransactionsBySavingsId(loanId);
         log.info("Savings Transactions : {}", response.toString());
 
-        return response;
+         return response;
     }
 
     public List<TransactionDTO> getTransactionsByPostMaturityFeeId(int loanId) throws JsonProcessingException {
         List<TransactionDTO> response = restClient.getTransactionsByPostMaturityFeeId(loanId);
         log.info("PMF Transactions : {}", response.toString());
 
-        return response;
+         return response;
     }
 
     // Function to get and process loan repayment schedule
@@ -258,31 +258,23 @@ public class MusoniService {
         LocalDate lastPenaltyDate = null;    // Track the last date a penalty was applied
         LocalDate now = LocalDate.now();     // Current date for calculations
         LocalDate lastProcessedDate = null;  // Track the date of the last processed entry
-        LocalDate paidBy = LocalDate.now();
 
         // First, process all the existing transactions in the repayment schedule
         for (Map<String, Object> entry : repaymentSchedule) {
             // Get total outstanding for each entry
-            String totalInstallmentAmountForPeriod = entry.get("totalInstallmentAmountForPeriod") != null ? entry.get("totalInstallmentAmountForPeriod").toString() : "0.0";
-            double totalOutstanding = totalInstallmentAmountForPeriod.isEmpty() ? 0.0 : Double.parseDouble(totalInstallmentAmountForPeriod);
+            String totalOutstandingStr = entry.get("totalOutstanding") != null ? entry.get("totalOutstanding").toString() : "0.0";
+            double totalOutstanding = totalOutstandingStr.isEmpty() ? 0.0 : Double.parseDouble(totalOutstandingStr);
+
+            // Accumulate the outstanding amount over time
+            cumulativeOutstanding += totalOutstanding;
 
             // Parse the date of the transaction
             LocalDate date = entry.get("date") != null ? LocalDate.parse(entry.get("date").toString(), DATE_FORMATTER) : null;
 
-            if (date.isAfter(paidBy)){
-
-                cumulativeOutstanding = totalOutstanding;
-            } else {
-                // Accumulate the outstanding amount over time
-                cumulativeOutstanding += totalOutstanding;
-            }
-
             // Determine the paidBy date or set it to now if unpaid
-            paidBy = (entry.get("paidBy") != null && !entry.get("paidBy").toString().isEmpty())
+            LocalDate paidBy = (entry.get("paidBy") != null && !entry.get("paidBy").toString().isEmpty())
                     ? LocalDate.parse(entry.get("paidBy").toString(), DATE_FORMATTER)
                     : (date != null && date.isBefore(now) ? LocalDate.now() : null);
-
-
 
             // Skip invalid entries
             if (date == null || date.isAfter(now)) {
@@ -293,6 +285,8 @@ public class MusoniService {
 
             // Calculate penalties only for overdue periods
             long overdueDays = paidBy != null ? ChronoUnit.DAYS.between(date, paidBy) : ChronoUnit.DAYS.between(date, now);
+
+            log.info("overdueDays: {}", overdueDays);
 
             if (overdueDays > 21) {
                 LocalDate endOfMonth = date.with(TemporalAdjusters.lastDayOfMonth());
@@ -317,16 +311,8 @@ public class MusoniService {
 
                         // Add the penalty to the filtered results
                         filteredResults.add(transactionDTO);
-
-                        if (paidBy.isEqual(lastPenaltyDate)){
-
-                            cumulativeOutstanding = 0.0;
-                        }
                     }
-
                 }
-            } else {
-                cumulativeOutstanding = 0.0;
             }
         }
 
@@ -392,7 +378,6 @@ public class MusoniService {
                 String amountDue = getNodeText(periodNode, "totalDueForPeriod");
                 String amountPaid = getNodeText(periodNode, "totalPaidForPeriod");
                 String amountOutstanding = getNodeText(periodNode, "totalOutstandingForPeriod");
-                String totalInstallmentAmountForPeriod = getNodeText(periodNode, "totalInstallmentAmountForPeriod");
                 String paidBy = formatDate(periodNode.get("obligationsMetOnDate"));
 
                 Map<String, Object> loanBal = new HashMap<>();
@@ -402,7 +387,6 @@ public class MusoniService {
                 loanBal.put("totalDue", amountDue); //3rd column
                 loanBal.put("totalPaid", amountPaid); //4th column
                 loanBal.put("totalOutstanding", amountOutstanding); //5th column
-                loanBal.put("totalInstallmentAmountForPeriod", totalInstallmentAmountForPeriod); //5th column
                 loanBal.put("paidBy", paidBy); //2nd column
 
                 loanAccRepay.add(loanBal);
@@ -432,7 +416,7 @@ public class MusoniService {
 //@Scheduled(cron = "0 0 0 * * ?")
 //@Scheduled(cron = "0 */30 * * * ?") // Every 30 minutes
 
-    public void getLoansByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
+public void getLoansByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
 
 //        Long timestamp = MusoniUtils.getUnixTimeMinus1Hour();
         Long timestamp = MusoniUtils.getUnixTimeMinusDays();

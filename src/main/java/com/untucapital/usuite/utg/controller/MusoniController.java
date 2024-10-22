@@ -250,7 +250,7 @@ public class MusoniController {
         return restTemplate.exchange(musoniUrl + "clients/"+clientId+"/accounts", HttpMethod.GET, entity, String.class).getBody();
     }
 
-    //    this is used my mobile app to get active loans using client id
+//    this is used my mobile app to get active loans using client id
     @GetMapping("getActiveClientLoansByClientId/{clientId}")
     public String getActiveClientLoansByClientId(@PathVariable Long clientId) {
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders());
@@ -489,7 +489,6 @@ public class MusoniController {
                 String amountPaid = periodNode.path("totalPaidForPeriod").asText();
                 String amountOutstanding = periodNode.path("totalOutstandingForPeriod").asText();
                 String paidBy = periodNode.path("obligationsMetOnDate").asText();
-                String totalInstallmentAmountForPeriod = periodNode.path("totalInstallmentAmountForPeriod").asText();
 
                 Map<String, Object> loanBal = new HashMap<>();
                 loanBal.put("date", dueDate);
@@ -497,7 +496,6 @@ public class MusoniController {
                 loanBal.put("totalPaid", amountPaid);
                 loanBal.put("totalOutstanding", amountOutstanding);
                 loanBal.put("paidBy", paidBy);
-                loanBal.put("totalInstallmentAmountForPeriod", totalInstallmentAmountForPeriod);
 
                 loanAccRepay.add(loanBal);
             }

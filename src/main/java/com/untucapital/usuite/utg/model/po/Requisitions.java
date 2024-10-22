@@ -2,7 +2,9 @@ package com.untucapital.usuite.utg.model.po;
 
 import com.sun.istack.NotNull;
 import com.untucapital.usuite.utg.model.AbstractEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +16,9 @@ import java.util.Set;
 
 @Entity
 @Data
-//@RequiredArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "requisitions")
 public class Requisitions extends AbstractEntity {
 

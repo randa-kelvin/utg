@@ -84,7 +84,7 @@ public class LoanStatementPdfGeneratorService {
             table.addCell(new Cell().add(new Paragraph((String) loanBal.get("paidBy"))));
             table.addCell(new Cell().add(new Paragraph((String) loanBal.get("totalDue"))));
             table.addCell(new Cell().add(new Paragraph((String) loanBal.get("totalPaid"))));
-            table.addCell(new Cell().add(new Paragraph((String) loanBal.get("totalInstallmentAmountForPeriod"))));
+            table.addCell(new Cell().add(new Paragraph((String) loanBal.get("totalOutstanding"))));
         }
 
         document.add(table);
@@ -168,7 +168,7 @@ public class LoanStatementPdfGeneratorService {
             balanceBd.setType(transactionTypeDTO); // Set the TransactionTypeDTO object in the balanceBd
 
 //            TODO : INTERIM : COMMENT OUT
-//            combinedTransactions.add(balanceBd); // Add the single TransactionDTO to the combined list
+            combinedTransactions.add(balanceBd); // Add the single TransactionDTO to the combined list
         }
 
         // Filter the savings transactions by date
@@ -412,11 +412,11 @@ public class LoanStatementPdfGeneratorService {
 
             headerTable.addCell(new Cell(1, 3)
                     .add(new Paragraph("Untu Capital Limited")
-                            .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
-                            .setFontSize(12)).setBorder(Border.NO_BORDER)
-                    .add(new Paragraph(officeName + " Branch")
-                            .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
-                            .setFontSize(10)));
+                    .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
+                    .setFontSize(12)).setBorder(Border.NO_BORDER)
+            .add(new Paragraph(officeName + " Branch")
+                    .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
+                    .setFontSize(10)));
 
             // Second row for print date and account details
             headerTable.addCell(new Cell(1, 3).setBorder(Border.NO_BORDER));
@@ -537,7 +537,7 @@ public class LoanStatementPdfGeneratorService {
                     }
 
                     table.addCell(new Cell().add(new Paragraph(String.format("%.2f", balance))));
-                    closingDate = String.valueOf(transaction.getDate());
+                closingDate = String.valueOf(transaction.getDate());
                 }
             }
 
@@ -546,7 +546,7 @@ public class LoanStatementPdfGeneratorService {
 //             currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
 
             table.addCell(new Cell().add(new Paragraph(closingDate)
-                    .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))));
+                            .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))));
 
             table.addCell(new Cell() // Span across 3 columns for "Closing Balance"
                     .add(new Paragraph("Closing Balance:")
