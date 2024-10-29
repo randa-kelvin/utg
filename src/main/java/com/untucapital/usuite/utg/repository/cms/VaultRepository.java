@@ -20,7 +20,8 @@ import java.util.Optional;
 @Repository
 public interface VaultRepository extends JpaRepository<Vault, Integer> {
 
-    Optional<Vault> findVaultByBranch_BranchNameAndType(String branchName, String type);
+//    Optional<Vault> findVaultByBranch_BranchNameAndType(String branchName, String type);
+    Optional<Vault> findByNameContainingAndType(String branchName, String type);
 
     Optional<Vault> findByAccount(String account);
 

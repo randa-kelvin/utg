@@ -172,7 +172,7 @@ public class VaultService {
 
         VaultResponseDTO response = new VaultResponseDTO();
 
-        Optional<Vault> vault = vaultRepository.findVaultByBranch_BranchNameAndType(branch, type);
+        Optional<Vault> vault = vaultRepository.findByNameContainingAndType(branch, type);
 
         //FIXME: this is a bypass for testing
         if (vault.isEmpty()) {

@@ -8,6 +8,7 @@ import com.untucapital.usuite.utg.dto.DisbursedLoans;
 import com.untucapital.usuite.utg.dto.*;
 import com.untucapital.usuite.utg.dto.client.Client;
 import com.untucapital.usuite.utg.dto.client.ClientFeesResponse;
+import com.untucapital.usuite.utg.dto.client.ClientSummary;
 import com.untucapital.usuite.utg.dto.client.ViewClientLoansResponse;
 import com.untucapital.usuite.utg.dto.client.loan.LoanAccount;
 import com.untucapital.usuite.utg.dto.client.repaymentSchedule.ClientStatementResponse;
@@ -146,7 +147,6 @@ public class MusoniService {
         SavingsAccountLoans loans = restClient.getSavingsLoanAccounts(timestamp);
         log.info("Loans from Musoni : {}", loans.toString());
 
-
         List<SavingsAccountsTransactions> transactions = new ArrayList<>();
         List<PostGLRequestDTO> postGlList = new ArrayList<>();
         List<PostGLRequestDTO> postGlListLB = new ArrayList<>();
@@ -198,7 +198,6 @@ public class MusoniService {
 
                             log.info("SMS SENT: {} ", sms_depsot);
 
-
                     }else {
                         log.info("TRANS ALREADY EXIST:{}", res);
                     }
@@ -208,7 +207,6 @@ public class MusoniService {
                      log.info("TRANSACTION SAVED <<<>>>");
                     }
                     log.info("Failed to save Transaction : {}", e.getMessage());
-
 
                 }
             }
@@ -444,9 +442,9 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                 phone_number = "0775797299";
             }
 
-            String reminderSms = repaymentSchedule(phone_number, String.valueOf(loanId));//            Reminder SMS
-
-            String parSms = repaymentSchedule(phone_number, String.valueOf(loanId));//            PAR SMS notification
+//            String reminderSms = repaymentSchedule(phone_number, String.valueOf(loanId));//            Reminder SMS
+//
+//            String parSms = repaymentSchedule(phone_number, String.valueOf(loanId));//            PAR SMS notification
 
             //Get all transactions for the pageItem
             transactions = restClient.getTransactions(loanId,timestamp);
@@ -993,10 +991,10 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                 String smsText = "Your Confirmation code is : " + token +
                         "\n\nYou can use it for Account Confirmation.\nUntu Capital Ltd";
 
-//                TODO Replace phone number
-//                smsService.sendSingle(musoniClient.getMobileNo(), smsText);
                 try {
-                    smsService.sendSingle("0775797299", smsText);
+                    //                TODO Replace phone number
+                    smsService.sendSingle(musoniClient.getMobileNo(), smsText);
+//                    smsService.sendSingle("0775797299", smsText);
                 } catch (Exception e){
                     throw new SmsException(e.getMessage());
                 }
@@ -1366,6 +1364,10 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
         return ChronoUnit.DAYS.between(dueDate, obligationsMetOnDate) > 30;
     }
 
+
+    public List<ClientSummary> getFilteredClients(String name) {
+        return restClient.filterClientsByName(name);
+    }
 
 
 }

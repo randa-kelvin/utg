@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.untucapital.usuite.utg.commons.AppConstants;
 import com.untucapital.usuite.utg.dto.AllLoans;
 import com.untucapital.usuite.utg.dto.client.Client;
+import com.untucapital.usuite.utg.dto.client.ClientResponse;
+import com.untucapital.usuite.utg.dto.client.ClientSummary;
 import com.untucapital.usuite.utg.dto.client.ClientsMobile;
 import com.untucapital.usuite.utg.dto.client.loan.AccountData;
 import com.untucapital.usuite.utg.dto.client.loan.LoanAccount;
@@ -976,6 +978,55 @@ public TransactionDTO getSavingsBalanceBD(String savingsId, LocalDate localDate,
         }
         return settlementAccount;
     }
+
+    public List<ClientSummary> filterClientsByName(String name) {
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders());
+
+        try {
+            String responseString = restTemplate.exchange(baseUrl + "clients?search=" + name, HttpMethod.GET, entity, String.class).getBody();
+            log.info("Clients filtered by name: {}", responseString);
+
+            // Map the JSON response to the wrapper class
+            ClientResponse clientResponse = objectMapper.readValue(responseString, ClientResponse.class);
+
+            // Map each Client to ClientSummary with only specified fields
+            List<ClientSummary> clientSummaries = clientResponse.getPageItems().stream().map(client -> {
+                ClientSummary summary = new ClientSummary();
+                summary.setId(client.getId());
+                summary.setStatus(client.getStatus().getValue());
+                summary.setActivationDate(formatDate(client.getActivationDate()));
+                summary.setFirstname(client.getFirstname());
+                summary.setLastname(client.getLastname());
+                summary.setDisplayName(client.getDisplayName());
+                summary.setMobileNo(client.getMobileNo());
+                summary.setDateOfBirth(formatDate(client.getDateOfBirth()));
+                summary.setGender(client.getGender().getName());
+                summary.setOfficeName(client.getOfficeName());
+                return summary;
+            }).collect(Collectors.toList());
+
+            log.info("Client summary list: {}", clientSummaries);
+            return clientSummaries;
+        } catch (Exception e) {
+            log.info("Exception: {}", e.getMessage());
+            return Collections.emptyList(); // Return an empty list in case of an error
+        }
+    }
+
+    // Helper method to format date from either List<Integer> or int[]
+    private String formatDate(Object date) {
+        if (date instanceof List) {
+            List<Integer> dateList = (List<Integer>) date;
+            return dateList.size() == 3 ? String.format("%04d-%02d-%02d", dateList.get(0), dateList.get(1), dateList.get(2)) : null;
+        } else if (date instanceof int[]) {
+            int[] dateArray = (int[]) date;
+            return dateArray.length == 3 ? String.format("%04d-%02d-%02d", dateArray[0], dateArray[1], dateArray[2]) : null;
+        }
+        return null;
+    }
+
+
+
 
     public List<LoanData> saveMusoniLoansToUtg() {
         // Make the API call and get the response mapped to LoanApiResponse

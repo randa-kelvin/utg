@@ -11,6 +11,7 @@ import com.untucapital.usuite.utg.client.RestClient;
 import com.untucapital.usuite.utg.dto.DisbursedLoans;
 import com.untucapital.usuite.utg.dto.FilteredLoans;
 import com.untucapital.usuite.utg.dto.LoansIds;
+import com.untucapital.usuite.utg.dto.client.ClientSummary;
 import com.untucapital.usuite.utg.dto.client.ClientsMobile;
 import com.untucapital.usuite.utg.dto.client.ViewClientLoansResponse;
 import com.untucapital.usuite.utg.dto.client.repaymentSchedule.NextInstalmentResponse;
@@ -676,5 +677,10 @@ public class MusoniController {
         return filteredLoans;
     }
 
+
+    @GetMapping("/filteredClients/{name}")
+    public List<ClientSummary> getFilteredClients(@PathVariable String name) {
+        return musoniService.getFilteredClients(name);
+    }
 
 }
