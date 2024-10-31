@@ -417,6 +417,8 @@ public class MusoniProcessor {
 
             }
 
+            //TODO: BANK ACCOUNTS SHOULD BE POSTED TO
+//            if (reference.contains("CABS")){}
             pastelTransReqList.add(pastelTransReq);
         }
 
@@ -544,6 +546,8 @@ public class MusoniProcessor {
 
             }
 
+            //TODO: BANK ACCOUNTS SHOULD BE POSTED TO
+            // if (reference.contains("CABS")){}
             pastelTransReqList.add(pastelTransReq);
         }
 //        }
