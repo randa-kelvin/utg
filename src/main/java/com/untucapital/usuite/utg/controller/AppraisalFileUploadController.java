@@ -44,4 +44,9 @@ public class AppraisalFileUploadController {
         return appraisalFileUploadService.findByLoanId(loanId);
     }
 
+    @GetMapping("getAppraisalFilePath/{loanId}")
+    public String getAppraisalFilePath(@PathVariable String loanId){
+        return appraisalFileUploadService.getAppraisalFilePath(loanId);
+    }
+
 }

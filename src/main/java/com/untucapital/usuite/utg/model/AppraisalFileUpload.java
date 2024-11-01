@@ -1,12 +1,16 @@
 package com.untucapital.usuite.utg.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
+@Data
 @Entity
 public class AppraisalFileUpload extends  AbstractEntity{
+
     @Column(name = "file_name")
     private String fileName;
 
@@ -23,43 +27,5 @@ public class AppraisalFileUpload extends  AbstractEntity{
     @JoinColumn(name = "loan_id")
     private String loanId;
 
-    public String getFileName() {
-        return fileName;
-    }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
-
-    public String getFileDescription() {
-        return fileDescription;
-    }
-
-    public void setFileDescription(String fileDescription) {
-        this.fileDescription = fileDescription;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getLoanId() {
-        return loanId;
-    }
-
-    public void setLoanId(String loanId) {
-        this.loanId = loanId;
-    }
 }

@@ -1,5 +1,6 @@
 package com.untucapital.usuite.utg.service;
 
+import com.untucapital.usuite.utg.dto.AppraisalFilePath;
 import com.untucapital.usuite.utg.dto.request.AppraisalFileUploadRequestDTO;
 import com.untucapital.usuite.utg.dto.response.AppraisalFileUploadResponseDTO;
 import com.untucapital.usuite.utg.model.AppraisalFileUpload;
@@ -47,6 +48,22 @@ public class AppraisalFileUploadService {
             response.add(responseDTO);
         }
         return  response;
+    }
+
+    @Transactional(value = "transactionManager")
+    public String getAppraisalFilePath(String loanId) {
+
+        AppraisalFilePath response = new AppraisalFilePath();
+        List<AppraisalFileUpload> appraisalFileUpload =appraisalFileUploadRepository.findByLoanId(loanId);
+
+        for (var appraisalFile: appraisalFileUpload){
+            response.setFileName(appraisalFile.getFileName());
+            response.setFilePath("http://localhost/untu_cms/includes/file_uploads/loan_officers/"+appraisalFile.getFileName());
+
+        }
+
+
+        return response.getFilePath();
     }
 
     @Transactional(value = "transactionManager")
