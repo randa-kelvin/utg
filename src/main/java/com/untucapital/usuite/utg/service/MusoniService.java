@@ -194,7 +194,7 @@ public class MusoniService {
 
 
                             String sms_depsot = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been deposited to  Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
-                            smsService.sendSingle(phone_number, sms_depsot);
+                            //smsService.sendSingle(phone_number, sms_depsot);
 
                             log.info("SMS SENT: {} ", sms_depsot);
 
@@ -473,12 +473,12 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                         if(pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_DISBURSEMENT)) {
 
                             String sms_disburse = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been disbursed to Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
-                            smsService.sendSingle(phone_number, sms_disburse);
+                            //smsService.sendSingle(phone_number, sms_disburse);
 
                             log.info("SMS SENT: {} ", sms_disburse);
                         }else if (pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_REPAYMENT)) {
                             String sms_repayment = "This serves to confirm that a repayment of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been made to Account: " + loanId + " on " + pastelTransReq.getTransactionDate();
-                            smsService.sendSingle(phone_number, sms_repayment);
+                            //smsService.sendSingle(phone_number, sms_repayment);
                         }
                     }else {
                         log.info("TRANS ALREADY EXIST:{}", res);
@@ -525,7 +525,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
             if (dueDate.minusDays(7).isEqual(currentDate)) {
                 log.info("Next Repayment date is: " + dueDate);
-                smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
+                //smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
                 break;
             }
         }
@@ -541,253 +541,6 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
 
     List<String> timestampedLoanAccs = new ArrayList<>();
-
-    //    @Scheduled(fixedRate = 300000)
-//    public String transactionSmsScheduler() throws SQLException {
-//
-////        Class.forName("com.mysql.jdbc.Driver");
-//        Connection connTrans = DriverManager.getConnection(DB_URL, USER, PASS);
-//        Statement stmt = connTrans.createStatement();
-//        ResultSet searchTranId = stmt.executeQuery("SELECT trans_id FROM sms_notification ORDER BY trans_id DESC LIMIT 1");
-////        int transIds = searchTranId.getInt("trans_id");
-//        int transIds = 0;
-//        while (searchTranId.next()) {
-//            transIds = searchTranId.getInt("trans_id");
-//        }
-//
-//        log.info("################## print this : " + transIds);
-//
-//        Loans loans = restClient.getTimestampedLoanAcc();
-//
-//        timestampedLoanAccs.clear();
-//
-//        for (int i = 0; i < loans.getPageItems().size(); i++) {
-//            String loan_id = String.valueOf(loans.getPageItems().get(i).getId());
-//            String status = String.valueOf(loans.getPageItems().get(i).getStatus().isActive());
-//            String client_id = String.valueOf(loans.getPageItems().get(i).getClientId());
-//
-//            String days_in_arrears = null;
-//            if (loans.getPageItems().get(i).getSummary() != null) {
-//                if (loans.getPageItems().get(i).getSummary().getDaysInArrears() != null) {
-//                    days_in_arrears = String.valueOf(loans.getPageItems().get(i).getSummary().getDaysInArrears());
-//                }
-//            }
-//
-//
-//            Client client = restClient.getClientById(client_id);
-//            String phone_number = "0";
-//            if (client.getMobileNo() != null) {
-//                phone_number = client.getMobileNo();
-//                phone_number = "0775797299";
-//            }
-//
-//            System.out.println(phone_number);
-//
-//            disbursementSms(loan_id, phone_number, MusoniUtils.getTimestamp(), transIds);
-//
-//            repaymentSms(loan_id, phone_number, MusoniUtils.getTimestamp(), transIds);
-//
-////            repayment
-//
-//            StringBuilder menu = new StringBuilder("");
-//            String timestampObject = menu.append("{")
-//                    .append("\"loanId\"").append(" : ").append(loan_id).append(",")
-//                    .append("\"statusActive\"").append(" : ").append(status).append(",")
-//                    .append("\"daysInArrears\"").append(" : ").append(days_in_arrears).append(",")
-//                    .append("\"clientId\"").append(" : ").append(client_id).append(",")
-//                    .append("\"phoneNumber\"").append(" : ").append(phone_number)
-//                    .append("}").toString();
-//            System.out.println(loan_id);
-//
-//            timestampedLoanAccs.add(timestampObject);
-//        }
-//        return timestampedLoanAccs.toString();
-//    }
-
-
-    //          SELECT LOAN IDS FROM TABLE AND MATCH WITH TRANSACTION IDS
-//    @Transactional(value = "transactionManager")
-//    public String disbursementSms(String loanId, String phone_number, Long unixTimestamp, int transIds) {
-//
-//        for (int transId = transIds; transId <= transIds + 10; transId++) {
-//            try {
-//
-//                log.info("This is before Musoni Transactions Query- Disbursements!");
-//
-//                LoanTransaction loanTransaction = restClient.getByLoanIdAndTransactionId(loanId, transId);
-//
-//
-//                if (loanTransaction != null) {
-//
-//                    log.info("trans id exists for this trans");
-//
-//                    String loanTrans = loanTransaction.getType().getValue();
-//                    String loanTransAmount = String.valueOf(loanTransaction.getAmount());
-//
-//                    if (loanTrans.isEmpty()) {
-//                        log.info("Loan with Transaction not found!");
-//                    } else if (loanTrans != "") {
-//
-//                        //                        GET TRANSACTION TYPE
-//                        String transactionType = loanTransaction.getType().getValue();
-//                        log.info("GET TRANSACTION TYPE:{}", transactionType);
-//                        log.info("YOUR DIS NUMBER: " + phone_number);
-//
-////                        GET TRANSACTION DATE
-//                        String transDate = MusoniUtils.getTransDate(loanTransaction);
-//                        log.info("YOUR TRANSACTION DATE IS: " + transDate);
-//
-//
-////                        GET TRACTIONACTION AMOUNT
-//                        Double amount = loanTransaction.getAmount();
-//                        log.info("AMOUNT: " + amount);
-//
-////                        GET TRANSACTION CODE
-//                        Currency currency = loanTransaction.getCurrency();
-//                        String currencyCode = currency.getCode();
-//                        log.info("CURRENCY: " + currencyCode);
-//                        log.info("Loan ID is: " + loanId + "\n And transaction ID is: " + transId);
-//
-//
-////                        FOR DISBURSMENT TRANSACTION
-//                        if (transactionType.equals("Disbursement")) {
-//                            log.info("Transaction type: " + transactionType);
-//
-//                            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-//                            Statement stmt1 = conn.createStatement();
-//
-//                            ResultSet searchTransId = stmt1.executeQuery("SELECT * FROM sms_notification WHERE trans_id = " + transId);
-//
-//                            List<Integer> transIdArray = new ArrayList<Integer>();
-//                            while (searchTransId.next()) {
-//                                transIdArray.add(searchTransId.getInt("trans_id"));
-//                            }
-//                            List<Integer> transArray = transIdArray;
-//
-//                            if (transArray.contains(transId)) {
-//                                log.info("Sms Already Send" + transId);
-//                            } else {
-//
-////                        Todo: SET SEND SMS HERE...
-//                                log.info("Disbursement message has been sent..");
-//                                String sms_disburse = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(loanTransAmount)) + " has been disbursed to Account: " + loanId + " on " + transDate + " and has been collected.";
-//                                smsService.sendSingle(phone_number, sms_disburse);
-//
-//                                //  INSERT TRANSACTION DETAILS INTO DATABASE
-//                                log.info("Inserting SMS records into the table...");
-//                                String sql = "INSERT INTO `sms_notification` (`trans_id`, `loan_id`, `description`, `phone_number`, `unix_timestamp`) VALUES (" + transId + ", '" + loanId + "', '" + transactionType + "', '" + phone_number + "', '" + unixTimestamp + "')";
-//                                stmt1.executeUpdate(sql);
-//                                log.info("" + transId);
-//                            }
-//                            searchTransId.close();
-//                        }
-//                    }
-//                } else {
-//                    log.info("else part in disbursement");
-//                }
-//
-//            } catch (HttpClientErrorException | ParseException | SQLException e) {
-//                e.getMessage();
-//            }
-//
-//
-//        }
-//        // EXIT WHILE LOOP
-//
-//        return "";
-//    }
-
-//    @Transactional(value = "transactionManager")
-//    public String repaymentSms(String loanId, String phone_number, Long unixTimestamp, int transIds) {
-//
-//        for (int transId = transIds; transId <= transIds + 5; transId++) {
-//            try {
-////            URL url = new URL("http://localhost:7878/api/utg/musoni/getTransations/loanid/" + loanId +"/transactionId/"+ transId);
-//                LoanTransaction transaction = restClient.getByLoanIdAndTransactionId(loanId, transId);
-//
-//                log.info("This is before Musoni Transactions Query - Repayments!");
-//                if (transaction.getId() != 0) {
-//
-//                    log.info("trans id exists for this trans");
-//
-//                    LoanTransaction loanTransaction = restClient.getByLoanIdAndTransactionId(loanId, transId);
-//
-//                    String loanTrans = loanTransaction.getType().getValue();
-//                    String loanTransAmount = String.valueOf(loanTransaction.getAmount());
-//
-//                    if (loanTrans.equals("")) {
-//                        log.info("Loan with Transaction not found!");
-//                    } else if (loanTrans != "") {
-//
-//                        String transactionType = loanTransaction.getType().getValue();
-//                        log.info("GET TRANSACTION TYPE:{}", transactionType);
-//                        log.info("YOUR REP NUMBER: " + phone_number);
-//
-////                        GET TRANSACTION DATE
-//                        String transDate = MusoniUtils.getTransDate(loanTransaction);
-//                        log.info("YOUR TRANSACTION DATE IS: " + transDate);
-//
-////                        GET TRACTIONACTION AMOUNT
-//                        Double amount = loanTransaction.getAmount();
-//                        log.info("AMOUNT: " + amount);
-//
-////                        GET TRANSACTION CODE
-//                        Currency currency = loanTransaction.getCurrency();
-//                        String currencyCode = currency.getCode();
-//                        log.info("CURRENCY: " + currencyCode);
-//                        log.info("Loan ID is: " + loanId + "\n And transaction ID is: " + transId);
-//
-////                        FOR DISBURSMENT TRANSACTION
-//                        if (transactionType.equals("Repayment")) {
-//                            System.out.println(transactionType);
-//
-//                            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-//                            Statement stmt1 = conn.createStatement();
-//
-//                            ResultSet searchTransId = stmt1.executeQuery("SELECT * FROM sms_notification WHERE trans_id = " + transId);
-//
-//                            List<Integer> transIdArray = new ArrayList<Integer>();
-//                            while (searchTransId.next()) {
-//                                transIdArray.add(searchTransId.getInt("trans_id"));
-//                            }
-//                            List<Integer> transArray = transIdArray;
-//
-//                            if (transArray.contains(transId)) {
-//                                System.out.println("Sms Already Send");
-//                                System.out.println(transId);
-//                            } else {
-//
-////                        Todo: SET SEND SMS HERE...
-////                        System.out.println("Repayment message has been sent..");
-//                                String sms_repayment = "This serves to confirm that a repayment of " + MusoniUtils.currencyFormatter(new BigDecimal(loanTransAmount)) + " has been made to Account: " + loanId + " on " + transDate;
-//                                smsService.sendSingle(phone_number, sms_repayment);
-//
-//                                //  INSERT TRANSACTION DETAILS INTO DATABASE
-//                                System.out.println("Inserting SMS records into the table...");
-//                                String sql = "INSERT INTO `sms_notification` (`trans_id`, `loan_id`, `description`, `phone_number`, `unix_timestamp`) VALUES (" + transId + ", '" + loanId + "', '" + transactionType + "', '" + phone_number + "', '" + unixTimestamp + "')";
-//                                stmt1.executeUpdate(sql);
-////                                stmt1.close();
-//                                System.out.println(transId);
-//                            }
-//                            searchTransId.close();
-//                        }
-//                    }
-//
-//                } else {
-//                    System.out.println("else part in repayment");
-//                }
-//
-//            } catch (HttpClientErrorException | ParseException | SQLException e) {
-//                e.getMessage();
-//            }
-//
-//
-//        }
-//        // EXIT WHILE LOOP
-//
-//
-//        return "";
-//    }
 
     public Result disbursedLoans(String fromDate, String toDate) {
         Loans loans = restClient.getLoansByDisbursementDate(fromDate, toDate);
@@ -993,8 +746,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
                 try {
                     //                TODO Replace phone number
-                    smsService.sendSingle(musoniClient.getMobileNo(), smsText);
-//                    smsService.sendSingle("0775797299", smsText);
+                    //smsService.sendSingle(musoniClient.getMobileNo(), smsText);
                 } catch (Exception e){
                     throw new SmsException(e.getMessage());
                 }
@@ -1159,7 +911,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
             if (dueDate.isEqual(currentDate) || dueDate.isAfter(currentDate)) {
                 log.info("Next Repayment date is: " + dueDate);
-//                smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
+//                //smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
                 break;
             }
         }
@@ -1225,7 +977,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                 String lastName = client.getLastname();
 
                 // Send birthday message
-                smsService.sendSingle(mobileNo, "Happy Birthday " + firstName + "! Wishing you a fantastic day filled with joy and success. Thank you for being a valued part of Untu Capital.");
+                //smsService.sendSingle(mobileNo, "Happy Birthday " + firstName + "! Wishing you a fantastic day filled with joy and success. Thank you for being a valued part of Untu Capital.");
 
             } else {
             }
