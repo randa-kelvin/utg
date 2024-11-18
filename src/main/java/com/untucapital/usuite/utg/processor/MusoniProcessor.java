@@ -367,6 +367,7 @@ public class MusoniProcessor {
 //                    reference = "REP-" + transaction.getId();
                 if (!transaction.getPaymentDetailData().getReceiptNumber().isEmpty()) {
                     reference = transaction.getPaymentDetailData().getReceiptNumber();
+                    log.info("refenceNo : {}", reference);
 //                    double disbursementFeesPercentage = 0.0; // Initialize with a default value
 
                     // Check if the second part contains a "%" symbol
@@ -375,25 +376,20 @@ public class MusoniProcessor {
                         log.info("reference: {}", reference);
 
 //                            TODO : ADD ACCOUNTS TO AND FROM
-                        switch (reference.toUpperCase()) {
-                            case "HRE":
-                                toAccount = "1000/001/HRE/FE/CH/FCA";
-                                break;
-                            case "BYO":
-                                toAccount = "1000/001/BYO/FE/CH/FCA";
-                                break;
-                            case "GWR":
-                                toAccount = "1000/001/GWR/FE/CH/FCA";
-                                break;
-                            case "GKW":
-                                toAccount = "1000/001/GKW/FE/CH/FCA";
-                                break;
-                            case "HQ":
-                                toAccount = "1000/001/HO";
-                                break;
-                            default:
-                                // Handle any other cases if necessary
-                                break;
+                        String referenceUpper = reference.toUpperCase();
+
+                        if (referenceUpper.contains("HRE")) {
+                            toAccount = "1000/001/HRE/FE/CH/FCA";
+                        } else if (referenceUpper.contains("BY")) {
+                            toAccount = "1000/001/BYO/FE/CH/FCA";
+                        } else if (referenceUpper.contains("GWR")) {
+                            toAccount = "1000/001/GWR/FE/CH/FCA";
+                        } else if (referenceUpper.contains("GKW")) {
+                            toAccount = "1000/001/GKW/FE/CH/FCA";
+                        } else if (referenceUpper.contains("HQ")) {
+                            toAccount = "1000/001/HO";
+                        } else {
+                            break; // You can set a default account if needed
                         }
 
                     }
@@ -495,32 +491,29 @@ public class MusoniProcessor {
                 if (!transaction.getPaymentDetailData().getReceiptNumber().isEmpty()) {
                     reference = transaction.getPaymentDetailData().getReceiptNumber();
 
+
                     // Check if the second part contains a "%" symbol
                     if (reference.toLowerCase().contains("fees")) {
 
                         log.info("reference: {}", reference);
 
 //                            TODO : ADD ACCOUNTS TO AND FROM
-                        switch (reference.toUpperCase()) {
-                            case "HRE":
-                                toAccount = "1000/001/HRE/FE/CH/FCA";
-                                break;
-                            case "BYO":
-                                toAccount = "1000/001/BYO/FE/CH/FCA";
-                                break;
-                            case "GWR":
-                                toAccount = "1000/001/GWR/FE/CH/FCA";
-                                break;
-                            case "GKW":
-                                toAccount = "1000/001/GKW/FE/CH/FCA";
-                                break;
-                            case "HQ":
-                                toAccount = "1000/001/HO";
-                                break;
-                            default:
-                                // Handle any other cases if necessary
-                                break;
+                        String referenceUpper = reference.toUpperCase();
+
+                        if (referenceUpper.contains("HRE")) {
+                            toAccount = "1000/001/HRE/FE/CH/FCA";
+                        } else if (referenceUpper.contains("BY")) {
+                            toAccount = "1000/001/BYO/FE/CH/FCA";
+                        } else if (referenceUpper.contains("GWR")) {
+                            toAccount = "1000/001/GWR/FE/CH/FCA";
+                        } else if (referenceUpper.contains("GKW")) {
+                            toAccount = "1000/001/GKW/FE/CH/FCA";
+                        } else if (referenceUpper.contains("HQ")) {
+                            toAccount = "1000/001/HO";
+                        } else {
+                            break; // You can set a default account if needed
                         }
+
                     }
                 }
 

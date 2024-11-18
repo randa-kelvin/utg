@@ -194,7 +194,7 @@ public class MusoniService {
 
 
                             String sms_depsot = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been deposited to  Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
-                            //smsService.sendSingle(phone_number, sms_depsot);
+                            smsService.sendSingle(phone_number, sms_depsot);
 
                             log.info("SMS SENT: {} ", sms_depsot);
 
@@ -473,12 +473,12 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                         if(pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_DISBURSEMENT)) {
 
                             String sms_disburse = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been disbursed to Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
-                            //smsService.sendSingle(phone_number, sms_disburse);
+                            smsService.sendSingle(phone_number, sms_disburse);
 
                             log.info("SMS SENT: {} ", sms_disburse);
                         }else if (pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_REPAYMENT)) {
                             String sms_repayment = "This serves to confirm that a repayment of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been made to Account: " + loanId + " on " + pastelTransReq.getTransactionDate();
-                            //smsService.sendSingle(phone_number, sms_repayment);
+                            smsService.sendSingle(phone_number, sms_repayment);
                         }
                     }else {
                         log.info("TRANS ALREADY EXIST:{}", res);
@@ -525,7 +525,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
             if (dueDate.minusDays(7).isEqual(currentDate)) {
                 log.info("Next Repayment date is: " + dueDate);
-                //smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
+                smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
                 break;
             }
         }
@@ -746,7 +746,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
                 try {
                     //                TODO Replace phone number
-                    //smsService.sendSingle(musoniClient.getMobileNo(), smsText);
+                    smsService.sendSingle(musoniClient.getMobileNo(), smsText);
                 } catch (Exception e){
                     throw new SmsException(e.getMessage());
                 }
@@ -911,7 +911,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
             if (dueDate.isEqual(currentDate) || dueDate.isAfter(currentDate)) {
                 log.info("Next Repayment date is: " + dueDate);
-//                //smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
+//                smsService.sendSingle(phone_number, "Please be reminded that your next repayment date is: " + dueDate + "\n\nNote: Ignore this message if you've already made your payment.");
                 break;
             }
         }
@@ -977,7 +977,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                 String lastName = client.getLastname();
 
                 // Send birthday message
-                //smsService.sendSingle(mobileNo, "Happy Birthday " + firstName + "! Wishing you a fantastic day filled with joy and success. Thank you for being a valued part of Untu Capital.");
+                smsService.sendSingle(mobileNo, "Happy Birthday " + firstName + "! Wishing you a fantastic day filled with joy and success. Thank you for being a valued part of Untu Capital.");
 
             } else {
             }
