@@ -379,15 +379,15 @@ public class MusoniProcessor {
                         String referenceUpper = reference.toUpperCase();
 
                         if (referenceUpper.contains("HRE")) {
-                            toAccount = "1000/001/HRE/FE/CH/FCA";
+                            fromAccount = "1000/001/HRE/FE/CH/FCA";
                         } else if (referenceUpper.contains("BY")) {
-                            toAccount = "1000/001/BYO/FE/CH/FCA";
+                            fromAccount = "1000/001/BYO/FE/CH/FCA";
                         } else if (referenceUpper.contains("GWR")) {
-                            toAccount = "1000/001/GWR/FE/CH/FCA";
+                            fromAccount = "1000/001/GWR/FE/CH/FCA";
                         } else if (referenceUpper.contains("GKW")) {
-                            toAccount = "1000/001/GKW/FE/CH/FCA";
+                            fromAccount = "1000/001/GKW/FE/CH/FCA";
                         } else if (referenceUpper.contains("HQ")) {
-                            toAccount = "1000/001/HO";
+                            fromAccount = "1000/001/HO";
                         } else {
                             break; // You can set a default account if needed
                         }
@@ -501,15 +501,15 @@ public class MusoniProcessor {
                         String referenceUpper = reference.toUpperCase();
 
                         if (referenceUpper.contains("HRE")) {
-                            toAccount = "1000/001/HRE/FE/CH/FCA";
+                            fromAccount = "1000/001/HRE/FE/CH/FCA";
                         } else if (referenceUpper.contains("BY")) {
-                            toAccount = "1000/001/BYO/FE/CH/FCA";
+                            fromAccount = "1000/001/BYO/FE/CH/FCA";
                         } else if (referenceUpper.contains("GWR")) {
-                            toAccount = "1000/001/GWR/FE/CH/FCA";
+                            fromAccount = "1000/001/GWR/FE/CH/FCA";
                         } else if (referenceUpper.contains("GKW")) {
-                            toAccount = "1000/001/GKW/FE/CH/FCA";
+                            fromAccount = "1000/001/GKW/FE/CH/FCA";
                         } else if (referenceUpper.contains("HQ")) {
-                            toAccount = "1000/001/HO";
+                            fromAccount = "1000/001/HO";
                         } else {
                             break; // You can set a default account if needed
                         }
