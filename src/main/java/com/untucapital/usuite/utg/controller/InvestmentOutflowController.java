@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.InvestmentOutflow;
-import com.untucapital.usuite.utg.service.InvestmentInflowService;
+import com.untucapital.usuite.utg.dto.request.InvestmentOutflowRequestDTO;
+import com.untucapital.usuite.utg.dto.response.InvestmentOutflowResponseDTO;
 import com.untucapital.usuite.utg.service.InvestmentOutflowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ public class InvestmentOutflowController {
     private static final Logger log = LoggerFactory.getLogger(InvestmentOutflowController.class);
 
     @GetMapping("/get/{loanId}")
-    public List<InvestmentOutflow> get(@PathVariable("loanId") String loanId){
+    public List<InvestmentOutflowResponseDTO> get(@PathVariable("loanId") String loanId){
         return investmentOutflowService.get(loanId);
     }
 
     @PostMapping("/add")
-    public void add(@RequestBody InvestmentOutflow investmentOutflow){
+    public void add(@RequestBody InvestmentOutflowRequestDTO investmentOutflow){
         investmentOutflowService.add(investmentOutflow);
     }
 

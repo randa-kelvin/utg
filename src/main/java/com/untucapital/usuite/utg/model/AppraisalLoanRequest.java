@@ -1,65 +1,89 @@
 package com.untucapital.usuite.utg.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "appraisal_loan_requests")
 public class AppraisalLoanRequest extends AbstractEntity {
 
-    private  String userId;
+        @Column(name = "user_id")
+        private String userId;
 
-    private  String loanOfficerFirstName;
+        @Column(name = "loan_officer_first_name")
+        private String loanOfficerFirstName;
 
-    private  String loanOfficerLastName;
+        @Column(name = "loan_officer_last_name")
+        private String loanOfficerLastName;
 
-    private String loanId;
+        @Column(name = "loan_id")
+        private String loanId;
 
-    private String investmentPlan;
+        @Column(name = "investment_plan")
+        private String investmentPlan;
 
-    private String quotation;
+        @Column(name = "quotation")
+        private String quotation;
 
-    private String whyQuotation;
+        @Column(name = "why_quotation")
+        private String whyQuotation;
 
-    private String loanToSupplier;
+        @Column(name = "loan_to_supplier")
+        private String loanToSupplier;
 
-    private String whyloanToSupplier;
+        @Column(name = "why_loan_to_supplier")
+        private String whyloanToSupplier;
 
-    private String percentageFixedAssets;
+        @Column(name = "percentage_fixed_assets")
+        private String percentageFixedAssets;
 
-    private String percentageWorkingCapital;
+        @Column(name = "percentage_working_capital")
+        private String percentageWorkingCapital;
 
-    private String source;
+        @Column(name = "source")
+        private String source;
 
-    private String sourceAmount;
+        @Column(name = "source_amount")
+        private String sourceAmount;
 
-    private String percentageShare;
+        @Column(name = "percentage_share")
+        private String percentageShare;
 
-    private String verified;
+        @Column(name = "verified")
+        private String verified;
 
-    private String comments;
+        @Column(name = "comments")
+        private String comments;
 
-    private String loanAmountClient;
+        @Column(name = "loan_amount_client")
+        private String loanAmountClient;
 
-    private String maturityClient;
+        @Column(name = "maturity_client")
+        private String maturityClient;
 
-    private String interestRateCLient;
+        @Column(name = "interest_rate_client")
+        private String interestRateCLient;
 
-    private String installmentClient;
+        @Column(name = "installment_client")
+        private String installmentClient;
 
-    private String loanAmountLoanOfficer;
+        @Column(name = "loan_amount_loan_officer")
+        private String loanAmountLoanOfficer;
 
-    private String maturityLoanOfficer;
+        @Column(name = "maturity_loan_officer")
+        private String maturityLoanOfficer;
 
-    private String interestRateLoanOfficer;
+        @Column(name = "interest_rate_loan_officer")
+        private String interestRateLoanOfficer;
 
-    private String installmentLoanOfficer;
+        @Column(name = "installment_loan_officer")
+        private String installmentLoanOfficer;
 
-    private String commentsTermAndCondition;
+        @Column(name = "comments_term_and_condition")
+        private String commentsTermAndCondition;
+
+
 
     public String getInvestmentPlan() {
         return investmentPlan;

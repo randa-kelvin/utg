@@ -1,5 +1,6 @@
 package com.untucapital.usuite.utg.model.fcb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.untucapital.usuite.utg.model.AbstractEntity;
 
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "fcb_searches")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Search extends AbstractEntity {
 
     @JsonProperty(value = "search_purpose")

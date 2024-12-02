@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.AppraisalFileUpload;
+import com.untucapital.usuite.utg.dto.request.AppraisalFileUploadRequestDTO;
+import com.untucapital.usuite.utg.dto.response.AppraisalFileUploadResponseDTO;
 import com.untucapital.usuite.utg.repository.AppraisalFileUploadRepository;
 import com.untucapital.usuite.utg.service.AppraisalFileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,27 @@ public class AppraisalFileUploadController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> save(@RequestBody AppraisalFileUpload appraisalFileUpload){
+    public ResponseEntity<String> save(@RequestBody AppraisalFileUploadRequestDTO appraisalFileUpload){
         appraisalFileUploadService.save(appraisalFileUpload);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // Update existing Appraisal file
     @PutMapping("/update/{loanId}")
-    public ResponseEntity<String> updateAppraisalFile(@PathVariable String loanId, @RequestBody AppraisalFileUpload appraisalFileUpload){
-        AppraisalFileUpload updateAppraisalFile = appraisalFileUploadRepository.findAppraisalFileUploadByLoanId(loanId);
-        updateAppraisalFile.setFileName(appraisalFileUpload.getFileName());
-        appraisalFileUploadService.save(updateAppraisalFile);
+    public ResponseEntity<String> updateAppraisalFile(@PathVariable String loanId, @RequestBody AppraisalFileUploadRequestDTO appraisalFileUpload){
+
+        appraisalFileUploadService.updateAppraisalFile(loanId, appraisalFileUpload);
         return new ResponseEntity<String>("Appraisal File updated", HttpStatus.OK);
     }
 
     @GetMapping("get/{loanId}")
-    public List<AppraisalFileUpload> findByLoanId(@PathVariable String loanId){
+    public List<AppraisalFileUploadResponseDTO> findByLoanId(@PathVariable String loanId){
         return appraisalFileUploadService.findByLoanId(loanId);
+    }
+
+    @GetMapping("getAppraisalFilePath/{loanId}")
+    public String getAppraisalFilePath(@PathVariable String loanId){
+        return appraisalFileUploadService.getAppraisalFilePath(loanId);
     }
 
 }

@@ -15,4 +15,13 @@ public class RandomNumUtils {
         }
         return value;
     }
+
+    public static String generateAwsCode(int number){
+        Random random = new Random();
+        String value = String.valueOf(random.nextInt(6));
+        for(int i = 0; i < number -1; i++){
+            value = value + String.valueOf(random.nextInt(6));
+        }
+        return value;
+    }
 }

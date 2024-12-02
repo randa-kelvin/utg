@@ -10,17 +10,33 @@ import javax.persistence.Table;
 @Table(name = "comments")
 public class Comments extends AbstractEntity{
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
 
+    @Column(name = "comment1")
     private String comment1;
+
+    @Column(name = "comment2")
     private String comment2;
+
+    @Column(name = "comment3")
     private String comment3;
+
+    @Column(name = "comment4")
     private String comment4;
+
+    @Column(name = "comment5")
     private String comment5;
+
+    @Column(name = "comment6")
     private String comment6;
+
+    @Column(name = "comment7")
     private String comment7;
+
+    @Column(name = "comment8")
     private String comment8;
+
 
     public String getLoanId() {
         return loanId;

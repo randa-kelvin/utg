@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.RepaymentHistory;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.RepaymentHistoryRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.RepaymentHistoryRepository;
+import com.untucapital.usuite.utg.model.RepaymentHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

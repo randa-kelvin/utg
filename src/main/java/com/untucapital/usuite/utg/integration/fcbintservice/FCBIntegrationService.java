@@ -1,11 +1,14 @@
 package com.untucapital.usuite.utg.integration.fcbintservice;
 
 import com.untucapital.usuite.utg.model.ClientLoan;
+import com.untucapital.usuite.utg.model.Industry;
 import com.untucapital.usuite.utg.model.fcb.Report;
 import com.untucapital.usuite.utg.model.fcb.Response;
 import com.untucapital.usuite.utg.model.fcb.enums.*;
+import com.untucapital.usuite.utg.service.IndustryService;
 import com.untucapital.usuite.utg.utils.DateTimeFormatterUtil;
 import com.untucapital.usuite.utg.utils.FormatterUtil;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -25,13 +28,17 @@ import static com.untucapital.usuite.utg.config.FCBConfig.*;
  * @author Chirinda Nyasha Dell - 7/12/2021
  */
 
+@RequiredArgsConstructor
 @Service
 public class FCBIntegrationService {
 
     private static final Logger log = LoggerFactory.getLogger(FCBIntegrationService.class);
     private final RestTemplate restTemplate = new RestTemplate();
+    private final IndustryService industryService;
 
     public Optional<Response> performSearch(ClientLoan clientLoan) {
+
+        clientLoan.setIndustryCode(String.valueOf(industryService.getIndustryIdByName(clientLoan.getIndustryCode())));
 
         MultiValueMap<String, Object> searchHeaders = createReqHeaders(clientLoan);
 

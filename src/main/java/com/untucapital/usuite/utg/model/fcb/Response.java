@@ -1,8 +1,10 @@
 package com.untucapital.usuite.utg.model.fcb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.untucapital.usuite.utg.model.AbstractEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,13 +18,17 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "fcb_response")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Response extends AbstractEntity {
 
+    @Column(name = "code")
     private Integer code;
 
+    @Column(name = "individual")
     private String individual;
 
     @OneToMany(cascade = {PERSIST, MERGE, REMOVE})
+    @Column(name = "report")
     @JsonProperty(value = "Report")
     private List<Report> report;
 
@@ -45,8 +51,16 @@ public class Response extends AbstractEntity {
     private List<Exposure> exposures;
 
     @OneToMany(cascade = {PERSIST, MERGE, REMOVE})
+    private List<Incomes> incomes;
+
+    @OneToMany(cascade = {PERSIST, MERGE, REMOVE})
+    private List<Employer> employer;
+
+    @OneToMany(cascade = {PERSIST, MERGE, REMOVE})
+    @Column(name = "additional_info")
     @JsonProperty(value = "additional_info")
     private List<AdditionalInfo> additionalInfo;
+
 
     public List<Report> getReport() {
         return report;
@@ -120,11 +134,27 @@ public class Response extends AbstractEntity {
         this.exposures = exposures;
     }
 
+    public List<Incomes> getIncomes() {
+        return incomes;
+    }
+
+    public void setIncomes(List<Incomes> incomes) {
+        this.incomes = incomes;
+    }
+
     public List<AdditionalInfo> getAdditionalInfo() {
         return additionalInfo;
     }
 
     public void setAdditionalInfo(List<AdditionalInfo> additionalInfo) {
         this.additionalInfo = additionalInfo;
+    }
+
+    public List<Employer> getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(List<Employer> employer) {
+        this.employer = employer;
     }
 }

@@ -1,12 +1,9 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.ClientLoan;
-import com.untucapital.usuite.utg.model.ClientLoanEnquiry;
+import com.untucapital.usuite.utg.dto.request.ClientLoanEnquiryRequestDTO;
+import com.untucapital.usuite.utg.dto.response.ClientLoanEnquiryResponseDTO;
 import com.untucapital.usuite.utg.repository.ClientLoanEnquiryRepository;
-import com.untucapital.usuite.utg.repository.ClientRepository;
-import com.untucapital.usuite.utg.service.ClientLoanApplication;
 import com.untucapital.usuite.utg.service.ClientLoanEnquiryService;
-import com.untucapital.usuite.utg.utils.EmailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,27 +27,27 @@ public class ClientLoanEnquiryController {
 
     //build save loan REST API
     @PostMapping
-    public ResponseEntity<ClientLoanEnquiry> saveClientLoanEnquiry(@RequestBody ClientLoanEnquiry clientLoanEnquiry) {
-        log.info(String.valueOf(clientLoanEnquiry));
-        return new ResponseEntity<ClientLoanEnquiry>(clientLoanEnquiryService.saveClientLoanEnquiry(clientLoanEnquiry), HttpStatus.CREATED);
+    public ResponseEntity<ClientLoanEnquiryResponseDTO> saveClientLoanEnquiry(@RequestBody ClientLoanEnquiryRequestDTO request) {
+        log.info(String.valueOf(request));
+        return new ResponseEntity<ClientLoanEnquiryResponseDTO>(clientLoanEnquiryService.saveClientLoanEnquiry(request), HttpStatus.CREATED);
     }
 
     //build get all loan applications REST API
     @GetMapping
-    public List<ClientLoanEnquiry> getAllClientLoanEnquiries() {
+    public List<ClientLoanEnquiryResponseDTO> getAllClientLoanEnquiries() {
         return clientLoanEnquiryService.getAllClientLoanEnquiries();
     }
 
     //build get clientLoan by ID REST API
     @GetMapping("{id}")
-    public ResponseEntity<ClientLoanEnquiry> getClientLoanEnquiryById(@PathVariable("id") String id) {
-        return new ResponseEntity<ClientLoanEnquiry>(clientLoanEnquiryRepository.findClientLoanEnquiryById(id), HttpStatus.OK);
+    public ResponseEntity<ClientLoanEnquiryResponseDTO> getClientLoanEnquiryById(@PathVariable("id") String id) {
+        return new ResponseEntity<ClientLoanEnquiryResponseDTO>(clientLoanEnquiryService.getClientLoanEnquiryById(id), HttpStatus.OK);
     }
 
     //build get clientLoan by ID REST API
     @GetMapping("/userid/{userId}")
-    public ResponseEntity<List<ClientLoanEnquiry>> getClientLoanEnquiryByUserId(@PathVariable("userId") String userId) {
-        return new ResponseEntity<List<ClientLoanEnquiry>>(clientLoanEnquiryRepository.findClientLoanEnquiriesByUserId(userId), HttpStatus.OK);
+    public ResponseEntity<List<ClientLoanEnquiryResponseDTO>> getClientLoanEnquiryByUserId(@PathVariable("userId") String userId) {
+        return new ResponseEntity<List<ClientLoanEnquiryResponseDTO>>(clientLoanEnquiryService.getClientLoanEnquiryByUserId(userId), HttpStatus.OK);
     }
 
 }

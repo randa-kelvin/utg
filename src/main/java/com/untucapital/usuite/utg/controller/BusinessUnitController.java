@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.BusinessUnit;
+import com.untucapital.usuite.utg.dto.request.BusinessUnitRequestDTO;
+import com.untucapital.usuite.utg.dto.response.BusinessUnitResponseDTO;
 import com.untucapital.usuite.utg.service.BusinessUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,24 +23,24 @@ public class BusinessUnitController {
 
     //Save new Business Unit
     @PostMapping("/saveBusinessUnit")
-    public void saveBusinessUnit(@RequestBody BusinessUnit businessUnit){
-        businessUnitService.saveBusinessUnit(businessUnit);
+    public void saveBusinessUnit(@RequestBody BusinessUnitRequestDTO requestDTO){
+        businessUnitService.saveBusinessUnit(requestDTO);
     }
 
     //Get All Business Units
     @GetMapping("/listBusinessUnits")
-    public List<BusinessUnit> listBusinessUnits(){
+    public List<BusinessUnitResponseDTO> listBusinessUnits(){
         return businessUnitService.listBusinessUnits();
     }
 
     //Get Business Unit By Id
     @GetMapping("/getBusinessUnit/{businessUnitId}")
-    public  List<BusinessUnit> getBusinessUnit(@PathVariable("businessUnitId") String id){
+    public  List<BusinessUnitResponseDTO> getBusinessUnit(@PathVariable("businessUnitId") String id){
         return businessUnitService.getBusinessUnitById(id);
     }
     //Get list Business Units by Loan Id
     @GetMapping("getBusinessUnitsByLoanId/{loanId}")
-    public List<BusinessUnit> getBusinessUnitsByLoanId(@PathVariable("loanId") String id){
+    public List<BusinessUnitResponseDTO> getBusinessUnitsByLoanId(@PathVariable("loanId") String id){
         return businessUnitService.lisBusinessUnitByLoanId(id);
     }
 

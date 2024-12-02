@@ -15,10 +15,14 @@ public class Role extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @NaturalId
-    @Column(length = 60)
+    @Column(length = 60, name = "name")
     private RoleType name;
 
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "role_category")
+    private String roleCategory;
 
     public RoleType getName() {
         return name;
@@ -34,5 +38,13 @@ public class Role extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRoleCategory() {
+        return roleCategory;
+    }
+
+    public void setRoleCategory(String roleCategory) {
+        this.roleCategory = roleCategory;
     }
 }

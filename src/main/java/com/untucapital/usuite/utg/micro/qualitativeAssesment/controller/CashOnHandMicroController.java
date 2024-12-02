@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.CashOnHandMicro;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.CashOnHandMicroService;
+import com.untucapital.usuite.utg.model.CashOnHandMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

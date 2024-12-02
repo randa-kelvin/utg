@@ -9,19 +9,37 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ownershipDetails")
 public class OwnershipDetails extends AbstractEntity {
-    @NotNull
-    @Column(nullable = false)
-    private String loanId;
-    private String fullName;
-    private String position;
-    private String experience;
-    private String percentageShare;
-    private String married;
-    private String dob;
-    private String sygnatoryType;
-    private String crbCheck;
-    private String contact;
 
+    @NotNull
+    @Column(name = "loan_id", nullable = false)
+    private String loanId;
+
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "position")
+    private String position;
+
+    @Column(name = "experience")
+    private String experience;
+
+    @Column(name = "percentage_share")
+    private String percentageShare;
+
+    @Column(name = "married")
+    private String married;
+
+    @Column(name = "dob")
+    private String dob;
+
+    @Column(name = "sygnatory_type")
+    private String sygnatoryType;
+
+    @Column(name = "crb_check")
+    private String crbCheck;
+
+    @Column(name = "contact")
+    private String contact;
     public String getLoanId() {
         return loanId;
     }

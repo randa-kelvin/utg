@@ -10,13 +10,21 @@ import javax.persistence.Table;
 @Table(name = "sourceOfFunds")
 public class SourceOfFunds extends AbstractEntity{
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "loan_id")
     private String loanId;
-
+    @Column(name = "source")
     private String source;
+
+    @Column(name = "source_amount")
     private double sourceAmount;
+
+    @Column(name = "percentage_share")
     private String percentageShare;
+
+    @Column(name = "verified")
     private String verified;
+
+    @Column(name = "comments")
     private String comments;
 
     public String getLoanId() {

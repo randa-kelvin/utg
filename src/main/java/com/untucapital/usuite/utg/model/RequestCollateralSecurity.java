@@ -3,25 +3,34 @@ package com.untucapital.usuite.utg.model;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "request_collateral_security")
 @Data
-public class RequestCollateralSecurity extends AbstractEntity{
+public class RequestCollateralSecurity extends AbstractEntity {
 
-    private String phoneNumber ;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "loan_acc")
     private String loanAcc;
+
+    @Column(name = "client_name")
     private String clientName;
+
+    @Column(name = "collateral_description")
     private String collateralDescription;
 
-    @Column(updatable = false)
+    @Column(updatable = false, name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
+    @Column(updatable = false, name = "updated_at")
     private LocalDateTime updatedAt;
 
     public String getPhoneNumber() {

@@ -1,14 +1,15 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.Branches;
+import com.untucapital.usuite.utg.dto.request.CitiesRequestDTO;
 import com.untucapital.usuite.utg.model.Cities;
-
 import com.untucapital.usuite.utg.service.AbstractService;
 import com.untucapital.usuite.utg.service.CitiesService;
-import com.untucapital.usuite.utg.service.IndustryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "cities")
@@ -24,8 +25,9 @@ public class CitiesController extends AbstractController<Cities> {
 
     //build save branch REST API
     @PostMapping("/City")
-    public void add(@RequestBody Cities cities) {
-        citiesService.saveCities(cities);
+    public void add(@RequestBody CitiesRequestDTO request) {
+
+        citiesService.saveCities(request);
     }
 
 //    @DeleteMapping("/deleteCity/{id}")

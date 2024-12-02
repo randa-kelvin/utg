@@ -10,12 +10,22 @@ import javax.persistence.Table;
 @Table(name = "riskMitigation")
 public class MitigatingRisk extends  AbstractEntity{
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
+
+    @Column(name = "mitigation")
     private String mitigation;
+
+    @Column(name = "impact")
     private String impact;
+
+    @Column(name = "likelihood")
     private String likelihood;
+
+    @Column(name = "priority")
     private String priority;
+
+    @Column(name = "comment")
     private String comment;
 
     public String getLoanId() {

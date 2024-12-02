@@ -1,6 +1,5 @@
 package com.untucapital.usuite.utg.repository;
 
-import com.untucapital.usuite.utg.model.ClientLoan;
 import com.untucapital.usuite.utg.model.Meetings;
 import org.springframework.data.jpa.repository.JpaRepository;
 

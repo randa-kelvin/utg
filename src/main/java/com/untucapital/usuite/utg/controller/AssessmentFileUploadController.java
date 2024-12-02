@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.AssessmentFileUpload;
+import com.untucapital.usuite.utg.dto.request.AssessmentFileUploadRequestDTO;
+import com.untucapital.usuite.utg.dto.response.AssessmentFileUploadResponseDTO;
 import com.untucapital.usuite.utg.service.AssessmentFileUploadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +22,14 @@ public class AssessmentFileUploadController {
     private static final Logger log = LoggerFactory.getLogger(AssessmentFileUploadController.class);
 
     @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody AssessmentFileUpload assessmentFileUpload){
+    public ResponseEntity<String> add(@RequestBody AssessmentFileUploadRequestDTO assessmentFileUpload){
 //        System.out.println(assessmentFileUpload.getFileName());
         assessmentFileUploadService.save(assessmentFileUpload);
         return new ResponseEntity<String>("Assessment file uploaded", HttpStatus.OK);
     }
 
     @GetMapping("/get/{loanId}")
-    public List<AssessmentFileUpload> get(@PathVariable String loanId){
+    public List<AssessmentFileUploadResponseDTO> get(@PathVariable String loanId){
         return assessmentFileUploadService.getAssessmentFileUpload(loanId);
 
     }

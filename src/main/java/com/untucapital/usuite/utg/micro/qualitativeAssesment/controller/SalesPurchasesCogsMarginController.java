@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.SalesPurchaseCogsGrossMargin;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.SalesPurchaseCogsGrossMarginService;
+import com.untucapital.usuite.utg.model.SalesPurchaseCogsGrossMargin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

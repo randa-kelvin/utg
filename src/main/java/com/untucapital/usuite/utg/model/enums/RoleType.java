@@ -16,4 +16,7 @@ public enum RoleType {
     ROLE_FIN,
     ROLE_BOARD,
     ROLE_AUDIT,
+    ROLE_OP,
+    ROLE_ACCOUNTANT,
+    ROLE_CASHIER,
 }

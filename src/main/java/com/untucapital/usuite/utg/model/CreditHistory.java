@@ -9,16 +9,33 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "creditHistory")
 public class CreditHistory extends AbstractEntity {
+
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
+
+    @Column(name = "institution_name")
     private String institutionName;
+
+    @Column(name = "loan_type")
     private String loanType;
+
+    @Column(name = "loan_amount")
     private double loanAmount;
+
+    @Column(name = "maturity")
     private String maturity;
+
+    @Column(name = "date_of_disb")
     private String dateOfDisb;
+
+    @Column(name = "installments")
     private String installments;
+
+    @Column(name = "outstanding_bal")
     private String outstandingBal;
+
+    @Column(name = "days_in_arrears")
     private String daysInArrears;
 
     public String getLoanId() {

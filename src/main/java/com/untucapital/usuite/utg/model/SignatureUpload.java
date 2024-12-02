@@ -1,22 +1,31 @@
 package com.untucapital.usuite.utg.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "signatures")
 public class SignatureUpload extends AbstractEntity {
 
-    private  String userId;
-    private  String fileName;
-    private  String firstName;
-    private  String lastName;
-    private  String branch;
-    private  String role;
+    @Column(name = "user_id")
+    private String userId;
+
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "branch")
+    private String branch;
+
+    @Column(name = "role")
+    private String role;
+
     public String getUserId() {
         return userId;
     }

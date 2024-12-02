@@ -20,22 +20,22 @@ import java.util.UUID;
 public class AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @NotNull
-    @Column(length = 36)
+    @Column(name = "id", length = 36)
     private String id;
 
     @CreatedDate
     @PastOrPresent
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @PastOrPresent
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     // GETTER AND SETTERS
@@ -75,7 +75,6 @@ public class AbstractEntity implements Serializable {
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
-
 
     // METHODS
     @PrePersist

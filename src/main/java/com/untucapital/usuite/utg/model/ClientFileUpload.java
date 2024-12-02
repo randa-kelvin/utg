@@ -9,12 +9,14 @@ import javax.persistence.Entity;
 public class ClientFileUpload extends AbstractEntity{
 
 
+    @Column(name = "file_name")
     private String fileName;
 
+    @Column(name = "file_description")
     private String fileDescription;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
     public String getFileName() {

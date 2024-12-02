@@ -1,8 +1,10 @@
 package com.untucapital.usuite.utg.model.fcb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.untucapital.usuite.utg.model.AbstractEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,55 +14,73 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "fcb_reports")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Report extends AbstractEntity {
 
+    @Column(name = "subscriber")
     @JsonProperty(value = "Subscriber")
     private String subscriber;
 
+    @Column(name = "user")
     @JsonProperty(value = "User")
     private String user;
 
+    @Column(name = "date")
     @JsonProperty(value = "Date")
     private String date;
 
+    @Column(name = "full_name")
     @JsonProperty(value = "Full_Name")
     private String fullName;
 
+    @Column(name = "national_id")
     @JsonProperty(value = "National_ID")
     private String nationalID;
 
+    @Column(name = "score")
     @JsonProperty(value = "Score")
     private Integer score;
 
+    @Column(name = "status")
     @JsonProperty(value = "Status")
     private String status;
 
+    @Column(name = "dob")
     @JsonProperty(value = "DOB")
     private String dob;
 
+    @Column(name = "passport")
     @JsonProperty(value = "Passport")
     private String passport;
 
+    @Column(name = "license")
     @JsonProperty(value = "License")
     private String license;
 
+    @Column(name = "mobile")
     @JsonProperty(value = "Mobile")
     private String mobile;
 
+    @Column(name = "phone")
     @JsonProperty(value = "Phone")
     private String phone;
 
+    @Column(name = "email")
     @JsonProperty(value = "Email")
     private String email;
 
+    @Column(name = "gender")
     @JsonProperty(value = "Gender")
     private String gender;
 
+    @Column(name = "married")
     @JsonProperty(value = "Married")
     private String married;
 
+    @Column(name = "nationality")
     @JsonProperty(value = "Nationality")
     private String nationality;
+
 
     public String getSubscriber() {
         return subscriber;

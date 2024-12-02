@@ -1,7 +1,6 @@
 package com.untucapital.usuite.utg.service;
 
 import com.untucapital.usuite.utg.exception.ResourceNotFoundException;
-import com.untucapital.usuite.utg.model.Branches;
 import com.untucapital.usuite.utg.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

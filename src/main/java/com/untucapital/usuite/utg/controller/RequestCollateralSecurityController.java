@@ -1,17 +1,14 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.CollateralSecurity;
-import com.untucapital.usuite.utg.model.RequestCollateralSecurity;
 import com.untucapital.usuite.utg.repository.RequestCollateraiSecurityRepository;
-import com.untucapital.usuite.utg.service.CollateralSecurityService;
 import com.untucapital.usuite.utg.service.RequestCollateralSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("requestCollateralSecurity")

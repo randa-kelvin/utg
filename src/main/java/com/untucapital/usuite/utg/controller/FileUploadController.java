@@ -1,10 +1,6 @@
 package com.untucapital.usuite.utg.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.untucapital.usuite.utg.model.DatabaseFile;
+import com.untucapital.usuite.utg.dto.response.DatabaseFileResponseDTO;
 import com.untucapital.usuite.utg.payload.Response;
 import com.untucapital.usuite.utg.service.DatabaseFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping(path = "credit_application")
 public class FileUploadController {
@@ -24,7 +24,7 @@ public class FileUploadController {
 
     @PostMapping("/uploadFile")
     public Response uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("description") String description, @RequestParam("userId") String userId, @RequestParam("loanId") String loanId) {
-    	DatabaseFile fileName = fileStorageService.storeFile(file, description, userId, loanId);
+    	DatabaseFileResponseDTO fileName = fileStorageService.storeFile(file, description, userId, loanId);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")

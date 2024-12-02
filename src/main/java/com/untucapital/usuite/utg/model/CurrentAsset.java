@@ -1,20 +1,26 @@
 package com.untucapital.usuite.utg.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "currentAssest")
 public class CurrentAsset extends AbstractEntity{
-    @NotNull
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
-    @NotNull
-    private String assetName;
-    private String dateFrom;
-    private String dateTo;
-    private double value;
 
+    @Column(name = "asset_name", nullable = false)
+    private String assetName;
+
+    @Column(name = "date_from")
+    private String dateFrom;
+
+    @Column(name = "date_to")
+    private String dateTo;
+
+    @Column(name = "value")
+    private double value;
     public String getLoanId() {
         return loanId;
     }

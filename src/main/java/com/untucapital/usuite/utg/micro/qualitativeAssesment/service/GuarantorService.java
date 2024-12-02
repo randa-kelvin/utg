@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.Guarantor;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.GuarantorRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.GuarantorRepository;
+import com.untucapital.usuite.utg.model.Guarantor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

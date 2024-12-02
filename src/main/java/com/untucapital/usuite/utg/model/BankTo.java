@@ -10,48 +10,120 @@ import javax.persistence.Table;
 @Table(name = "bankTo")
 public class BankTo extends AbstractEntity{
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "month")
     private String month;
+
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "loan_id")
     private String loanId;
+
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "bank")
     private String bank;
+
+    @Column(name = "day1")
     private double day1;
+
+    @Column(name = "day2")
     private double day2;
+
+    @Column(name = "day3")
     private double day3;
+
+    @Column(name = "day4")
     private double day4;
+
+    @Column(name = "day5")
     private double day5;
+
+    @Column(name = "day6")
     private double day6;
+
+    @Column(name = "day7")
     private double day7;
+
+    @Column(name = "day8")
     private double day8;
+
+    @Column(name = "day9")
     private double day9;
+
+    @Column(name = "day10")
     private double day10;
+
+    @Column(name = "day11")
     private double day11;
+
+    @Column(name = "day12")
     private double day12;
+
+    @Column(name = "day13")
     private double day13;
+
+    @Column(name = "day14")
     private double day14;
+
+    @Column(name = "day15")
     private double day15;
+
+    @Column(name = "day16")
     private double day16;
+
+    @Column(name = "day17")
     private double day17;
+
+    @Column(name = "day18")
     private double day18;
+
+    @Column(name = "day19")
     private double day19;
+
+    @Column(name = "day20")
     private double day20;
+
+    @Column(name = "day21")
     private double day21;
+
+    @Column(name = "day22")
     private double day22;
+
+    @Column(name = "day23")
     private double day23;
+
+    @Column(name = "day24")
     private double day24;
+
+    @Column(name = "day25")
     private double day25;
+
+    @Column(name = "day26")
     private double day26;
+
+    @Column(name = "day27")
     private double day27;
+
+    @Column(name = "day28")
     private double day28;
+
+    @Column(name = "day29")
     private double day29;
+
+    @Column(name = "day30")
     private double day30;
+
+    @Column(name = "day31")
     private double day31;
+
+    @Column(name = "total")
     private double total;
+
+    @Column(name = "average")
     private double average;
+
+    @Column(name = "min")
     private double min;
+
+    @Column(name = "max")
     private double max;
 
     public String getMonth() {

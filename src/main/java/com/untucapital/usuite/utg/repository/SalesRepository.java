@@ -1,6 +1,5 @@
 package com.untucapital.usuite.utg.repository;
 
-import com.untucapital.usuite.utg.model.Role;
 import com.untucapital.usuite.utg.model.Sales;
 import org.springframework.data.jpa.repository.JpaRepository;
 

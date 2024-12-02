@@ -1,9 +1,8 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.Business;
-
+import com.untucapital.usuite.utg.dto.request.BusinessRequestDTO;
+import com.untucapital.usuite.utg.dto.response.BusinessResponseDTO;
 import com.untucapital.usuite.utg.service.BusinessService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +18,22 @@ public class BusinessController {
     BusinessService businessService;
 
     @GetMapping("/getBusiness")
-    public List<Business> list() {
+    public List<BusinessResponseDTO> list() {
         return businessService.listAllBusiness();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Business> get(@PathVariable Integer id) {
+    public ResponseEntity<BusinessResponseDTO> get(@PathVariable Integer id) {
         try {
-            Business business = businessService.getBusiness(id);
-            return new ResponseEntity<Business>(business, HttpStatus.OK);
+            BusinessResponseDTO business = businessService.getBusiness(id);
+            return new ResponseEntity<BusinessResponseDTO>(business, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<Business>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<BusinessResponseDTO>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/addBusiness")
-    public void add(@RequestBody Business business) {
+    public void add(@RequestBody BusinessRequestDTO business) {
         businessService.saveBusiness(business);
     }
 

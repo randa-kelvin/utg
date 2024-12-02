@@ -1,16 +1,18 @@
 package com.untucapital.usuite.utg.service;
+import com.untucapital.usuite.utg.dto.request.DisbursementTicketRequestDTO;
 import com.untucapital.usuite.utg.model.DisbursementTicket;
 import com.untucapital.usuite.utg.model.User;
 import com.untucapital.usuite.utg.repository.DisbursementTicketRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
+@javax.transaction.Transactional
 @Service
 public class DisbursementTicketService extends AbstractService<DisbursementTicket> {
 
@@ -21,7 +23,12 @@ public class DisbursementTicketService extends AbstractService<DisbursementTicke
     public DisbursementTicketService(DisbursementTicketRepository disbursementTicketRepository) {
         this.disbursementTicketRepository = disbursementTicketRepository;
     }
-    public void saveDisbursementTicket(DisbursementTicket disbursementTicket) {
+
+    @Transactional(value = "transactionManager")
+    public void saveDisbursementTicket(DisbursementTicketRequestDTO requestDTO) {
+
+        DisbursementTicket disbursementTicket = new DisbursementTicket();
+        BeanUtils.copyProperties(requestDTO, disbursementTicket);
         disbursementTicketRepository.save(disbursementTicket);
     }
     @Override
@@ -34,6 +41,7 @@ public class DisbursementTicketService extends AbstractService<DisbursementTicke
         return disbursementTicketRepository;
     }
 
+    @Transactional(value = "transactionManager")
         public void deleteDisbursementTicket(String id) {
             disbursementTicketRepository.deleteById(id);
     }

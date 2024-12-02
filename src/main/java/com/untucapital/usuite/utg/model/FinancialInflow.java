@@ -9,26 +9,49 @@ import javax.persistence.Table;
 @Entity
 @Table(name ="financialInflow")
 public class FinancialInflow extends  AbstractEntity{
+    @Column(name = "loan_id", nullable = false)
     @NotNull
-    @Column(nullable = false)
     private String loanId;
 
+    @Column(name = "inflow_name", nullable = false)
     @NotNull
-    @Column(nullable = false)
     private String inflowName;
-    private double month1;
-    private double month2;
-    private double month3;
-    private double month4;
-    private double month5;
-    private double month6;
-    private double month7;
-    private double month8;
-    private double month9;
-    private double month10;
-    private double month11;
-    private double month12;
 
+    @Column(name = "month1")
+    private double month1;
+
+    @Column(name = "month2")
+    private double month2;
+
+    @Column(name = "month3")
+    private double month3;
+
+    @Column(name = "month4")
+    private double month4;
+
+    @Column(name = "month5")
+    private double month5;
+
+    @Column(name = "month6")
+    private double month6;
+
+    @Column(name = "month7")
+    private double month7;
+
+    @Column(name = "month8")
+    private double month8;
+
+    @Column(name = "month9")
+    private double month9;
+
+    @Column(name = "month10")
+    private double month10;
+
+    @Column(name = "month11")
+    private double month11;
+
+    @Column(name = "month12")
+    private double month12;
     public String getLoanId() {
         return loanId;
     }

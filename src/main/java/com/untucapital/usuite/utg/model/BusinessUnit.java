@@ -8,11 +8,11 @@ import javax.persistence.Table;
 @Table(name = "businessUnit")
 public class BusinessUnit extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
 
     @Column(nullable = false)
-    private  String name;
+    private String name;
 
     @Column(nullable = false)
     private String address;

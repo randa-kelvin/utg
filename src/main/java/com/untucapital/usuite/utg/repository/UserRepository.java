@@ -1,6 +1,5 @@
 package com.untucapital.usuite.utg.repository;
 
-import com.untucapital.usuite.utg.model.ContactDetail;
 import com.untucapital.usuite.utg.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -25,21 +24,42 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     boolean existsByContactDetail_EmailAddress(String emailAddress);
 
+    boolean existsByContactDetail_MobileNumber(long mobile);
+
     User findByContactDetail_EmailAddress(String email);
+
+    User findByContactDetail_MobileNumber(long mobile);
 
     //ContactDetail findByEmail(String email);
 
     User findByResetPasswordToken(String token);
 
-    User getUserById (String userId);
+    User getUserById(String userId);
 
-    User findUsersById (String userId);
+    User getUserByUsername(String username);
+
+    Optional<User> findUserById(String userId);
 
     User getUserByContactDetail_MobileNumber(long mobileNumber);
 
-    List<User> findUsersByBranch(String branchName);
+    User getUserByContactDetail_EmailAddress(String email);
 
-    List<User> findUsersByBranchNotNull();
+    List<User> findUsersByBranchOrderByCreatedAtDesc(String branchName);
+
+    List<User> findUsersByCmsUser_RoleIsNotNullAndCmsUser_RoleNotLike(String role);
+
+    List<User> findUsersByCmsUser_Role(String role);
+
+    List<User> findUsersByPoUser_RoleIsNotNullAndPoUser_RoleNotLike(String role);
+
+    List<User> findUsersByTmsUser_RoleIsNotNullAndTmsUser_RoleNotLike(String role);
+
+    List<User> findUsersByTmsUser_Role(String role);
+
+    List<User> findUsersByBranchNotNullOrderByCreatedAtDesc();
 
     List<User> findUsersByCreditCommitGroup(String creditCommitGroupName);
+
+    List<User> findUsersByBranchIsNull();
+
 }

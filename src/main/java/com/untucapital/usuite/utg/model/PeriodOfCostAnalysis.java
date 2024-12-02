@@ -6,26 +6,48 @@ import com.sun.istack.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "PeriodOfAnalysis")
 public class PeriodOfCostAnalysis extends AbstractEntity{
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
 
+    @Column(name = "month_1")
     private String month1;
+
+    @Column(name = "month_2")
     private String month2;
+
+    @Column(name = "month_3")
     private String month3;
+
+    @Column(name = "month_4")
     private String month4;
+
+    @Column(name = "month_5")
     private String month5;
+
+    @Column(name = "month_6")
     private String month6;
+
+    @Column(name = "month_7")
     private String month7;
+
+    @Column(name = "month_8")
     private String month8;
+
+    @Column(name = "month_9")
     private String month9;
+
+    @Column(name = "month_10")
     private String month10;
+
+    @Column(name = "month_11")
     private String month11;
+
+    @Column(name = "month_12")
     private String month12;
 
     public String getLoanId() {

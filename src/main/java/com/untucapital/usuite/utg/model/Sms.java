@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.model;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -8,12 +9,25 @@ import javax.persistence.Table;
 @Table(name = "sms")
 public class Sms extends AbstractEntity {
 
+    @Column(name = "originator")
     private String originator;
+
+    @Column(name = "destination")
     private String destination;
+
+    @Column(name = "message_text")
     private String messageText;
+
+    @Column(name = "message_reference")
     private String messageReference;
+
+    @Column(name = "message_date")
     private String messageDate;
+
+    @Column(name = "message_validity")
     private String messageValidity;
+
+    @Column(name = "send_date_time")
     private String sendDateTime;
 
     public String getOriginator() {

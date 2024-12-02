@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.OperationalExpenses;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.OperationalExpensesRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.OperationalExpensesRepository;
+import com.untucapital.usuite.utg.model.OperationalExpenses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.HouseHoldAssetsMicro;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.HouseHoldAssetsMicroRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.HouseHoldAssetsMicroRepository;
+import com.untucapital.usuite.utg.model.HouseHoldAssetsMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

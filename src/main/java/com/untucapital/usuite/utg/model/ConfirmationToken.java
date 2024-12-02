@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 @Table(name = "confirmation_tokens")
 public class ConfirmationToken extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Column(name = "token", nullable = false)
     private String token;
 
-    @Column(nullable = false)
+    @Column(name = "expiration_date", nullable = false)
     private LocalDateTime expirationDate;
 
+    @Column(name = "date_confirmed")
     private LocalDateTime dateConfirmed;
 
     @ManyToOne

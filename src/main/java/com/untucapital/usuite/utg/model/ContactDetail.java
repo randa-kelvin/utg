@@ -27,7 +27,7 @@ public class ContactDetail extends AbstractEntity {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    public Long getMobileNumber() {
+    public @NotNull Long getMobileNumber() {
         return mobileNumber;
     }
 

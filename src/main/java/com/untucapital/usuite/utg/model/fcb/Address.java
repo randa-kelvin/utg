@@ -1,8 +1,10 @@
 package com.untucapital.usuite.utg.model.fcb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.untucapital.usuite.utg.model.AbstractEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,30 +14,41 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "fcb_addresses")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Address extends AbstractEntity {
 
+    @Column(name = "street_no")
     @JsonProperty(value = "street_no")
     private String streetNo;
 
+    @Column(name = "street_name")
     @JsonProperty(value = "street_name")
     private String streetName;
 
+    @Column(name = "suburb")
     private String suburb;
 
+    @Column(name = "building")
     private String building;
 
+    @Column(name = "city")
     private String city;
 
+    @Column(name = "date_searched")
     @JsonProperty(value = "date_searched")
     private String dateSearched;
 
+    @Column(name = "country")
     private String country;
 
+    @Column(name = "property_status")
     @JsonProperty(value = "property_status")
     private String propertyStatus;
 
+    @Column(name = "property_density")
     @JsonProperty(value = "property_density")
     private String propertyDensity;
+
 
     public String getStreetNo() {
         return streetNo;

@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.OwnershipDetails;
+import com.untucapital.usuite.utg.dto.request.OwnershipDetailsRequestDTO;
+import com.untucapital.usuite.utg.dto.response.OwnershipDetailsResponseDTO;
 import com.untucapital.usuite.utg.service.OwnershipDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,12 @@ public class OwnershipDetailsController {
     private static final Logger log = LoggerFactory.getLogger(OwnershipDetailsController.class);
 
     @GetMapping("/get/{loanId}")
-    public List<OwnershipDetails> getByLoanId(@PathVariable("loanId") String loanId) {
+    public List<OwnershipDetailsResponseDTO> getByLoanId(@PathVariable("loanId") String loanId) {
         return ownershipDetailsService.getOwnershipDetailsByLoanId(loanId);
     }
 
     @PostMapping("/ownership_details")
-    public void add(@RequestBody OwnershipDetails ownershipDetails) {
+    public void add(@RequestBody OwnershipDetailsRequestDTO ownershipDetails) {
         ownershipDetailsService.saveOwenershipDetails(ownershipDetails);
     }
 

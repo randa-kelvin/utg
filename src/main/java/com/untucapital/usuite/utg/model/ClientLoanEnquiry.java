@@ -1,10 +1,10 @@
 package com.untucapital.usuite.utg.model;
 
-import com.untucapital.usuite.utg.model.fcb.Response;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "client_loans_enquiry")
@@ -14,37 +14,50 @@ public class ClientLoanEnquiry extends AbstractEntity {
     @JoinColumn(name = "user_id")
     private String userId;
 
+    @Column(name = "national_id")
     private String nationalId;
 
+    @Column(name = "gender")
     private String gender;
 
+    @Column(name = "industry_sector")
     private String industrySector;
 
+    @Column(name = "business_start_date")
     private String businessStartDate;
 
+    @Column(name = "sales_description")
     private String salesDescription;
 
+    @Column(name = "expenses_description")
     private String expensesDescription;
 
+    @Column(name = "securities")
     private String securities;
 
+    @Column(name = "loan_reason")
     private String loanReason;
 
+    @Column(name = "debts")
     private String debts;
 
+    @Column(name = "total_assets")
     private String totalAssets;
 
+    @Column(name = "average_profits")
     private String averageProfits;
 
+    @Column(name = "loan_amount_needed")
     private String loanAmountNeeded;
 
+    @Column(name = "loan_payback_period")
     private String loanPayBackPeriod;
 
+    @Column(name = "location")
     private String location;
 
+    @Column(name = "enquiry_status")
     private String enquiryStatus;
-
-
     public String getUserId() {
         return userId;
     }

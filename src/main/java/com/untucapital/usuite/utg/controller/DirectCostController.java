@@ -1,9 +1,9 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.DirectCost;
+import com.untucapital.usuite.utg.dto.request.DirectCostRequestDTO;
+import com.untucapital.usuite.utg.dto.response.DirectCostResponseDTO;
 import com.untucapital.usuite.utg.service.DirectCostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +21,14 @@ public class DirectCostController{
 
     //Save Direct Cost
     @PostMapping("/save")
-    public void addDirectCost(@RequestBody DirectCost directCost){
-        directCostService.addDirectCost(directCost);
+    public void addDirectCost(@RequestBody DirectCostRequestDTO requestDTO){
+
+        directCostService.addDirectCost(requestDTO);
     }
 
     //Find all Direct Costs and sort by day created
     @GetMapping("/get/{LoanId}")
-    public List<DirectCost> getDirectCost(@PathVariable("LoanId") String id){
+    public List<DirectCostResponseDTO> getDirectCost(@PathVariable("LoanId") String id){
         return directCostService.allDirectCost(id);
     }
 

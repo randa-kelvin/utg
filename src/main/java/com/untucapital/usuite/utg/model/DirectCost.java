@@ -10,24 +10,47 @@ import javax.validation.constraints.NotNull;
 public class DirectCost extends AbstractEntity {
 
     @NotNull
-    @Column( nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "cost_name", nullable = false)
     private String costName;
 
+    @Column(name = "month1")
     private double month1;
+
+    @Column(name = "month2")
     private double month2;
+
+    @Column(name = "month3")
     private double month3;
+
+    @Column(name = "month4")
     private double month4;
+
+    @Column(name = "month5")
     private double month5;
+
+    @Column(name = "month6")
     private double month6;
+
+    @Column(name = "month7")
     private double month7;
+
+    @Column(name = "month8")
     private double month8;
+
+    @Column(name = "month9")
     private double month9;
+
+    @Column(name = "month10")
     private double month10;
+
+    @Column(name = "month11")
     private double month11;
+
+    @Column(name = "month12")
     private double month12;
 
     public DirectCost() {

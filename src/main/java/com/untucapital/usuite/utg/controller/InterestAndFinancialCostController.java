@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.InterestAndFinancialCost;
+import com.untucapital.usuite.utg.dto.request.InterestAndFinancialCostRequestDTO;
+import com.untucapital.usuite.utg.dto.response.InterestAndFinancialCostResponseDTO;
 import com.untucapital.usuite.utg.service.InterestAndFinancialCostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +20,12 @@ public class InterestAndFinancialCostController {
 
 
     @PostMapping("/add")
-    public void add(@RequestBody InterestAndFinancialCost interestAndFinancialCost) {
+    public void add(@RequestBody InterestAndFinancialCostRequestDTO interestAndFinancialCost) {
         interestAndFinancialCostService.save(interestAndFinancialCost);
     }
 
     @GetMapping("/get/{loanId}")
-    public List<InterestAndFinancialCost> getByLoanId(@PathVariable("loanId") String loanId) {
+    public List<InterestAndFinancialCostResponseDTO> getByLoanId(@PathVariable("loanId") String loanId) {
         return interestAndFinancialCostService.findByLoanId(loanId);
     }
 

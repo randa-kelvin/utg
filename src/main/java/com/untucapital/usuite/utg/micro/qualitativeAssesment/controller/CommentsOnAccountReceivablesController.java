@@ -1,9 +1,8 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.CommentsOnAccountReceivables;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.CommentsOnAccountReceivablesService;
+import com.untucapital.usuite.utg.model.CommentsOnAccountReceivables;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

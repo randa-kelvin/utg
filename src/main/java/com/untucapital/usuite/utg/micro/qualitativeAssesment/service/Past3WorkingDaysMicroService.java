@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.Past3WorkingDaysMicro;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.Past3WorkingDaysMicroRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.Past3WorkingDaysMicroRepository;
+import com.untucapital.usuite.utg.model.Past3WorkingDaysMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

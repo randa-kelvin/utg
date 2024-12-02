@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.DailySalesMicro;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.DailySalesMicroService;
+import com.untucapital.usuite.utg.model.DailySalesMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

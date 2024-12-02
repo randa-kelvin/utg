@@ -10,9 +10,13 @@ import javax.persistence.Table;
 @Table(name="riskAnalysis")
 public class RiskAnalysis extends AbstractEntity{
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "loan_id")
     private String loanId;
+
+    @Column(name = "risk")
     private String risk;
+
+    @Column(name = "details")
     private String details;
 
     public String getLoanId() {

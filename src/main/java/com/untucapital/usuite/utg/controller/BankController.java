@@ -1,8 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.Bank;
-import com.untucapital.usuite.utg.model.LoanRequest;
-import com.untucapital.usuite.utg.repository.BankRepository;
+import com.untucapital.usuite.utg.dto.request.BankRequestDTO;
+import com.untucapital.usuite.utg.dto.response.BankResponseDTO;
 import com.untucapital.usuite.utg.service.BankService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +20,13 @@ public class BankController {
 
     //Adding Bank details
     @PostMapping("/addBank")
-    public void add(@RequestBody Bank bank) {
-        bankService.saveBank(bank);
+    public void add(@RequestBody BankRequestDTO requestDTO) {
+        bankService.saveBank(requestDTO);
     }
 
     //get Bank by loan Id
     @GetMapping("/getByLoanId/{id}")
-    public List<Bank> get(@PathVariable("id") String loanId){
+    public List<BankResponseDTO> get(@PathVariable("id") String loanId) {
         return bankService.getByLoanId(loanId);
     }
 

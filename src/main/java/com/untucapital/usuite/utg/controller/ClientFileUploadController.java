@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.ClientFileUpload;
+import com.untucapital.usuite.utg.dto.request.ClientFileUploadRequestDTO;
+import com.untucapital.usuite.utg.dto.response.ClientFileUploadResponseDTO;
 import com.untucapital.usuite.utg.service.ClientFileUploadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,13 @@ public class ClientFileUploadController {
     private static final Logger log = LoggerFactory.getLogger(ClientFileUploadController.class);
 
     @PostMapping("/add")
-    public ResponseEntity<String> addClientFileUpload(@RequestBody ClientFileUpload clientFileUpload){
+    public ResponseEntity<String> addClientFileUpload(@RequestBody ClientFileUploadRequestDTO clientFileUpload){
         clientFileUploadService.save(clientFileUpload);
         return new ResponseEntity<String>("KYC Document uploaded", HttpStatus.OK);
     }
 
     @GetMapping("/get/{userId}")
-    public List<ClientFileUpload> getClientFileUpload(@PathVariable String userId){
+    public List<ClientFileUploadResponseDTO> getClientFileUpload(@PathVariable String userId){
         return clientFileUploadService.getClientFileUpload(userId);
     }
 }

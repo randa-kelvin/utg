@@ -1,14 +1,13 @@
 package com.untucapital.usuite.utg.service;
 
 import com.untucapital.usuite.utg.model.ClientLoan;
-import com.untucapital.usuite.utg.model.DatabaseFile;
-import com.untucapital.usuite.utg.model.User;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface ClientLoanApplication {
 
-    ClientLoan saveClientLoan(ClientLoan clientLoan);
+    ClientLoan saveClientLoan(ClientLoan clientLoan) throws ParseException;
 
     ClientLoan updateClientLoan(ClientLoan clientLoan);
 
@@ -22,6 +21,8 @@ public interface ClientLoanApplication {
 
     ClientLoan getClientLoanApplicationById(String id);
 
+    ClientLoan getClientLoanApplicationByMobile(String phoneNumber);
+
     List<ClientLoan> getClientLoanApplicationsByUserId(String userId);
 
     ClientLoan updateClientLoan(ClientLoan clientLoan, String id);
@@ -32,5 +33,12 @@ public interface ClientLoanApplication {
 
     List<ClientLoan> getClientLoanApplicationByBranchName(String branchName);
 
+    List<ClientLoan> getAllClientLoansData();
+
+    List<ClientLoan> getRecentClientLoans();
+
+    List<ClientLoan> getActiveLoans(String userId);
+
+    List<ClientLoan> getLoansByUsername();
 
 }

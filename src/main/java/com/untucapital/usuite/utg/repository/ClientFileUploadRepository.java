@@ -8,4 +8,6 @@ import java.util.List;
 public interface ClientFileUploadRepository extends JpaRepository<ClientFileUpload, String> {
 
     List<ClientFileUpload> findClientFileUploadByUserId(String userId);
+
+    ClientFileUpload findClientFileUploadById(String id);
 }

@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.PurchaseBehaviourMicro;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.PurchaseBehaviourMicroRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.PurchaseBehaviourMicroRepository;
+import com.untucapital.usuite.utg.model.PurchaseBehaviourMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

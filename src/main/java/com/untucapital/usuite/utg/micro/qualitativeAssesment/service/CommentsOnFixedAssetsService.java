@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.CommentsOnFixedAssets;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.CommentsOnFixedAssetsRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.CommentsOnFixedAssetsRepository;
+import com.untucapital.usuite.utg.model.CommentsOnFixedAssets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

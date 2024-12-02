@@ -1,41 +1,78 @@
 package com.untucapital.usuite.utg.service;
 
-import com.untucapital.usuite.utg.model.BusinessUnit;
+import com.untucapital.usuite.utg.dto.request.SalesRequestDTO;
+import com.untucapital.usuite.utg.dto.response.SalesResponseDTO;
 import com.untucapital.usuite.utg.model.Sales;
 import com.untucapital.usuite.utg.repository.SalesRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
-@Transactional
+
 @Service
+@javax.transaction.Transactional
 public class SalesService {
     @Autowired
     private SalesRepository salesRepository;
 
-    public List<Sales> listAllSales() {
-        return salesRepository.findAll();
+    @Transactional(value = "transactionManager")
+    public List<SalesResponseDTO> listAllSales() {
+
+        List<SalesResponseDTO> result = new ArrayList<SalesResponseDTO>();
+        List<Sales> salesList = salesRepository.findAll();
+
+        for (Sales sales : salesList) {
+            SalesResponseDTO responseDTO = new SalesResponseDTO();
+            BeanUtils.copyProperties(sales, responseDTO);
+            result.add(responseDTO);
+        }
+
+        return result;
     }
 
-    public void saveSales(Sales sales) {
+    @Transactional(value = "transactionManager")
+    public void saveSales(SalesRequestDTO request) {
+
+        Sales sales = new Sales();
+        BeanUtils.copyProperties(request, sales);
         salesRepository.save(sales);
     }
 
-    public Sales getSales(String id) {
-        return salesRepository.findById(id).get();
+    @Transactional(value = "transactionManager")
+    public SalesResponseDTO getSales(String id) {
+
+        SalesResponseDTO sales = new SalesResponseDTO();
+        Sales sales1 = salesRepository.findById(id).get();
+        BeanUtils.copyProperties(sales1, sales);
+
+        return sales;
     }
 
+    @Transactional(value = "transactionManager")
     public void deleteSales(String id) {
         salesRepository.deleteById(id);
     }
 
     //Get List of Business Units by Id
-    public List<Sales> lisSalesByLoanId(String id, String businessUnit){
-        return salesRepository.findSalestByLoanIdAndBusinessUnitOrderByMonthAsc(id, businessUnit);
+    @Transactional(value = "transactionManager")
+    public List<SalesResponseDTO> lisSalesByLoanId(String id, String businessUnit){
+
+        List<SalesResponseDTO> response = new ArrayList<>();
+        List<Sales>salesList = salesRepository.findSalestByLoanIdAndBusinessUnitOrderByMonthAsc(id, businessUnit);
+
+        for (Sales sales : salesList) {
+            SalesResponseDTO responseDTO = new SalesResponseDTO();
+            BeanUtils.copyProperties(sales, responseDTO);
+            response.add(responseDTO);
+        }
+
+        return response;
     }
 
+    @Transactional(value = "transactionManager")
     public void deleteById(String id) {
         salesRepository.deleteById(id);
     }

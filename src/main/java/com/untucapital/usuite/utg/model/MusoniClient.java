@@ -1,5 +1,7 @@
 package com.untucapital.usuite.utg.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,41 +9,43 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "musoni_clients")
+@Data
 public class MusoniClient extends AbstractEntity{
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "client_id", nullable = false)
     private String clientId;
 
-    @Column(nullable = false)
+    @Column(name = "account_no", nullable = false)
     private String accountNo;
 
-    @Column(nullable = false)
+    @Column(name = "external_id", nullable = false)
     private String externalId;
 
     private String status;
 
-    @Column(nullable = false)
+    @Column(name = "mobile_no", nullable = false)
+    private String mobileNo;
+
+    @Column(name = "activation_date", nullable = false)
     private String activationDate;
 
-    @Column(nullable = false)
+    @Column(name = "firstname", nullable = false)
     private String firstname;
 
-    @Column(nullable = false)
+    @Column(name = "lastname", nullable=false)
     private String lastname;
 
-    @Column(nullable = false)
+    @Column(name = "display_name", nullable = false)
     private String displayName;
 
-    @Column(nullable = false)
+    @Column(name = "office_name", nullable = false)
     private String officeName;
 
-    @Column(nullable = false)
+    @Column(name = "submitted_by_username", nullable = false)
     private String submittedByUsername;
 
-    @Column(nullable = false)
+    @Column(name = "savings_account_id", nullable = false)
     private String savingsAccountId;
-
-
 
 }

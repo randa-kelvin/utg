@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.CommentsOnFamilySituation;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.CommentsOnFamilySituationRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.CommentsOnFamilySituationRepository;
+import com.untucapital.usuite.utg.model.CommentsOnFamilySituation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

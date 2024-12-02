@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.XdsFileUpload;
+import com.untucapital.usuite.utg.dto.request.XdsFileUploadRequestDTO;
+import com.untucapital.usuite.utg.dto.response.XdsFileUploadResponseDTO;
 import com.untucapital.usuite.utg.repository.XdsFileUploadRepository;
 import com.untucapital.usuite.utg.service.XdsFileUploadService;
 import org.slf4j.Logger;
@@ -24,22 +25,22 @@ public class XdsFileUploadController {
 
     // Add XDS file first time
     @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody XdsFileUpload xdsFileUpload){
+    public ResponseEntity<String> add(@RequestBody XdsFileUploadRequestDTO xdsFileUpload){
         xdsFileUploadService.save(xdsFileUpload);
         return new ResponseEntity<String>("XDS File uploaded", HttpStatus.OK);
     }
 
     // Update existing XDS file
     @PutMapping("/update/{loanId}")
-    public ResponseEntity<String> updateXdsFile(@PathVariable String loanId, @RequestBody XdsFileUpload xdsFileUpload){
-        XdsFileUpload updateXdsFile = xdsFileUploadRepository.findXdsFileUploadByLoanId(loanId);
-        updateXdsFile.setFileName(xdsFileUpload.getFileName());
-        xdsFileUploadService.save(updateXdsFile);
+    public ResponseEntity<String> updateXdsFile(@PathVariable String loanId, @RequestBody XdsFileUploadRequestDTO xdsFileUpload){
+
+        xdsFileUploadService.updateXdsFile(loanId, xdsFileUpload);
+
         return new ResponseEntity<String>("XDS File updated", HttpStatus.OK);
     }
 
     @GetMapping("/get/{loanId}")
-    public XdsFileUpload getXdsFile(@PathVariable String loanId){
+    public XdsFileUploadResponseDTO getXdsFile(@PathVariable String loanId){
         return xdsFileUploadService.getXdsFileUpload(loanId);
     }
 }

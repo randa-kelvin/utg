@@ -1,8 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.BusinessUnit;
-import com.untucapital.usuite.utg.model.Sales;
-
+import com.untucapital.usuite.utg.dto.request.SalesRequestDTO;
+import com.untucapital.usuite.utg.dto.response.SalesResponseDTO;
 import com.untucapital.usuite.utg.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,21 +18,21 @@ public class SalesController {
     SalesService salesService;
 
     @GetMapping("getSales")
-    public List<Sales> list() {
+    public List<SalesResponseDTO> list() {
         return salesService.listAllSales();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Sales> get(@PathVariable String id) {
+    public ResponseEntity<SalesResponseDTO> get(@PathVariable String id) {
         try {
-            Sales sales = salesService.getSales(id);
-            return new ResponseEntity<Sales>(sales, HttpStatus.OK);
+            SalesResponseDTO sales = salesService.getSales(id);
+            return new ResponseEntity<SalesResponseDTO>(sales, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<Sales>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<SalesResponseDTO>(HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/addSales")
-    public void add(@RequestBody Sales sales) {
+    public void add(@RequestBody SalesRequestDTO sales) {
         salesService.saveSales(sales);
     }
 
@@ -50,7 +49,7 @@ public class SalesController {
 
     //Get list Business Units by Loan Id and groupBy Bsn unit
     @GetMapping("getSalesByLoanIdAndBusinessUnits/{loanId}/{businessUnit}")
-    public List<Sales> getSalesByLoanIdAndBusinessUnits(@PathVariable("loanId") String id, @PathVariable("businessUnit") String businessUnit){
+    public List<SalesResponseDTO> getSalesByLoanIdAndBusinessUnits(@PathVariable("loanId") String id, @PathVariable("businessUnit") String businessUnit){
         return salesService.lisSalesByLoanId(id, businessUnit);
     }
 

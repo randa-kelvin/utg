@@ -1,9 +1,8 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.Comments;
-import com.untucapital.usuite.utg.model.DirectCost;
+import com.untucapital.usuite.utg.dto.request.CommentsRequestDTO;
+import com.untucapital.usuite.utg.dto.response.CommentsResponseDTO;
 import com.untucapital.usuite.utg.service.CommentsService;
-import com.untucapital.usuite.utg.service.DirectCostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,13 @@ public class CommentsController {
     private static final Logger log = LoggerFactory.getLogger(CommentsController.class);
 
     @PostMapping("/addComments")
-    public void add(@RequestBody Comments comments) {
+    public void add(@RequestBody CommentsRequestDTO comments) {
+
         commentsService.saveComments(comments);
     }
 
     @GetMapping("/getComments/{loanId}")
-    public List<Comments> getByLoanId(@PathVariable("loanId") String loanId) {
+    public List<CommentsResponseDTO> getByLoanId(@PathVariable("loanId") String loanId) {
         return commentsService.getByLoanId(loanId);
     }
 }

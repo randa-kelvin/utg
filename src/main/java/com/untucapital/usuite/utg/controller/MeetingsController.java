@@ -1,8 +1,7 @@
 package com.untucapital.usuite.utg.controller;
-import com.untucapital.usuite.utg.model.Business;
-import com.untucapital.usuite.utg.model.ClientLoan;
+import com.untucapital.usuite.utg.dto.request.MeetingsRequestDTO;
+import com.untucapital.usuite.utg.dto.response.MeetingsResponseDTO;
 import com.untucapital.usuite.utg.model.Meetings;
-import com.untucapital.usuite.utg.model.User;
 import com.untucapital.usuite.utg.repository.MeetingsRepository;
 import com.untucapital.usuite.utg.service.AbstractService;
 import com.untucapital.usuite.utg.service.MeetingsService;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(path = "meetings")
@@ -32,28 +30,21 @@ public class MeetingsController extends AbstractController<Meetings> {
 
     //build save branch REST API
     @PostMapping("/addMeetings")
-    public void add(@RequestBody Meetings meetings) {
+    public void add(@RequestBody MeetingsRequestDTO meetings) {
         meetingsService.saveMeetings(meetings);
     }
 
     //Get collateral by Id
     @GetMapping("/collateralById/{id}")
-    public ResponseEntity<Meetings> getCollateralById(@PathVariable("id") String id) {
-        return new ResponseEntity<Meetings>(meetingsRepository.findMeetingsById(id), HttpStatus.OK);
+    public ResponseEntity<MeetingsResponseDTO> getCollateralById(@PathVariable("id") String id) {
+        return new ResponseEntity<MeetingsResponseDTO>(meetingsService.getCollateralById(id), HttpStatus.OK);
     }
 
     //Get collateral by loanId
     @GetMapping("/collateralByLoanId/{loanId}")
-    public List<Meetings> getCollateralByLoanId(@PathVariable("loanId") String loanId) {
-        return meetingsRepository.findMeetingsByLoanId(loanId);
+    public List<MeetingsResponseDTO> getCollateralByLoanId(@PathVariable("loanId") String loanId) {
+        return meetingsService.getCollateralByLoanId(loanId);
     }
-
-
-
-//    @DeleteMapping("/deleteBranch/{id}")
-//    public void delete(@PathVariable String id) {
-//
-//        meetingsService.deleteMeeting(id);
 
     @Override
     protected AbstractService<Meetings> getService() {

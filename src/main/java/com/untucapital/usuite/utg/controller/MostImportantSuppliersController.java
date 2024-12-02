@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.MostImportantClients;
-import com.untucapital.usuite.utg.model.MostImportantSuppliers;
+import com.untucapital.usuite.utg.dto.request.MostImportantSuppliersRequestDTO;
+import com.untucapital.usuite.utg.dto.response.MostImportantSuppliersResponseDTO;
 import com.untucapital.usuite.utg.service.MostImportantSuppliersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ public class MostImportantSuppliersController {
     private static final Logger log = LoggerFactory.getLogger(MostImportantSuppliersController.class);
 
     @GetMapping("/get/{loanId}")
-    public List<MostImportantSuppliers> getByLoanId(@PathVariable("loanId") String loanId) {
+    public List<MostImportantSuppliersResponseDTO> getByLoanId(@PathVariable("loanId") String loanId) {
         return mostImportantSuppliersService.getMostImportantSuppliersByLoanId(loanId);
     }
 
     @PostMapping("/most_important_suppliers")
-    public void add(@RequestBody MostImportantSuppliers mostImportantSuppliers) {
+    public void add(@RequestBody MostImportantSuppliersRequestDTO mostImportantSuppliers) {
         mostImportantSuppliersService.saveMostImportantSuppliers(mostImportantSuppliers);
     }
 

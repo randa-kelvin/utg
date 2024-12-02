@@ -9,13 +9,14 @@ import javax.persistence.Entity;
 public class AssessmentFileUpload extends AbstractEntity{
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "loan_id")
     private String loanId;
 
+    @Column(name = "file_name")
     private String fileName;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "user_id")
     private String userId;
 
     public String getLoanId() {

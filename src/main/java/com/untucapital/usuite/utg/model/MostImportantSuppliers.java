@@ -9,16 +9,28 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "mostImportantSupliers")
 public class MostImportantSuppliers extends AbstractEntity {
-    @NotNull
-    @Column(nullable = false)
-    private String loanId;
-    private String supplier;
-    private String contact;
-    private double cash;
-    private double credit;
-    private double monthlyPurchase;
-    private String supplierRelationship;
 
+    @NotNull
+    @Column(name = "loan_id", nullable = false)
+    private String loanId;
+
+    @Column(name = "supplier")
+    private String supplier;
+
+    @Column(name = "contact")
+    private String contact;
+
+    @Column(name = "cash")
+    private double cash;
+
+    @Column(name = "credit")
+    private double credit;
+
+    @Column(name = "monthly_purchase")
+    private double monthlyPurchase;
+
+    @Column(name = "supplier_relationship")
+    private String supplierRelationship;
     public String getLoanId() {
         return loanId;
     }

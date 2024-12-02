@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.MainCompetitor;
-import com.untucapital.usuite.utg.model.MostImportantClients;
+import com.untucapital.usuite.utg.dto.request.MainCompetitorRequestDTO;
+import com.untucapital.usuite.utg.dto.response.MainCompetitorResponseDTO;
 import com.untucapital.usuite.utg.service.MainCompetitorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ public class MainCompetitorController {
     private static final Logger log = LoggerFactory.getLogger(MainCompetitorController.class);
 
     @GetMapping("/get/{loanId}")
-    public List<MainCompetitor> getByLoanId(@PathVariable("loanId") String loanId) {
+    public List<MainCompetitorResponseDTO> getByLoanId(@PathVariable("loanId") String loanId) {
         return mainCompetitorService.getMainCompetitorByLoanId(loanId);
     }
 
     @PostMapping("/save")
-    public void add(@RequestBody MainCompetitor mainCompetitor) {
+    public void add(@RequestBody MainCompetitorRequestDTO mainCompetitor) {
         mainCompetitorService.saveMainCompetitor(mainCompetitor);
     }
 

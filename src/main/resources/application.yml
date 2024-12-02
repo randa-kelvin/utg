@@ -1,0 +1,15 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/u-tran-gateway-db?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+#    username: tranGatewayAdmin
+#    password: u92uCuwte9@ta
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#      dialect : org.hibernate.dialect.MySQL5InnoDBDialect
+#
+#server:
+#  port: 9191
+

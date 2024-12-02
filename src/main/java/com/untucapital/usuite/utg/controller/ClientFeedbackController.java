@@ -1,21 +1,14 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.ClientFeedback;
-import com.untucapital.usuite.utg.model.ClientLoan;
-import com.untucapital.usuite.utg.model.ClientLoanEnquiry;
+import com.untucapital.usuite.utg.dto.request.ClientFeedbackRequestDTO;
+import com.untucapital.usuite.utg.dto.response.ClientFeedbackResponseDTO;
 import com.untucapital.usuite.utg.repository.ClientFeedbackRepository;
-import com.untucapital.usuite.utg.repository.ClientLoanEnquiryRepository;
-import com.untucapital.usuite.utg.repository.ClientRepository;
 import com.untucapital.usuite.utg.service.ClientFeedbackService;
-import com.untucapital.usuite.utg.service.ClientLoanApplication;
-import com.untucapital.usuite.utg.service.ClientLoanEnquiryService;
-import com.untucapital.usuite.utg.utils.EmailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,28 +28,34 @@ public class ClientFeedbackController {
 
     //build save loan REST API
     @PostMapping
-    public ResponseEntity<ClientFeedback> saveClientFeedback(@RequestBody ClientFeedback clientFeedback) {
+    public ResponseEntity<ClientFeedbackResponseDTO> saveClientFeedback(@RequestBody ClientFeedbackRequestDTO clientFeedback) {
         log.info(String.valueOf(clientFeedback));
-        return new ResponseEntity<ClientFeedback>(clientFeedbackService.saveClientFeedback(clientFeedback), HttpStatus.CREATED);
+        return new ResponseEntity<ClientFeedbackResponseDTO>(clientFeedbackService.saveClientFeedback(clientFeedback), HttpStatus.CREATED);
     }
 
     //build get all loan applications REST API
     @GetMapping
-    public List<ClientFeedback> getAllClientLoanEnquiries() {
+    public List<ClientFeedbackResponseDTO> getAllClientLoanEnquiries() {
         return clientFeedbackService.getAllClientFeedback();
 
     }
 
     //build get clientLoan by ID REST API
+//    @GetMapping("{id}")
+//    public ResponseEntity<ClientFeedback> getClientFeedbackById(@PathVariable("id") String id) {
+//        return new ResponseEntity<ClientFeedback>((MultiValueMap<String, String>) clientFeedbackRepository.findClientFeedbackById(id), HttpStatus.OK);
+//    }
+
     @GetMapping("{id}")
-    public ResponseEntity<ClientFeedback> getClientFeedbackById(@PathVariable("id") String id) {
-        return new ResponseEntity<ClientFeedback>((MultiValueMap<String, String>) clientFeedbackRepository.findClientFeedbackById(id), HttpStatus.OK);
+    public ResponseEntity<ClientFeedbackResponseDTO> getClientFeedbackById(@PathVariable("id") String id) {
+        return new ResponseEntity<ClientFeedbackResponseDTO>(clientFeedbackService.getClientFeedbackById(id), HttpStatus.OK);
     }
+
 
     //build get clientLoan by ID REST API
     @GetMapping("/userid/{userId}")
-    public ResponseEntity<List<ClientFeedback>> getClientFeedbackByUserId(@PathVariable("userId") String userId) {
-        return new ResponseEntity<List<ClientFeedback>>(clientFeedbackRepository.findClientFeedbackByUserId(userId), HttpStatus.OK);
+    public ResponseEntity<List<ClientFeedbackResponseDTO>> getClientFeedbackByUserId(@PathVariable("userId") String userId) {
+        return new ResponseEntity<List<ClientFeedbackResponseDTO>>(clientFeedbackService.getClientFeedbackByUserId(userId), HttpStatus.OK);
     }
 
 }

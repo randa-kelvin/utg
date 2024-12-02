@@ -11,14 +11,28 @@ import javax.persistence.Table;
 public class MostImportantClients extends AbstractEntity {
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
+
+    @Column(name = "full_name")
     private String fullName;
+
+    @Column(name = "contact")
     private String contact;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "cash")
     private String cash;
+
+    @Column(name = "credit")
     private double credit;
+
+    @Column(name = "monthly_sales")
     private double monthlySales;
+
+    @Column(name = "relation_with_client")
     private String relationWithClient;
 
     public String getLoanId() {

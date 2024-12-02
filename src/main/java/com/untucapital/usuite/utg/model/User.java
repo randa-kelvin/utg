@@ -1,11 +1,15 @@
 package com.untucapital.usuite.utg.model;
 
+import com.untucapital.usuite.utg.model.cms.CmsUser;
+import com.untucapital.usuite.utg.model.po.PoUser;
+import com.untucapital.usuite.utg.model.tms.TmsUser;
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
@@ -18,6 +22,7 @@ import static javax.persistence.CascadeType.*;
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"username", "contact_detail_id"})
 })
+@Data
 public class User extends AbstractEntity {
 
     @NotBlank
@@ -35,6 +40,7 @@ public class User extends AbstractEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "password")
     private String password;
 
     @Column(name = "reset_token")
@@ -44,6 +50,18 @@ public class User extends AbstractEntity {
     @NotNull
     @JoinColumn(name = "contact_detail_id", nullable = false)
     private ContactDetail contactDetail;
+
+    @OneToOne(cascade = {PERSIST, MERGE, REMOVE})
+    @JoinColumn(name = "cms_user_id")
+    private CmsUser cmsUser;
+
+    @OneToOne(cascade = {PERSIST, MERGE, REMOVE})
+    @JoinColumn(name = "po_user_id")
+    private PoUser poUser;
+
+    @OneToOne(cascade = {PERSIST, MERGE, REMOVE})
+    @JoinColumn(name = "tms_user_id")
+    private TmsUser tmsUser;
 
     @NotNull
     @Column(nullable = false)
@@ -55,10 +73,13 @@ public class User extends AbstractEntity {
 
     private String branch;
 
+    @Column(name = "credit_commit_group")
     private String creditCommitGroup;
 
+    @Column(name = "dirt_of_birth")
     private String dirtOfBirth;
 
+    @Column(name = "marital_status")
     private String maritalStatus;
 
     private String Gender;
@@ -67,169 +88,22 @@ public class User extends AbstractEntity {
 
     private String suburb;
 
+    @Column(name = "street_name")
     private String streetName;
 
+    @Column(name = "street_number")
     private String streetNumber;
 
+    @Column(name = "musoni_client_id")
     private String musoniClientId;
 
+    @Column(name = "national_id")
+    private String nationalId;
 
-
-    public String getCreditCommitGroup() {
-        return creditCommitGroup;
-    }
-
-    public void setCreditCommitGroup(String creditCommitGroup) {
-        this.creditCommitGroup = creditCommitGroup;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getResetPasswordToken() {
-        return resetPasswordToken;
-    }
-
-    public void setResetPasswordToken(String resetPasswordToken) {
-        this.resetPasswordToken = resetPasswordToken;
-    }
-
-    public ContactDetail getContactDetail() {
-        return contactDetail;
-    }
-
-    public void setContactDetail(ContactDetail contactDetail) {
-        this.contactDetail = contactDetail;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
-
-    public String getDirtOfBirth() {
-        return dirtOfBirth;
-    }
-
-    public void setDirtOfBirth(String dirtOfBirth) {
-        this.dirtOfBirth = dirtOfBirth;
-    }
-
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public String getGender() {
-        return Gender;
-    }
-
-    public void setGender(String gender) {
-        Gender = gender;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }
-
-    public String getSuburb() {
-        return suburb;
-    }
-
-    public void setSuburb(String suburb) {
-        this.suburb = suburb;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public String getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public String getMusoniClientId() {
-        return musoniClientId;
-    }
-
-    public void setMusoniClientId(String musoniClientId) {
-        this.musoniClientId = musoniClientId;
-    }
 }

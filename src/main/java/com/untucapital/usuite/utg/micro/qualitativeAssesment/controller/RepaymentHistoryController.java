@@ -1,9 +1,8 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.RepaymentHistory;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.RepaymentHistoryService;
+import com.untucapital.usuite.utg.model.RepaymentHistory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

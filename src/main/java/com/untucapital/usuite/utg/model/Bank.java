@@ -11,9 +11,10 @@ import javax.persistence.Table;
 public class Bank extends AbstractEntity {
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "loan_id")
     private String loanId;
 
+    @Column(name = "bank_name")
     private String bankName;
 
     public String getLoanId() {

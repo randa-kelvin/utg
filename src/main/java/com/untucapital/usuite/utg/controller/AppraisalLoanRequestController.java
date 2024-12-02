@@ -1,9 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
 import com.untucapital.usuite.utg.model.AppraisalLoanRequest;
-import com.untucapital.usuite.utg.model.Business;
 import com.untucapital.usuite.utg.service.AppraisalLoanRequestService;
-import com.untucapital.usuite.utg.service.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -26,7 +26,7 @@ public class SignUpRequest {
     @NotBlank
     private String password;
 
-    @NotBlank
+
     @Size(max = 40)
     @Email
     private String email;

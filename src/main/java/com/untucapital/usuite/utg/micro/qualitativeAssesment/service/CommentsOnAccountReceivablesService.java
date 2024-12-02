@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.CommentsOnAccountReceivables;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.CommentsOnAccountReceivablesRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.CommentsOnAccountReceivablesRepository;
+import com.untucapital.usuite.utg.model.CommentsOnAccountReceivables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

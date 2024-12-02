@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.Liabilities;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.LiabilitiesService;
+import com.untucapital.usuite.utg.model.Liabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -10,29 +10,28 @@ import javax.validation.constraints.NotNull;
 public class MusoniLoan extends AbstractEntity{
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "account_no", nullable = false)
     private String accountNo;
 
     private String status;
 
-    @Column(nullable = false)
+    @Column(name = "client_name", nullable = false)
     private String clientName;
 
-    @Column(nullable = false)
+    @Column(name = "client_id", nullable = false)
     private String clientId;
 
-    @Column(nullable = false)
+    @Column(name = "loan_officer", nullable = false)
     private String loanOfficer;
 
-    @Column(nullable = false)
+    @Column(name = "total_due", nullable = false)
     private String totalDue;
 
-    @Column(nullable = false)
+    @Column(name = "total_paid", nullable = false)
     private String totalPaid;
 
-    @Column(nullable = false)
+    @Column(name = "total_outstanding", nullable = false)
     private String totalOutstanding;
-
     public String getAccountNo() {
         return accountNo;
     }

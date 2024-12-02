@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.ClientRequest;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.ClientRequestRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.ClientRequestRepository;
+import com.untucapital.usuite.utg.model.ClientRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,11 @@
 package com.untucapital.usuite.utg.repository;
 
 import com.untucapital.usuite.utg.model.ClientLoan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,68 +13,87 @@ import java.util.List;
 @Repository
 public interface ClientRepository extends JpaRepository<ClientLoan, String> {
 
-    List<ClientLoan> findByUserId(String userId);
+    List<ClientLoan> findByUserIdOrderByCreatedAtDesc(String userId);
+    List<ClientLoan> findByPhoneNumberOrderByCreatedAtDesc(String phoneNumber);
     List<ClientLoan> findClientLoansByBranchNameOrderByCreatedAtDesc(String branchName);
 
 //    ClientLoan findClientLoanBy (String loanAndFileId);
 
-    List<ClientLoan> findClientLoansByBranchName(String branchName);
+//    List<ClientLoan> findClientLoansByBranchNameOrderByCreatedAtDesc(String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatus(String loanStatus);
+    List<ClientLoan> findClientLoansByLoanStatusOrderByCreatedAtDesc(String loanStatus);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndAssignToAndBranchName(String loanStatus, String assignTo, String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndAssignedStatusAndBranchName(String loanStatus, String assignedStatus, String branchName);
+    List<ClientLoan> findClientLoansByUserIdOrderByCreatedAtDesc(String userId);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndBranchName(String loanStatus, String branchName);
+    List<ClientLoan> findClientLoansByLoanStatusAndAssignToAndBranchNameOrderByCreatedAtDesc(String loanStatus, String assignTo, String branchName);
 
-    List<ClientLoan> findClientLoansByBocoSignatureAndBranchName(String bocoSignature, String branchName);
+    List<ClientLoan> findClientLoansByLoanStatusAndAssignedStatusAndBranchNameOrderByCreatedAtDesc(String loanStatus, String assignedStatus, String branchName);
 
-    List<ClientLoan> findClientLoansByBmSignatureAndBranchName(String bmSignature, String branchName);
+    List<ClientLoan> findClientLoansByLoanStatusAndBranchNameOrderByCreatedAtDesc(String loanStatus, String branchName, Pageable pageable);
 
-    List<ClientLoan> findClientLoansByCaSignature(String caSignature);
+    List<ClientLoan> findClientLoansByBocoSignatureAndBranchNameOrderByCreatedAtDesc(String bocoSignature, String branchName);
 
-    List<ClientLoan> findClientLoansByCmSignature(String cmSignature);
+    List<ClientLoan> findClientLoansByBmSignatureAndBranchNameOrderByCreatedAtDesc(String bmSignature, String branchName);
 
-    List<ClientLoan> findClientLoansByFinSignature(String finSignature);
+    List<ClientLoan> findClientLoansByCaSignatureOrderByCreatedAtDesc(String caSignature);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndBranchNameAndPipelineStatus(String loanStatus, String branchName, String pipelineStatus);
+    List<ClientLoan> findClientLoansByCmSignatureOrderByCreatedAtDesc(String cmSignature);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBocoSignatureAndBranchName(String loanStatus, String processLoanStatus, String bocoSignature, String branchName);
+    List<ClientLoan> findClientLoansByFinSignatureOrderByCreatedAtDesc(String finSignature);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndBranchName(String loanStatus, String processLoanStatus, String bmSignature, String branchName);
+    List<ClientLoan> findClientLoansByLoanStatusAndBranchNameAndPipelineStatusOrderByCreatedAtDesc(String loanStatus, String branchName, String pipelineStatus);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCaSignature(String loanStatus, String processLoanStatus, String CaSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBocoSignatureAndBranchNameOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String bocoSignature, String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCmSignature(String loanStatus, String processLoanStatus, String CmSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndBranchNameOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String bmSignature, String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndFinSignature(String loanStatus, String processLoanStatus, String FinSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCaSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String CaSignature);
 
-//    List<ClientLoan> findClientLoansByLoanStatusAndAssignToAndBranchNameAndProcessLoanStatusNotContains(String loanStatus, String assignTo, String branchName, String assessmentStatus);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCmSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String CmSignature);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndAssignToAndBranchNameAndProcessLoanStatus(String loanStatus, String assignTo, String branchName, String assessmentStatus);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndFinSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String FinSignature);
+
+//    List<ClientLoan> findClientLoansByLoanStatusAndAssignToAndBranchNameAndProcessLoanStatusNotContainsOrderByCreatedAtDesc(String loanStatus, String assignTo, String branchName, String assessmentStatus);
+
+    List<ClientLoan> findClientLoansByLoanStatusAndAssignToAndBranchNameAndProcessLoanStatusOrderByCreatedAtDesc(String loanStatus, String assignTo, String branchName, String assessmentStatus);
 
     ClientLoan findByLoanFileId(String loanAndFileId);
 
-    List<ClientLoan> findClientLoanByLoanStatusAndPipelineStatusAndCreditCommit(String loanStatus, String pipelineStatus, String creditCommit);
+    List<ClientLoan> findClientLoanByLoanStatusAndPipelineStatusAndCreditCommitOrderByCreatedAtDesc(String loanStatus, String pipelineStatus, String creditCommit);
 
-    List<ClientLoan> findClientLoanByLoanStatusAndBranchNameAndPipelineStatusAndCreditCommit(String loanStatus, String branchName, String pipelineStatus, String creditCommit);
+    List<ClientLoan> findClientLoanByLoanStatusAndPipelineStatusOrderByCreatedAtDesc(String loanStatus, String pipelineStatus);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBocoSignatureAndPipelineStatusAndBranchName(String loanStatus, String processLoanStatus, String bocoSignature, String pipelineStatus, String branchName);
+    List<ClientLoan> findClientLoanByLoanStatusAndBranchNameAndPipelineStatusAndCreditCommitOrderByCreatedAtDesc(String loanStatus, String branchName, String pipelineStatus, String creditCommit);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndPipelineStatusAndBranchName(String loanStatus, String processLoanStatus, String bmSignature, String pipelineStatus, String branchName);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBocoSignatureAndPipelineStatusAndBranchNameOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String bocoSignature, String pipelineStatus, String branchName);
 
-    List<ClientLoan> findClientLoansByBocoSignatureAndCompletelyDoneAndBranchName(String bocoSignature, String completelyDone, String branchName);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndPipelineStatusAndBranchNameOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String bmSignature, String pipelineStatus, String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndBocoSignatureAndPipelineStatusAndBranchName(String loanStatus, String processLoanStatus, String bmSignature, String bocoSignature, String pipelineStatus, String branchName);
+    List<ClientLoan> findClientLoansByBocoSignatureAndCompletelyDoneAndBranchNameOrderByCreatedAtDesc(String bocoSignature, String completelyDone, String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndCaSignature(String loanStatus, String processLoanStatus, String bmSignature, String caSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndBocoSignatureAndPipelineStatusAndBranchNameOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String bmSignature, String bocoSignature, String pipelineStatus, String branchName);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCaSignatureAndCmSignature(String loanStatus, String processLoanStatus, String caSignature, String cmSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndBmSignatureAndCaSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String bmSignature, String caSignature);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCmSignatureAndFinSignature(String loanStatus, String processLoanStatus, String cmSignature, String finSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCaSignatureAndCmSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String caSignature, String cmSignature);
 
-    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndFinSignatureAndBoardSignature(String loanStatus, String processLoanStatus, String finSignature, String boardSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndCmSignatureAndFinSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String cmSignature, String finSignature);
 
-    List<ClientLoan> findClientLoansByBoardSignature(String boardSignature);
+    List<ClientLoan> findClientLoansByLoanStatusAndProcessLoanStatusAndFinSignatureAndBoardSignatureOrderByCreatedAtDesc(String loanStatus, String processLoanStatus, String finSignature, String boardSignature);
+
+    List<ClientLoan> findClientLoansByBoardSignatureOrderByCreatedAtDesc(String boardSignature);
+
+//    List<ClientLoan> findByUserIdOrderByCreatedAtDesc(String userId);
+
+
+//    List<ClientLoan> findByUserId(String userId);
+
+
+    Page<ClientLoan> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    @Query(value = "SELECT cl.* FROM client_loans cl JOIN users u ON cl.user_id = u.id WHERE u.username REGEXP '^[0-9]+$'", nativeQuery = true)
+    List<ClientLoan> findClientLoansByUsername();
+
+
 }

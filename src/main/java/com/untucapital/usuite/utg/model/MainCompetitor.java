@@ -12,9 +12,13 @@ public class MainCompetitor extends AbstractEntity{
 
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "loan_id", nullable = false)
     private String loanId;
+
+    @Column(name = "competitor")
     private String competitor;
+
+    @Column(name = "comment")
     private String comment;
 
     public String getLoanId() {

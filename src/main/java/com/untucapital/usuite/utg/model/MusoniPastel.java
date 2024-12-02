@@ -12,39 +12,41 @@ public class MusoniPastel {
 
     @NotNull
     @Id
-    @Column(nullable = false)
+    @Column(name = "transaction_id", nullable = false)
     private String transactionId;
 
+    @Column(name = "loan_id")
     private String loanId;
 
-    @Column(nullable = false)
+    @Column(name = "transaction_type", nullable = false)
     private String transactionType;
 
-    @Column(nullable = false)
+    @Column(name = "transaction_date", nullable = false)
     private String transactionDate;
 
-    @Column(nullable = false)
+    @Column(name = "from_account", nullable = false)
     private String fromAccount;
 
-    @Column(nullable = false)
+    @Column(name = "to_account", nullable = false)
     private String toAccount;
 
-    @Column(nullable = false)
+    @Column(name = "reference", nullable
+            = false)
     private String reference;
 
-    @Column(nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "currency", nullable = false)
     private String currency;
 
-    @Column(nullable = false)
+    @Column(name = "amount", nullable = false)
     private String amount;
 
-    @Column(nullable = false)
+    @Column(name = "exchange_rate", nullable = false)
     private String exchangeRate;
 
-    @Column(nullable = false)
+    @Column(name = "synced", nullable = false)
     private String synced;
 
     public String getTransactionId() {

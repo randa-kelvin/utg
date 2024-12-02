@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
+
 @Service
+@javax.transaction.Transactional
 public class IndustryService extends AbstractService<Industry> {
     @Autowired
     private final GlobalImageService globalImageService;
@@ -39,6 +39,18 @@ public class IndustryService extends AbstractService<Industry> {
         return null;
     }
 
+    public Industry getIndustryById(String id) {
+        return industryRepository.findIndustriesById(id);
+    }
+
+    public int getIndustryIdByName(String name){
+        Industry industry = industryRepository.findByName(name);
+
+        log.info("industryCode: {}", industry.getCode());
+        return industry.getCode();
+    }
+
+    @Transactional(value = "transactionManager")
     public String addIndustry(MultipartFile file, String name, int code) {
         Industry industry = new Industry();
         String imageUrl= globalImageService.saveFile(file);

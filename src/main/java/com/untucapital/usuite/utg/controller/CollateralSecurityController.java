@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.CollateralSecurity;
-import com.untucapital.usuite.utg.model.SourceOfFunds;
+import com.untucapital.usuite.utg.dto.request.CollateralSecurityRequestDTO;
+import com.untucapital.usuite.utg.dto.response.CollateralSecurityResponseDTO;
 import com.untucapital.usuite.utg.service.CollateralSecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +20,12 @@ public class CollateralSecurityController {
     private static final Logger log = LoggerFactory.getLogger(CollateralSecurityController.class);
 
     @GetMapping("/get/{loanId}")
-    public List<CollateralSecurity> getByLoanId(@PathVariable("loanId") String loanId) {
+    public List<CollateralSecurityResponseDTO> getByLoanId(@PathVariable("loanId") String loanId) {
         return collateralSecurityService.get(loanId);
     }
 
     @PostMapping("/add")
-    public void add(@RequestBody CollateralSecurity collateralSecurity) {
+    public void add(@RequestBody CollateralSecurityRequestDTO collateralSecurity) {
         collateralSecurityService.add(collateralSecurity);
     }
 

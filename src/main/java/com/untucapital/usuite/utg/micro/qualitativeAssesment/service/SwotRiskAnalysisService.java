@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.SwotRiskAnalysis;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.SwotRiskAnalysisRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.SwotRiskAnalysisRepository;
+import com.untucapital.usuite.utg.model.SwotRiskAnalysis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

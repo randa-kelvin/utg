@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.OtherBusinessAndIncome;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.OtherBusinessAndIncomeRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.OtherBusinessAndIncomeRepository;
+import com.untucapital.usuite.utg.model.OtherBusinessAndIncome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

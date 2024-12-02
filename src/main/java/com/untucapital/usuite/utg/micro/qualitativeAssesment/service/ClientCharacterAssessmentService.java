@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.ClientCharacterAssessment;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.ClientCharacterAssessmentRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.ClientCharacterAssessmentRepository;
+import com.untucapital.usuite.utg.model.ClientCharacterAssessment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

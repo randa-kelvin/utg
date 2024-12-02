@@ -1,8 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.controller;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.CapacityAssessmentMicro;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.CapacityAssessment2MicroService;
 import com.untucapital.usuite.utg.micro.qualitativeAssesment.service.CapacityAssessmentMicroService;
+import com.untucapital.usuite.utg.model.CapacityAssessmentMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

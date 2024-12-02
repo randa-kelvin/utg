@@ -1,6 +1,5 @@
 package com.untucapital.usuite.utg.repository;
 
-import com.untucapital.usuite.utg.model.InvestmentInfow;
 import com.untucapital.usuite.utg.model.InvestmentOutflow;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,8 +1,7 @@
 package com.untucapital.usuite.utg.controller;
 
-import com.untucapital.usuite.utg.model.DirectCost;
-import com.untucapital.usuite.utg.model.OperationalCost;
-import com.untucapital.usuite.utg.service.DirectCostService;
+import com.untucapital.usuite.utg.dto.request.OperationalCostRequestDTO;
+import com.untucapital.usuite.utg.dto.response.OperationalCostResponseDTO;
 import com.untucapital.usuite.utg.service.OperationalCostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +20,17 @@ public class OperationalCostController {
     private static final Logger log = LoggerFactory.getLogger(OperationalCostController.class);
 
     @GetMapping("")
-    public List<OperationalCost> getAllDirectCosts() {
+    public List<OperationalCostResponseDTO> getAllDirectCosts() {
         return operationalCostService.getAllDirectCosts();
     }
 
     @GetMapping("/get_costs/{loanId}")
-    public List<OperationalCost> getAllDirectCostsByLoanId(@PathVariable("loanId") String loanId) {
+    public List<OperationalCostResponseDTO> getAllDirectCostsByLoanId(@PathVariable("loanId") String loanId) {
         return operationalCostService.getCostsByLoanId(loanId);
     }
 
     @PostMapping("/addOperationalCost")
-    public void add(@RequestBody OperationalCost operationalCost) {
+    public void add(@RequestBody OperationalCostRequestDTO operationalCost) {
         operationalCostService.saveDirectCost(operationalCost);
     }
 

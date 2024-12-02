@@ -1,7 +1,7 @@
 package com.untucapital.usuite.utg.micro.qualitativeAssesment.service;
 
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.model.SeasonalityOfSalesMicro;
-import com.untucapital.usuite.utg.micro.qualitativeAssesment.repository.SeasonalityOfSalesMicroRepository;
+import com.untucapital.usuite.utg.micro.qualitativeAssesment.repo.SeasonalityOfSalesMicroRepository;
+import com.untucapital.usuite.utg.model.SeasonalityOfSalesMicro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

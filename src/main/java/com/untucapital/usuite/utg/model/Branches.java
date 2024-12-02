@@ -1,27 +1,41 @@
 package com.untucapital.usuite.utg.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "branches", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"branchName", "code"})
+        @UniqueConstraint(columnNames = {"branch_name", "code"})
 })
 public class Branches extends AbstractEntity {
 
+    @Column(name = "branch_name")
     private String branchName;
 
-    private  String branchAddress;
+    @Column(name = "branch_address")
+    private String branchAddress;
 
-    private  String branchTellPhone;
+    @Column(name = "branch_tel_phone")
+    private String branchTellPhone;
 
-    private  String branchStatus;
+    @Column(name = "branch_status")
+    private String branchStatus;
 
+    @Column(name = "vault_account_number")
+    private String vaultAccountNumber;
+
+    @Column(name = "branch_code")
+    private String branchCode;
+
+    @Column(name = "google_map")
     private String googleMap;
 
+    @Column(name = "directions_link")
     private String directionsLink;
 
+    @Column(name = "code")
     private int code;
 
     public String getBranchName() {
@@ -70,6 +84,22 @@ public class Branches extends AbstractEntity {
 
     public void setGoogleMap(String googleMap) {
         this.googleMap = googleMap;
+    }
+
+    public String getVaultAccountNumber() {
+        return vaultAccountNumber;
+    }
+
+    public void setVaultAccountNumber(String vaultAccountNumber) {
+        this.vaultAccountNumber = vaultAccountNumber;
+    }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
     }
 
     public String getDirectionsLink() {

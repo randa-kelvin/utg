@@ -1,20 +1,20 @@
 package com.untucapital.usuite.utg.exception;
 
 import com.untucapital.usuite.utg.controller.payload.UsuiteApiErrorResp;
-import com.untucapital.usuite.utg.controller.payload.UsuiteApiResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.validation.ValidationException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +22,13 @@ import java.util.Map;
  * @author Chirinda Nyasha Dell 23/11/2021
  */
 
-@RestControllerAdvice
+@ControllerAdvice
 public class ApiExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @ResponseBody
-    @ExceptionHandler(value = javax.validation.ValidationException.class)
+    @ExceptionHandler(value = ValidationException.class)
     public ResponseEntity<UsuiteApiErrorResp> handleValidationException(ValidationException ve) {
         log.error("Validation Exception occurred - {}", ve.getMessage(), ve);
         return ResponseEntity.badRequest()
@@ -89,5 +89,12 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(apiErrorResp);
     }
 
+    @ExceptionHandler(value = ResourceNotFoundRequestException.class)
+    public ResponseEntity<Object> handleObjectNotFound(ResourceNotFoundRequestException e){
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
+        ResourceNotFoundApiException apiException = new ResourceNotFoundApiException(e.getMessage(), httpStatus, LocalDateTime.now());
+
+        return new ResponseEntity<>(apiException, httpStatus);
+    }
 }
