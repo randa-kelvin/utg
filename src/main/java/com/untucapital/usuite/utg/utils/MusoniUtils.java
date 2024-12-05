@@ -87,7 +87,7 @@ public class MusoniUtils {
         long currentUnixTime = Instant.now().getEpochSecond();
 
         // Calculate the number of seconds in x days
-        long secondsInDays = 5 * 24 * 60 * 60; // x days * 24 hours * 60 minutes * 60 seconds
+        long secondsInDays = 10 * 24 * 60 * 60; // x days * 24 hours * 60 minutes * 60 seconds
 
         // Subtract the calculated seconds from the current time
         return currentUnixTime - secondsInDays;

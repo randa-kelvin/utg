@@ -168,7 +168,7 @@ public class LoanStatementPdfGeneratorService {
             balanceBd.setType(transactionTypeDTO); // Set the TransactionTypeDTO object in the balanceBd
 
 //            TODO : INTERIM : COMMENT OUT
-            combinedTransactions.add(balanceBd); // Add the single TransactionDTO to the combined list
+//            combinedTransactions.add(balanceBd); // Add the single TransactionDTO to the combined list
         }
 
         // Filter the savings transactions by date
