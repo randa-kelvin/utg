@@ -1,5 +1,6 @@
 package com.untucapital.usuite.utg.service;
 
+import com.untucapital.usuite.utg.dto.LoanApplicationResponse;
 import com.untucapital.usuite.utg.model.ClientLoan;
 
 import java.text.ParseException;
@@ -7,7 +8,7 @@ import java.util.List;
 
 public interface ClientLoanApplication {
 
-    ClientLoan saveClientLoan(ClientLoan clientLoan) throws ParseException;
+    LoanApplicationResponse saveClientLoan(ClientLoan clientLoan) throws ParseException;
 
     ClientLoan updateClientLoan(ClientLoan clientLoan);
 

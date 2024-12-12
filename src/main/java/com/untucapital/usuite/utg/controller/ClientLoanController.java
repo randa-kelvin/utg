@@ -3,6 +3,7 @@ package com.untucapital.usuite.utg.controller;
 import com.untucapital.usuite.utg.dto.BulkEmail;
 import com.google.gson.Gson;
 import com.untucapital.usuite.utg.dto.Email;
+import com.untucapital.usuite.utg.dto.LoanApplicationResponse;
 import com.untucapital.usuite.utg.model.ClientLoan;
 import com.untucapital.usuite.utg.repository.ClientRepository;
 import com.untucapital.usuite.utg.service.ClientLoanApplication;
@@ -51,22 +52,35 @@ public class ClientLoanController {
     }
 
 
-    //build save loan REST API
-//    @PostMapping
-//    @Operation(summary = "Create a new client loan application")
-//    public ResponseEntity<ClientLoan> saveClientLoan(@RequestBody ClientLoan clientLoan) throws ParseException {
-//        log.info(String.valueOf(clientLoan));
-//        return new ResponseEntity<ClientLoan>(clientLoanApplication.saveClientLoan(clientLoan), HttpStatus.CREATED);
-//    }
-
     @PostMapping
     @Operation(summary = "Create a new client loan application")
-    public ResponseEntity<ClientLoan> saveClientLoan(@RequestBody ClientLoan clientLoan) throws ParseException {
+    public ResponseEntity<LoanApplicationResponse> saveClientLoan(@RequestBody ClientLoan clientLoan) throws ParseException {
         log.info(String.valueOf(clientLoan));
+
         // Process the client loan to set default values
         clientLoan = clientLoanService.processClientLoan(clientLoan);
-        return new ResponseEntity<>(clientLoanApplication.saveClientLoan(clientLoan), HttpStatus.CREATED);
+
+        LoanApplicationResponse response = clientLoanApplication.saveClientLoan(clientLoan);
+
+        // Determine the HTTP status based on the outcome
+        HttpStatus status = response.getClientLoan() != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+
+        log.info("response: {} and status: {}", response.getMessage(), status);
+
+        // Returning the response as a JSON object with appropriate status
+        return new ResponseEntity<>(response, status);
     }
+
+
+
+//    @PostMapping
+//    @Operation(summary = "Create a new client loan application")
+//    public ResponseEntity<LoanApplicationResponse> saveClientLoan(@RequestBody ClientLoan clientLoan) throws ParseException {
+//        log.info(String.valueOf(clientLoan));
+//        // Process the client loan to set default values
+//        clientLoan = clientLoanService.processClientLoan(clientLoan);
+//        return new ResponseEntity<>(clientLoanApplication.saveClientLoan(clientLoan), HttpStatus.CREATED);
+//    }
 
 
 
@@ -383,11 +397,22 @@ public class ClientLoanController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateLoanStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
         ClientLoan updatedLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanStatus.setLoanStatus(clientLoan.getLoanStatus());
-        updatedLoanStatus.setComment(clientLoan.getComment());
-        updatedLoanStatus.setLoanStatusAssigner(clientLoan.getLoanStatusAssigner());
-        updatedLoanStatus.setBocoDate(clientLoan.getBocoDate());
-        updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+
+        if (clientLoan.getLoanStatus() != null && !clientLoan.getLoanStatus().isEmpty()) {
+            updatedLoanStatus.setLoanStatus(clientLoan.getLoanStatus());
+        }
+        if (clientLoan.getComment() != null && !clientLoan.getComment().isEmpty()) {
+            updatedLoanStatus.setComment(clientLoan.getComment());
+        }
+        if (clientLoan.getLoanStatusAssigner() != null && !clientLoan.getLoanStatusAssigner().isEmpty()) {
+            updatedLoanStatus.setLoanStatusAssigner(clientLoan.getLoanStatusAssigner());
+        }
+        if (clientLoan.getBocoDate() != null) {
+            updatedLoanStatus.setBocoDate(clientLoan.getBocoDate());
+        }
+        if (clientLoan.getPipelineStatus() != null && !clientLoan.getPipelineStatus().isEmpty()) {
+            updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+        }
 
         clientRepository.save(updatedLoanStatus);
         return new ResponseEntity<String>("Loan Status successfully updated.", HttpStatus.OK);
@@ -397,33 +422,84 @@ public class ClientLoanController {
     public ResponseEntity<String> updateClientLoan(@PathVariable String id, @RequestBody ClientLoan updatedClientLoan) {
         ClientLoan existingClientLoan = clientLoanApplication.getClientLoanApplicationById(id);
 
-        // Update the fields with values from the updatedClientLoan
-        existingClientLoan.setMiddleName(updatedClientLoan.getMiddleName());
-        existingClientLoan.setLastName(updatedClientLoan.getLastName());
-        existingClientLoan.setIdNumber(updatedClientLoan.getIdNumber());
-        existingClientLoan.setBranchName(updatedClientLoan.getBranchName());
-        existingClientLoan.setMaritalStatus(updatedClientLoan.getMaritalStatus());
-        existingClientLoan.setGender(updatedClientLoan.getGender());
-        existingClientLoan.setDateOfBirth(updatedClientLoan.getDateOfBirth());
-        existingClientLoan.setPhoneNumber(updatedClientLoan.getPhoneNumber());
-        existingClientLoan.setPlaceOfBusiness(updatedClientLoan.getPlaceOfBusiness());
-        existingClientLoan.setIndustryCode(updatedClientLoan.getIndustryCode());
-        existingClientLoan.setLoanAmount(updatedClientLoan.getLoanAmount());
-        existingClientLoan.setStreetNo(updatedClientLoan.getStreetNo());
-        existingClientLoan.setBusinessName(updatedClientLoan.getBusinessName());
-        existingClientLoan.setBusinessStartDate(updatedClientLoan.getBusinessStartDate());
-        existingClientLoan.setStreetName(updatedClientLoan.getStreetName());
-        existingClientLoan.setSuburb(updatedClientLoan.getSuburb());
-        existingClientLoan.setCity(updatedClientLoan.getCity());
-        existingClientLoan.setTenure(updatedClientLoan.getTenure());
-        existingClientLoan.setNextOfKinName(updatedClientLoan.getNextOfKinName());
-        existingClientLoan.setNextOfKinPhone(updatedClientLoan.getNextOfKinPhone());
-        existingClientLoan.setNextOfKinRelationship(updatedClientLoan.getNextOfKinRelationship());
-        existingClientLoan.setNextOfKinAddress(updatedClientLoan.getNextOfKinAddress());
-        existingClientLoan.setNextOfKinName2(updatedClientLoan.getNextOfKinName2());
-        existingClientLoan.setNextOfKinPhone2(updatedClientLoan.getNextOfKinPhone2());
-        existingClientLoan.setNextOfKinRelationship2(updatedClientLoan.getNextOfKinRelationship2());
-        existingClientLoan.setNextOfKinAddress2(updatedClientLoan.getNextOfKinAddress2());
+        if (updatedClientLoan.getMiddleName() != null && !updatedClientLoan.getMiddleName().isEmpty()) {
+            existingClientLoan.setMiddleName(updatedClientLoan.getMiddleName());
+        }
+        if (updatedClientLoan.getLastName() != null && !updatedClientLoan.getLastName().isEmpty()) {
+            existingClientLoan.setLastName(updatedClientLoan.getLastName());
+        }
+        if (updatedClientLoan.getIdNumber() != null && !updatedClientLoan.getIdNumber().isEmpty()) {
+            existingClientLoan.setIdNumber(updatedClientLoan.getIdNumber());
+        }
+        if (updatedClientLoan.getBranchName() != null && !updatedClientLoan.getBranchName().isEmpty()) {
+            existingClientLoan.setBranchName(updatedClientLoan.getBranchName());
+        }
+        if (updatedClientLoan.getMaritalStatus() != null && !updatedClientLoan.getMaritalStatus().isEmpty()) {
+            existingClientLoan.setMaritalStatus(updatedClientLoan.getMaritalStatus());
+        }
+        if (updatedClientLoan.getGender() != null && !updatedClientLoan.getGender().isEmpty()) {
+            existingClientLoan.setGender(updatedClientLoan.getGender());
+        }
+        if (updatedClientLoan.getDateOfBirth() != null) {
+            existingClientLoan.setDateOfBirth(updatedClientLoan.getDateOfBirth());
+        }
+        if (updatedClientLoan.getPhoneNumber() != null && !updatedClientLoan.getPhoneNumber().isEmpty()) {
+            existingClientLoan.setPhoneNumber(updatedClientLoan.getPhoneNumber());
+        }
+        if (updatedClientLoan.getPlaceOfBusiness() != null && !updatedClientLoan.getPlaceOfBusiness().isEmpty()) {
+            existingClientLoan.setPlaceOfBusiness(updatedClientLoan.getPlaceOfBusiness());
+        }
+        if (updatedClientLoan.getIndustryCode() != null && !updatedClientLoan.getIndustryCode().isEmpty()) {
+            existingClientLoan.setIndustryCode(updatedClientLoan.getIndustryCode());
+        }
+        if (updatedClientLoan.getLoanAmount() != null) {
+            existingClientLoan.setLoanAmount(updatedClientLoan.getLoanAmount());
+        }
+        if (updatedClientLoan.getStreetNo() != null && !updatedClientLoan.getStreetNo().isEmpty()) {
+            existingClientLoan.setStreetNo(updatedClientLoan.getStreetNo());
+        }
+        if (updatedClientLoan.getBusinessName() != null && !updatedClientLoan.getBusinessName().isEmpty()) {
+            existingClientLoan.setBusinessName(updatedClientLoan.getBusinessName());
+        }
+        if (updatedClientLoan.getBusinessStartDate() != null) {
+            existingClientLoan.setBusinessStartDate(updatedClientLoan.getBusinessStartDate());
+        }
+        if (updatedClientLoan.getStreetName() != null && !updatedClientLoan.getStreetName().isEmpty()) {
+            existingClientLoan.setStreetName(updatedClientLoan.getStreetName());
+        }
+        if (updatedClientLoan.getSuburb() != null && !updatedClientLoan.getSuburb().isEmpty()) {
+            existingClientLoan.setSuburb(updatedClientLoan.getSuburb());
+        }
+        if (updatedClientLoan.getCity() != null && !updatedClientLoan.getCity().isEmpty()) {
+            existingClientLoan.setCity(updatedClientLoan.getCity());
+        }
+        if (updatedClientLoan.getTenure() != null) {
+            existingClientLoan.setTenure(updatedClientLoan.getTenure());
+        }
+        if (updatedClientLoan.getNextOfKinName() != null && !updatedClientLoan.getNextOfKinName().isEmpty()) {
+            existingClientLoan.setNextOfKinName(updatedClientLoan.getNextOfKinName());
+        }
+        if (updatedClientLoan.getNextOfKinPhone() != null && !updatedClientLoan.getNextOfKinPhone().isEmpty()) {
+            existingClientLoan.setNextOfKinPhone(updatedClientLoan.getNextOfKinPhone());
+        }
+        if (updatedClientLoan.getNextOfKinRelationship() != null && !updatedClientLoan.getNextOfKinRelationship().isEmpty()) {
+            existingClientLoan.setNextOfKinRelationship(updatedClientLoan.getNextOfKinRelationship());
+        }
+        if (updatedClientLoan.getNextOfKinAddress() != null && !updatedClientLoan.getNextOfKinAddress().isEmpty()) {
+            existingClientLoan.setNextOfKinAddress(updatedClientLoan.getNextOfKinAddress());
+        }
+        if (updatedClientLoan.getNextOfKinName2() != null && !updatedClientLoan.getNextOfKinName2().isEmpty()) {
+            existingClientLoan.setNextOfKinName2(updatedClientLoan.getNextOfKinName2());
+        }
+        if (updatedClientLoan.getNextOfKinPhone2() != null && !updatedClientLoan.getNextOfKinPhone2().isEmpty()) {
+            existingClientLoan.setNextOfKinPhone2(updatedClientLoan.getNextOfKinPhone2());
+        }
+        if (updatedClientLoan.getNextOfKinRelationship2() != null && !updatedClientLoan.getNextOfKinRelationship2().isEmpty()) {
+            existingClientLoan.setNextOfKinRelationship2(updatedClientLoan.getNextOfKinRelationship2());
+        }
+        if (updatedClientLoan.getNextOfKinAddress2() != null && !updatedClientLoan.getNextOfKinAddress2().isEmpty()) {
+            existingClientLoan.setNextOfKinAddress2(updatedClientLoan.getNextOfKinAddress2());
+        }
 
         clientRepository.save(existingClientLoan);
 
@@ -431,108 +507,107 @@ public class ClientLoanController {
     }
 
 
-    // assign each loan to a loan officer
+    // Assign each loan to a loan officer
     @PutMapping("/assignTo/{id}")
-    public ResponseEntity<String> updateAssignTo(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateAssignTo(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedAssignTo = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedAssignTo.setAssignTo(clientLoan.getAssignTo());
-        updatedAssignTo.setAssignedBy(clientLoan.getAssignedBy());
-        updatedAssignTo.setProcessLoanStatus(clientLoan.getProcessLoanStatus());
-        updatedAssignTo.setAdditionalRemarks(clientLoan.getAdditionalRemarks());
+        if (clientLoan.getAssignTo() != null) updatedAssignTo.setAssignTo(clientLoan.getAssignTo());
+        if (clientLoan.getAssignedBy() != null) updatedAssignTo.setAssignedBy(clientLoan.getAssignedBy());
+        if (clientLoan.getProcessLoanStatus() != null) updatedAssignTo.setProcessLoanStatus(clientLoan.getProcessLoanStatus());
+        if (clientLoan.getAdditionalRemarks() != null) updatedAssignTo.setAdditionalRemarks(clientLoan.getAdditionalRemarks());
         updatedAssignTo.setAssignedStatus("Assigned");
-        updatedAssignTo.setBmDateAssignLo(clientLoan.getBmDateAssignLo());
-        updatedAssignTo.setPipelineStatus(clientLoan.getPipelineStatus());
+        if (clientLoan.getBmDateAssignLo() != null) updatedAssignTo.setBmDateAssignLo(clientLoan.getBmDateAssignLo());
+        if (clientLoan.getPipelineStatus() != null) updatedAssignTo.setPipelineStatus(clientLoan.getPipelineStatus());
         clientRepository.save(updatedAssignTo);
-        return new ResponseEntity<String>("Loan Status successfully updated.", HttpStatus.OK);
+        return ResponseEntity.ok("Loan Status successfully updated.");
     }
 
-    // set/Update status that LO has completed processing application
+    // Set/update status indicating that LO has completed processing the application
     @PutMapping("/updateLoanAssessmentStatus/{id}")
-    public ResponseEntity<String> assessmentCompleteStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> assessmentCompleteStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateProcessLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateProcessLoanStatus.setProcessLoanStatus(clientLoan.getProcessLoanStatus());
-        updateProcessLoanStatus.setProcessedBy(clientLoan.getProcessedBy());
-        updateProcessLoanStatus.setLoDate(clientLoan.getLoDate());
-        updateProcessLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+        if (clientLoan.getProcessLoanStatus() != null) updateProcessLoanStatus.setProcessLoanStatus(clientLoan.getProcessLoanStatus());
+        if (clientLoan.getProcessedBy() != null) updateProcessLoanStatus.setProcessedBy(clientLoan.getProcessedBy());
+        if (clientLoan.getLoDate() != null) updateProcessLoanStatus.setLoDate(clientLoan.getLoDate());
+        if (clientLoan.getPipelineStatus() != null) updateProcessLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
         clientRepository.save(updateProcessLoanStatus);
-        return new ResponseEntity<String>("Loan Assessment Status successfully updated.", HttpStatus.OK);
+        return ResponseEntity.ok("Loan Assessment Status successfully updated.");
     }
 
-    // update predisbursement ticket for BOCO Signature
+    // Update predisbursement ticket for BOCO signature
     @PutMapping("/updateTicketSignature/{id}")
-    public ResponseEntity<String> ticketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> ticketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateSignatureStatus.setBocoSignature(clientLoan.getBocoSignature());
-        updateSignatureStatus.setBocoName(clientLoan.getBocoName());
-//        updateSignatureStatus.setBocoSignatureImage(clientLoan.getBocoSignatureImage());
-//        updateSignatureStatus.setLessFees(clientLoan.getLessFees());
-//        updateSignatureStatus.setApplicationFee(clientLoan.getApplicationFee());
+        if (clientLoan.getBocoSignature() != null) updateSignatureStatus.setBocoSignature(clientLoan.getBocoSignature());
+        if (clientLoan.getBocoName() != null) updateSignatureStatus.setBocoName(clientLoan.getBocoName());
         clientRepository.save(updateSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
+        return ResponseEntity.ok("Ticket successfully signed.");
     }
 
+    // Update ticket information
     @PutMapping("/updateTicketInfo/{id}")
-    public ResponseEntity<String> updateTicketInfo(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateTicketInfo(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateSignatureStatus.setLessFees(clientLoan.getLessFees());
-        updateSignatureStatus.setApplicationFee(clientLoan.getApplicationFee());
-        updateSignatureStatus.setMeetingLoanAmount(clientLoan.getMeetingLoanAmount());
-        updateSignatureStatus.setMeetingCashHandlingFee(clientLoan.getMeetingCashHandlingFee());
-        updateSignatureStatus.setMeetingInterestRate(clientLoan.getMeetingInterestRate());
-        updateSignatureStatus.setMeetingRepaymentAmount(clientLoan.getMeetingRepaymentAmount());
-        updateSignatureStatus.setMeetingTenure(clientLoan.getMeetingTenure());
-        updateSignatureStatus.setMeetingUpfrontFee(clientLoan.getMeetingUpfrontFee());
-
+        if (clientLoan.getLessFees() != null) updateSignatureStatus.setLessFees(clientLoan.getLessFees());
+        if (clientLoan.getApplicationFee() != null) updateSignatureStatus.setApplicationFee(clientLoan.getApplicationFee());
+        if (clientLoan.getMeetingLoanAmount() != null) updateSignatureStatus.setMeetingLoanAmount(clientLoan.getMeetingLoanAmount());
+        if (clientLoan.getMeetingCashHandlingFee() != null) updateSignatureStatus.setMeetingCashHandlingFee(clientLoan.getMeetingCashHandlingFee());
+        if (clientLoan.getMeetingInterestRate() != null) updateSignatureStatus.setMeetingInterestRate(clientLoan.getMeetingInterestRate());
+        if (clientLoan.getMeetingRepaymentAmount() != null) updateSignatureStatus.setMeetingRepaymentAmount(clientLoan.getMeetingRepaymentAmount());
+        if (clientLoan.getMeetingTenure() != null) updateSignatureStatus.setMeetingTenure(clientLoan.getMeetingTenure());
+        if (clientLoan.getMeetingUpfrontFee() != null) updateSignatureStatus.setMeetingUpfrontFee(clientLoan.getMeetingUpfrontFee());
         clientRepository.save(updateSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
+        return ResponseEntity.ok("Ticket successfully updated.");
     }
 
-    // update predisbursement ticket for bm Signature
+    // Update predisbursement ticket for BM signature
     @PutMapping("/updateBmSignature/{id}")
-    public ResponseEntity<String> bmTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> bmTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateBmSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateBmSignatureStatus.setBmSignature(clientLoan.getBmSignature());
-        updateBmSignatureStatus.setBmName(clientLoan.getBmName());
+        if (clientLoan.getBmSignature() != null) updateBmSignatureStatus.setBmSignature(clientLoan.getBmSignature());
+        if (clientLoan.getBmName() != null) updateBmSignatureStatus.setBmName(clientLoan.getBmName());
         clientRepository.save(updateBmSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
+        return ResponseEntity.ok("Ticket successfully signed by BM.");
     }
-    // update predisbursement ticket for CM Signature
+
+    // Update predisbursement ticket for CM signature
     @PutMapping("/updateCmSignature/{id}")
-    public ResponseEntity<String> cmTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> cmTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateCmSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateCmSignatureStatus.setCmSignature(clientLoan.getCmSignature());
-        updateCmSignatureStatus.setCmName(clientLoan.getCmName());
+        if (clientLoan.getCmSignature() != null) updateCmSignatureStatus.setCmSignature(clientLoan.getCmSignature());
+        if (clientLoan.getCmName() != null) updateCmSignatureStatus.setCmName(clientLoan.getCmName());
         clientRepository.save(updateCmSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
+        return ResponseEntity.ok("Ticket successfully signed by CM.");
     }
 
-    // update predisbursement ticket for CA Signature
+    // Update predisbursement ticket for CA signature
     @PutMapping("/updateCaSignature/{id}")
-    public ResponseEntity<String> caTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> caTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateCaSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateCaSignatureStatus.setCaSignature(clientLoan.getCaSignature());
-        updateCaSignatureStatus.setCaName(clientLoan.getCaName());
+        if (clientLoan.getCaSignature() != null) updateCaSignatureStatus.setCaSignature(clientLoan.getCaSignature());
+        if (clientLoan.getCaName() != null) updateCaSignatureStatus.setCaName(clientLoan.getCaName());
         clientRepository.save(updateCaSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
-    }
-    // update predisbursement ticket for Fin Signature
-    @PutMapping("/updateFinSignature/{id}")
-    public ResponseEntity<String> finTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
-        ClientLoan updateFinSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateFinSignatureStatus.setFinSignature(clientLoan.getFinSignature());
-        updateFinSignatureStatus.setFinName(clientLoan.getFinName());
-        clientRepository.save(updateFinSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
+        return ResponseEntity.ok("Ticket successfully signed by CA.");
     }
 
-    // update predisbursement ticket for Board Signature
+    // Update predisbursement ticket for Fin signature
+    @PutMapping("/updateFinSignature/{id}")
+    public ResponseEntity<String> finTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
+        ClientLoan updateFinSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
+        if (clientLoan.getFinSignature() != null) updateFinSignatureStatus.setFinSignature(clientLoan.getFinSignature());
+        if (clientLoan.getFinName() != null) updateFinSignatureStatus.setFinName(clientLoan.getFinName());
+        clientRepository.save(updateFinSignatureStatus);
+        return ResponseEntity.ok("Ticket successfully signed by Fin.");
+    }
+
+    // Update predisbursement ticket for Board signature
     @PutMapping("/updateBoardSignature/{id}")
-    public ResponseEntity<String> boardTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> boardTicketStatus(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updateBoardSignatureStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updateBoardSignatureStatus.setBoardSignature(clientLoan.getBoardSignature());
-        updateBoardSignatureStatus.setBoardName(clientLoan.getBoardName());
+        if (clientLoan.getBoardSignature() != null) updateBoardSignatureStatus.setBoardSignature(clientLoan.getBoardSignature());
+        if (clientLoan.getBoardName() != null) updateBoardSignatureStatus.setBoardName(clientLoan.getBoardName());
         clientRepository.save(updateBoardSignatureStatus);
-        return new ResponseEntity<String>("Ticket successfully signed.", HttpStatus.OK);
+        return ResponseEntity.ok("Ticket successfully signed by Board.");
     }
 
     @GetMapping("/loanFileId/{loanFileId}")
@@ -582,14 +657,6 @@ public class ClientLoanController {
     }
 
     //email to schedule meeting with credit commit
-//    @PostMapping("bmScheduleMeeting")
-//    public ResponseEntity<ClientLoan> sendScheduleMeeting(@RequestParam("recipientName") String recipientName, @RequestParam("recipientEmail") String recipientEmail, @RequestParam("recipientSubject") String recipientSubject, @RequestParam("recipientMessage") String recipientMessage, @RequestParam("senderName") String senderName) {
-//        String emailText = emailSender.sendScheduleMeetingMsg(recipientName, recipientSubject, recipientMessage, senderName);
-//        emailSender.send(recipientEmail, recipientSubject, emailText);
-//        return new ResponseEntity<ClientLoan>(clientLoanApplication.sendMeetingScheduleSuccess(recipientName, recipientEmail, recipientSubject, recipientMessage, senderName), HttpStatus.OK);
-//    }
-
-    //email to schedule meeting with credit commit
     @PostMapping("bmScheduleMeeting/{recipientName}/{recipientEmail}/{recipientSubject}/{recipientMessage}/{senderName}")
     public ResponseEntity<ClientLoan> sendScheduleMeeting(@PathVariable("recipientName") String recipientName, @PathVariable("recipientEmail") String recipientEmail, @PathVariable("recipientSubject") String recipientSubject, @PathVariable("recipientMessage") String recipientMessage, @PathVariable("senderName") String senderName) {
         String emailText = emailSender.sendScheduleMeetingMsg(recipientName, recipientSubject, recipientMessage, senderName);
@@ -628,117 +695,249 @@ public class ClientLoanController {
 
     //Update meeting columns
     @PutMapping("/updateMeeting/{id}")
-    public ResponseEntity<String> updateLoanMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateLoanMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoanMeeting = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanMeeting.setMeetingLoanAmount(clientLoan.getMeetingLoanAmount());
-        updatedLoanMeeting.setMeetingTenure(clientLoan.getMeetingTenure());
-        updatedLoanMeeting.setMeetingInterestRate(clientLoan.getMeetingInterestRate());
-        updatedLoanMeeting.setMeetingOnWhichBasis(clientLoan.getMeetingOnWhichBasis());
-        updatedLoanMeeting.setMeetingCashHandlingFee(clientLoan.getMeetingCashHandlingFee());
-        updatedLoanMeeting.setMeetingRepaymentAmount(clientLoan.getMeetingRepaymentAmount());
-        updatedLoanMeeting.setMeetingProduct(clientLoan.getMeetingProduct());
-        updatedLoanMeeting.setMeetingRN(clientLoan.getMeetingRN());
-        updatedLoanMeeting.setMeetingUpfrontFee(clientLoan.getMeetingUpfrontFee());
-        updatedLoanMeeting.setMeetingFinalizedBy(clientLoan.getMeetingFinalizedBy());
-        updatedLoanMeeting.setCcDate(clientLoan.getCcDate());
-        updatedLoanMeeting.setPipelineStatus(clientLoan.getPipelineStatus());
+
+        // Update only if the new value is not null or blank
+        if (clientLoan.getMeetingLoanAmount() != null) {
+            updatedLoanMeeting.setMeetingLoanAmount(clientLoan.getMeetingLoanAmount());
+        }
+        if (clientLoan.getMeetingTenure() != null) {
+            updatedLoanMeeting.setMeetingTenure(clientLoan.getMeetingTenure());
+        }
+        if (clientLoan.getMeetingInterestRate() != null) {
+            updatedLoanMeeting.setMeetingInterestRate(clientLoan.getMeetingInterestRate());
+        }
+        if (clientLoan.getMeetingOnWhichBasis() != null && !clientLoan.getMeetingOnWhichBasis().isBlank()) {
+            updatedLoanMeeting.setMeetingOnWhichBasis(clientLoan.getMeetingOnWhichBasis());
+        }
+        if (clientLoan.getMeetingCashHandlingFee() != null) {
+            updatedLoanMeeting.setMeetingCashHandlingFee(clientLoan.getMeetingCashHandlingFee());
+        }
+        if (clientLoan.getMeetingRepaymentAmount() != null) {
+            updatedLoanMeeting.setMeetingRepaymentAmount(clientLoan.getMeetingRepaymentAmount());
+        }
+        if (clientLoan.getMeetingProduct() != null && !clientLoan.getMeetingProduct().isBlank()) {
+            updatedLoanMeeting.setMeetingProduct(clientLoan.getMeetingProduct());
+        }
+        if (clientLoan.getMeetingRN() != null && !clientLoan.getMeetingRN().isBlank()) {
+            updatedLoanMeeting.setMeetingRN(clientLoan.getMeetingRN());
+        }
+        if (clientLoan.getMeetingUpfrontFee() != null) {
+            updatedLoanMeeting.setMeetingUpfrontFee(clientLoan.getMeetingUpfrontFee());
+        }
+        if (clientLoan.getMeetingFinalizedBy() != null && !clientLoan.getMeetingFinalizedBy().isBlank()) {
+            updatedLoanMeeting.setMeetingFinalizedBy(clientLoan.getMeetingFinalizedBy());
+        }
+        if (clientLoan.getCcDate() != null) {
+            updatedLoanMeeting.setCcDate(clientLoan.getCcDate());
+        }
+        if (clientLoan.getPipelineStatus() != null && !clientLoan.getPipelineStatus().isBlank()) {
+            updatedLoanMeeting.setPipelineStatus(clientLoan.getPipelineStatus());
+        }
+
         clientRepository.save(updatedLoanMeeting);
-        return new ResponseEntity<String>("Loan Meeting successfully updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Loan Meeting successfully updated.", HttpStatus.OK);
     }
 
-    //Update meeting columns
+    // Update meeting columns
     @PutMapping("/updateBmDateMeeting/{id}")
-    public ResponseEntity<String> updateBmDateMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateBmDateMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanStatus.setBmDateMeeting(clientLoan.getBmDateMeeting());
-        updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
-        updatedLoanStatus.setBmSetMeeting(clientLoan.getBmSetMeeting());
-        updatedLoanStatus.setCreditCommit(clientLoan.getCreditCommit());
+
+        // Update fields only if the new values are not null or blank
+        if (clientLoan.getBmDateMeeting() != null) {
+            updatedLoanStatus.setBmDateMeeting(clientLoan.getBmDateMeeting());
+        }
+        if (clientLoan.getPipelineStatus() != null && !clientLoan.getPipelineStatus().isBlank()) {
+            updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+        }
+        if (clientLoan.getBmSetMeeting() != null) {
+            updatedLoanStatus.setBmSetMeeting(clientLoan.getBmSetMeeting());
+        }
+        if (clientLoan.getCreditCommit() != null) {
+            updatedLoanStatus.setCreditCommit(clientLoan.getCreditCommit());
+        }
+
         clientRepository.save(updatedLoanStatus);
-        return new ResponseEntity<String>("Meeting status successfully updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Meeting status successfully updated.", HttpStatus.OK);
     }
 
-    //Update meeting columns
+    // Update meeting columns
     @PutMapping("/updateCcFinalMeeting/{id}")
-    public ResponseEntity<String> updateCcFinalMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateCcFinalMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanStatus.setCcDate(clientLoan.getCcDate());
-        updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
-        updatedLoanStatus.setCreditCommit(clientLoan.getCreditCommit());
+
+        // Update fields only if the new values are not null or blank
+        if (clientLoan.getCcDate() != null) {
+            updatedLoanStatus.setCcDate(clientLoan.getCcDate());
+        }
+        if (clientLoan.getPipelineStatus() != null && !clientLoan.getPipelineStatus().isBlank()) {
+            updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+        }
+        if (clientLoan.getCreditCommit() != null) {
+            updatedLoanStatus.setCreditCommit(clientLoan.getCreditCommit());
+        }
+
         clientRepository.save(updatedLoanStatus);
-        return new ResponseEntity<String>("Meeting status successfully updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Meeting status successfully updated.", HttpStatus.OK);
     }
 
     @PutMapping("/updateRecommentCcFinalMeeting/{id}")
-    public ResponseEntity<String> updateRecommentCcFinalMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateRecommentCcFinalMeeting(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanStatus.setCcDate(clientLoan.getCcDate());
-        updatedLoanStatus.setCreditCommit(clientLoan.getCreditCommit());
-        updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+
+        // Update fields only if the new values are not null or blank
+        if (clientLoan.getCcDate() != null) {
+            updatedLoanStatus.setCcDate(clientLoan.getCcDate());
+        }
+        if (clientLoan.getCreditCommit() != null) {
+            updatedLoanStatus.setCreditCommit(clientLoan.getCreditCommit());
+        }
+        if (clientLoan.getPipelineStatus() != null && !clientLoan.getPipelineStatus().isBlank()) {
+            updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+        }
+
         clientRepository.save(updatedLoanStatus);
-        return new ResponseEntity<String>("Meeting status successfully updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Meeting status successfully updated.", HttpStatus.OK);
     }
 
-    //Update meeting columns
+    // Update meeting columns
     @PutMapping("/predisbursementTicket/{id}")
-    public ResponseEntity<String> updatePredisbursementTicket(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updatePredisbursementTicket(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanStatus.setPredisDate(clientLoan.getPredisDate());
-        updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+
+        // Update fields only if the new values are not null or blank
+        if (clientLoan.getPredisDate() != null) {
+            updatedLoanStatus.setPredisDate(clientLoan.getPredisDate());
+        }
+        if (clientLoan.getPipelineStatus() != null && !clientLoan.getPipelineStatus().isBlank()) {
+            updatedLoanStatus.setPipelineStatus(clientLoan.getPipelineStatus());
+        }
+
         clientRepository.save(updatedLoanStatus);
-        return new ResponseEntity<String>("Predisbursement ticket successfully updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Predisbursement ticket successfully updated.", HttpStatus.OK);
     }
 
-    //Update completely done disbursed tickets
+    // Update completely done disbursed tickets
     @PutMapping("/complete/{id}")
-    public ResponseEntity<String> complete(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> complete(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoanStatus = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoanStatus.setCompletelyDone(clientLoan.getCompletelyDone());
+
+        // Update field only if the new value is not null
+        if (clientLoan.getCompletelyDone() != null) {
+            updatedLoanStatus.setCompletelyDone(clientLoan.getCompletelyDone());
+        }
+
         clientRepository.save(updatedLoanStatus);
-        return new ResponseEntity<String>("Done.", HttpStatus.OK);
+        return new ResponseEntity<>("Done.", HttpStatus.OK);
     }
 
-    //email to schedule meeting with credit commit
+    // Email to schedule meeting with credit commit
     @PostMapping("sendFinalMeetingMsg/{recipientName}/{recipientEmail}/{recipientSubject}/{recipientMessage}/{senderName}")
-    public ResponseEntity<ClientLoan> sendFinalMeeting(@PathVariable("recipientName") String recipientName, @PathVariable("recipientEmail") String recipientEmail, @PathVariable("recipientSubject") String recipientSubject, @PathVariable("recipientMessage") String recipientMessage, @PathVariable("senderName") String senderName) {
+    public ResponseEntity<ClientLoan> sendFinalMeeting(
+            @PathVariable("recipientName") String recipientName,
+            @PathVariable("recipientEmail") String recipientEmail,
+            @PathVariable("recipientSubject") String recipientSubject,
+            @PathVariable("recipientMessage") String recipientMessage,
+            @PathVariable("senderName") String senderName
+    ) {
+        // Construct email text
         String emailText = emailSender.sendFinalMeetingMsg(recipientName, recipientSubject, recipientMessage, senderName);
+
+        // Send the email
         emailSender.send(recipientEmail, recipientSubject, emailText);
-        return new ResponseEntity<ClientLoan>(clientLoanApplication.sendFinalMeetingSuccess(recipientName, recipientEmail, recipientSubject, recipientMessage, senderName), HttpStatus.OK);
+
+        // Return success response
+        return new ResponseEntity<>(
+                clientLoanApplication.sendFinalMeetingSuccess(recipientName, recipientEmail, recipientSubject, recipientMessage, senderName),
+                HttpStatus.OK
+        );
     }
 
     //Update Loan Info columns
     @PutMapping("/updateLoan/{id}")
-    public ResponseEntity<String> updateLoan(@PathVariable String id, @RequestBody ClientLoan clientLoan){
+    public ResponseEntity<String> updateLoan(@PathVariable String id, @RequestBody ClientLoan clientLoan) {
         ClientLoan updatedLoan = clientLoanApplication.getClientLoanApplicationById(id);
-        updatedLoan.setIdNumber(clientLoan.getIdNumber());
-        updatedLoan.setMaritalStatus(clientLoan.getMaritalStatus());
-        updatedLoan.setGender(clientLoan.getGender());
-        updatedLoan.setDateOfBirth(clientLoan.getDateOfBirth());
-        updatedLoan.setPhoneNumber(clientLoan.getPhoneNumber());
-        updatedLoan.setPlaceOfBusiness(clientLoan.getPlaceOfBusiness());
-        updatedLoan.setIndustryCode(clientLoan.getIndustryCode());
-        updatedLoan.setStreetNo(clientLoan.getStreetNo());
-        updatedLoan.setStreetName(clientLoan.getStreetName());
-        updatedLoan.setSuburb(clientLoan.getSuburb());
-        updatedLoan.setCity(clientLoan.getCity());
-        updatedLoan.setLoanAmount(clientLoan.getLoanAmount());
-        updatedLoan.setTenure(clientLoan.getTenure());
-        updatedLoan.setBusinessName(clientLoan.getBusinessName());
-        updatedLoan.setPlaceOfBusiness(clientLoan.getPlaceOfBusiness());
-        updatedLoan.setBusinessStartDate(clientLoan.getBusinessStartDate());
-        updatedLoan.setBranchName(clientLoan.getBranchName());
-        updatedLoan.setNextOfKinName(clientLoan.getNextOfKinName());
-        updatedLoan.setNextOfKinPhone(clientLoan.getNextOfKinPhone());
-        updatedLoan.setNextOfKinRelationship(clientLoan.getNextOfKinRelationship());
-        updatedLoan.setNextOfKinAddress(clientLoan.getNextOfKinAddress());
-        updatedLoan.setNextOfKinName2(clientLoan.getNextOfKinName2());
-        updatedLoan.setNextOfKinPhone2(clientLoan.getNextOfKinPhone2());
-        updatedLoan.setNextOfKinRelationship2(clientLoan.getNextOfKinRelationship2());
-        updatedLoan.setNextOfKinAddress2(clientLoan.getNextOfKinAddress2());
+
+        // Update only if the new value is not null or blank
+        if (clientLoan.getIdNumber() != null && !clientLoan.getIdNumber().isBlank()) {
+            updatedLoan.setIdNumber(clientLoan.getIdNumber());
+        }
+        if (clientLoan.getMaritalStatus() != null && !clientLoan.getMaritalStatus().isBlank()) {
+            updatedLoan.setMaritalStatus(clientLoan.getMaritalStatus());
+        }
+        if (clientLoan.getGender() != null && !clientLoan.getGender().isBlank()) {
+            updatedLoan.setGender(clientLoan.getGender());
+        }
+        if (clientLoan.getDateOfBirth() != null) {
+            updatedLoan.setDateOfBirth(clientLoan.getDateOfBirth());
+        }
+        if (clientLoan.getPhoneNumber() != null && !clientLoan.getPhoneNumber().isBlank()) {
+            updatedLoan.setPhoneNumber(clientLoan.getPhoneNumber());
+        }
+        if (clientLoan.getPlaceOfBusiness() != null && !clientLoan.getPlaceOfBusiness().isBlank()) {
+            updatedLoan.setPlaceOfBusiness(clientLoan.getPlaceOfBusiness());
+        }
+        if (clientLoan.getIndustryCode() != null && !clientLoan.getIndustryCode().isBlank()) {
+            updatedLoan.setIndustryCode(clientLoan.getIndustryCode());
+        }
+        if (clientLoan.getStreetNo() != null && !clientLoan.getStreetNo().isBlank()) {
+            updatedLoan.setStreetNo(clientLoan.getStreetNo());
+        }
+        if (clientLoan.getStreetName() != null && !clientLoan.getStreetName().isBlank()) {
+            updatedLoan.setStreetName(clientLoan.getStreetName());
+        }
+        if (clientLoan.getSuburb() != null && !clientLoan.getSuburb().isBlank()) {
+            updatedLoan.setSuburb(clientLoan.getSuburb());
+        }
+        if (clientLoan.getCity() != null && !clientLoan.getCity().isBlank()) {
+            updatedLoan.setCity(clientLoan.getCity());
+        }
+        if (clientLoan.getLoanAmount() != null) {
+            updatedLoan.setLoanAmount(clientLoan.getLoanAmount());
+        }
+        if (clientLoan.getTenure() != null) {
+            updatedLoan.setTenure(clientLoan.getTenure());
+        }
+        if (clientLoan.getBusinessName() != null && !clientLoan.getBusinessName().isBlank()) {
+            updatedLoan.setBusinessName(clientLoan.getBusinessName());
+        }
+        if (clientLoan.getBusinessStartDate() != null) {
+            updatedLoan.setBusinessStartDate(clientLoan.getBusinessStartDate());
+        }
+        if (clientLoan.getBranchName() != null && !clientLoan.getBranchName().isBlank()) {
+            updatedLoan.setBranchName(clientLoan.getBranchName());
+        }
+        if (clientLoan.getNextOfKinName() != null && !clientLoan.getNextOfKinName().isBlank()) {
+            updatedLoan.setNextOfKinName(clientLoan.getNextOfKinName());
+        }
+        if (clientLoan.getNextOfKinPhone() != null && !clientLoan.getNextOfKinPhone().isBlank()) {
+            updatedLoan.setNextOfKinPhone(clientLoan.getNextOfKinPhone());
+        }
+        if (clientLoan.getNextOfKinRelationship() != null && !clientLoan.getNextOfKinRelationship().isBlank()) {
+            updatedLoan.setNextOfKinRelationship(clientLoan.getNextOfKinRelationship());
+        }
+        if (clientLoan.getNextOfKinAddress() != null && !clientLoan.getNextOfKinAddress().isBlank()) {
+            updatedLoan.setNextOfKinAddress(clientLoan.getNextOfKinAddress());
+        }
+        if (clientLoan.getNextOfKinName2() != null && !clientLoan.getNextOfKinName2().isBlank()) {
+            updatedLoan.setNextOfKinName2(clientLoan.getNextOfKinName2());
+        }
+        if (clientLoan.getNextOfKinPhone2() != null && !clientLoan.getNextOfKinPhone2().isBlank()) {
+            updatedLoan.setNextOfKinPhone2(clientLoan.getNextOfKinPhone2());
+        }
+        if (clientLoan.getNextOfKinRelationship2() != null && !clientLoan.getNextOfKinRelationship2().isBlank()) {
+            updatedLoan.setNextOfKinRelationship2(clientLoan.getNextOfKinRelationship2());
+        }
+        if (clientLoan.getNextOfKinAddress2() != null && !clientLoan.getNextOfKinAddress2().isBlank()) {
+            updatedLoan.setNextOfKinAddress2(clientLoan.getNextOfKinAddress2());
+        }
 
         clientRepository.save(updatedLoan);
-        return new ResponseEntity<String>("Loan successfully updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Loan successfully updated.", HttpStatus.OK);
     }
+
 
 }
 

@@ -1,6 +1,7 @@
 package com.untucapital.usuite.utg.service.Impl;
 
 import com.untucapital.usuite.utg.client.RestClient;
+import com.untucapital.usuite.utg.dto.LoanApplicationResponse;
 import com.untucapital.usuite.utg.dto.client.Client;
 import com.untucapital.usuite.utg.dto.musoni.savingsaccounts.PageItems;
 import com.untucapital.usuite.utg.exception.ResourceNotFoundException;
@@ -42,7 +43,7 @@ public class ClientLoanApplicationImpl implements ClientLoanApplication {
     }
 
     @Override
-    public ClientLoan saveClientLoan(ClientLoan clientLoan) throws ParseException {
+    public LoanApplicationResponse saveClientLoan(ClientLoan clientLoan) throws ParseException {
         log.info("Loan Application Request - {}", FormatterUtil.toJson(clientLoan));
 
         List<ClientLoan> loans = getClientLoanApplicationsByUserId(clientLoan.getUserId());
@@ -53,6 +54,8 @@ public class ClientLoanApplicationImpl implements ClientLoanApplication {
 
                 PageItems settlementAccount = restClient.getSavingsLoanAccountById(clientLoan.getUsername());
                 if (settlementAccount.getClientId() == 0) {
+                    String message = "Loan application failed: Settlement account not found.";
+                    log.error(message);
                     throw new SettlementAccountNotFoundException("This Settlement Account : " + clientLoan.getUsername() + " does not exist");
                 }
 
@@ -73,22 +76,24 @@ public class ClientLoanApplicationImpl implements ClientLoanApplication {
                 if (Objects.equals(loan.getLoanStatus(), "PENDING") &&
                         Objects.equals(loan.getPipelineStatus(), "client_application") &&
                         Objects.equals(loan.getLoanAmount(), clientLoan.getLoanAmount()) &&
-                        Objects.equals(loan.getTenure(),clientLoan.getTenure())) {
+                        Objects.equals(loan.getTenure(), clientLoan.getTenure())) {
                     loanDuplicate = true;
                     break;
                 }
             }
 
             if (loanDuplicate) {
-                log.error("This is a duplicate application: {}", clientLoan);
-                throw new RuntimeException("Failed to save: This is a duplicate application");
-            } else {
-                log.info("Updated Loan Application - {}", FormatterUtil.toJson(clientLoan));
-                return clientRepository.save(clientLoan);
+                String message = "We have received your application: We're currently working on it.";
+                log.error(message);
+                return new LoanApplicationResponse(null, message);
             }
         }
 
-        return null;
+        // If all checks pass, save the loan
+        ClientLoan savedLoan = clientRepository.save(clientLoan);
+        String message = "Loan application was successful.";
+        log.info(message);
+        return new LoanApplicationResponse(savedLoan, message);
     }
 
     @Override

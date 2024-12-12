@@ -80,7 +80,7 @@ public class RequisitionService {
 //            List<PurchaseOrderTransactionsResponseDTO> transactions = purchaseOrderTransactionsService
 //                    .getByRequisitionId(requisition.getId());
 //
-//            int totalAmount = transactions.stream()
+//            double totalAmount = transactions.stream()
 //                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
 //                    .sum();
 //
@@ -107,9 +107,10 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
+
 
             // Calculate poCount
             int poCount = transactions.size();
@@ -146,7 +147,7 @@ public class RequisitionService {
     }
 
 
-    private Double calculateZimraTax(int totalAmount, String supplierId) {
+    private Double calculateZimraTax(double totalAmount, String supplierId) {
         // Fetch supplier details
         POSSupplierDto supplierDto = supplierService.getSupplierById(Integer.valueOf(supplierId));
 
@@ -239,9 +240,10 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
+
 
             // Calculate poCount
             int poCount = transactions.size();
@@ -302,9 +304,10 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
+
 
             // Calculate poCount
             int poCount = transactions.size();
@@ -366,8 +369,8 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
 
             // Calculate poCount
@@ -428,8 +431,8 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
 
             // Calculate poCount
@@ -490,8 +493,8 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
 
             // Calculate poCount
@@ -552,8 +555,8 @@ public class RequisitionService {
                     .getByRequisitionId(requisition.getId());
 
             // Calculate totalAmount
-            int totalAmount = transactions.stream()
-                    .mapToInt(transaction -> Integer.parseInt(transaction.getPoAmount()))
+            double totalAmount = transactions.stream()
+                    .mapToDouble(transaction -> Double.parseDouble(transaction.getPoAmount()))
                     .sum();
 
             // Calculate poCount
