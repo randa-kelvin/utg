@@ -3,6 +3,7 @@ package com.untucapital.usuite.utg.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.untucapital.usuite.utg.client.RestClient;
 import com.untucapital.usuite.utg.commons.AppConstants;
 import com.untucapital.usuite.utg.dto.DisbursedLoans;
 import com.untucapital.usuite.utg.dto.*;
@@ -23,7 +24,6 @@ import com.untucapital.usuite.utg.dto.musoni.savingsaccounts.SettlementAccountRe
 import com.untucapital.usuite.utg.dto.musoni.savingsaccounts.transactions.SavingsAccountsTransactions;
 import com.untucapital.usuite.utg.dto.pastel.PastelTransReq;
 import com.untucapital.usuite.utg.dto.request.PostGLRequestDTO;
-import com.untucapital.usuite.utg.client.RestClient;
 import com.untucapital.usuite.utg.entity.PostGl;
 import com.untucapital.usuite.utg.entity.res.PostGlResponseDTO;
 import com.untucapital.usuite.utg.exception.EmptyException;
@@ -136,13 +136,10 @@ public class MusoniService {
     }
 
 
-
-//        @Scheduled(cron = "0 0 * * * ?")
-//@Scheduled(cron = "0 0 * * * ?")
-
+    //    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 0/20 * * * ?")
     public void getSavingsLoanAccountsByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
 
-//        Long timestamp = MusoniUtils.getUnixTimeMinus1Hour();
         Long timestamp = MusoniUtils.getUnixTimeMinusDays();
         SavingsAccountLoans loans = restClient.getSavingsLoanAccounts(timestamp);
         log.info("Loans from Musoni : {}", loans.toString());
@@ -163,13 +160,13 @@ public class MusoniService {
             String phone_number = "0";
             if (client.getMobileNo() != null) {
                 phone_number = client.getMobileNo();
-                phone_number = "0775797299";
+//                phone_number = "0775797299";
             }
 
 //            String officeName = pageItem.getOfficeName();
 
             //Get all transactions for the pageItem
-            transactions = restClient.getSavingsAccountsTransactions(loanId,timestamp);
+            transactions = restClient.getSavingsAccountsTransactions(loanId, timestamp);
             log.info("Transactions: {}", transactions);
             if (transactions == null) {
                 continue;
@@ -178,33 +175,33 @@ public class MusoniService {
             log.info("Transactions with Repayment or Disbursement: {}", transactions.toString());
 
             pastelTransReqList = musoniProcessor.setSavingsAccountsPastelFields(transactions);
-            if(pastelTransReqList.isEmpty()){
+            if (pastelTransReqList.isEmpty()) {
                 continue;
             }
-            log.info("Pastel Trans Request: {}",pastelTransReqList);
-            for(PastelTransReq pastelTransReq: pastelTransReqList){
+            log.info("Pastel Trans Request: {}", pastelTransReqList);
+            for (PastelTransReq pastelTransReq : pastelTransReqList) {
 
                 try {
                     List<PostGlResponseDTO> res = postGlService.getAllPostGlByRef(pastelTransReq.getReference());
                     log.info("EXISTING TRANS:{}", res);
-                    if(res.isEmpty()) {
+                    if (res.isEmpty()) {
 
                         TransactionInfo response = restClient.savePostGlTransaction(pastelTransReq);
                         log.info("Posted Tranasction: {} ", response);
 
 
-                            String sms_depsot = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been deposited to  Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
-                            smsService.sendSingle(phone_number, sms_depsot);
+                        String sms_depsot = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been deposited to  Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
+                        smsService.sendSingle(phone_number, sms_depsot);
 
-                            log.info("SMS SENT: {} ", sms_depsot);
+                        log.info("SMS SENT: {} ", sms_depsot);
 
-                    }else {
+                    } else {
                         log.info("TRANS ALREADY EXIST:{}", res);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     List<PostGlResponseDTO> responseDTO = postGlService.getAllPostGlByRef(pastelTransReq.getReference());
-                    if(responseDTO.size() !=0){
-                     log.info("TRANSACTION SAVED <<<>>>");
+                    if (responseDTO.size() != 0) {
+                        log.info("TRANSACTION SAVED <<<>>>");
                     }
                     log.info("Failed to save Transaction : {}", e.getMessage());
 
@@ -213,39 +210,39 @@ public class MusoniService {
         }
     }
 
-//    LocalDate disbursementDate;
+    //    LocalDate disbursementDate;
     public List<TransactionDTO> getTransactionsByLoanId(int loanId) throws JsonProcessingException {
         List<TransactionDTO> response = restClient.getTransactionsByLoanId(loanId);
         log.info("Loan Transactions : {}", response.toString());
 
 //        disbursementDate = restClient.getDisbursementDate(response);
 
-         return response;
+        return response;
     }
 
     public List<SavingsTransactionDTO> getTransactionsBySavingsId(int loanId) throws JsonProcessingException {
         List<SavingsTransactionDTO> response = restClient.getTransactionsBySavingsId(loanId);
         log.info("Savings Transactions : {}", response.toString());
 
-         return response;
+        return response;
     }
 
     public List<TransactionDTO> getTransactionsByPostMaturityFeeId(int loanId) throws JsonProcessingException {
         List<TransactionDTO> response = restClient.getTransactionsByPostMaturityFeeId(loanId);
         log.info("PMF Transactions : {}", response.toString());
 
-         return response;
+        return response;
     }
 
     // Function to get and process loan repayment schedule
     public List<TransactionDTO> getAndProcessLoanRepayment(String loanAccount) throws JsonProcessingException {
         // Step 1: Get the loan repayment schedule
         List<Map<String, Object>> loanRepaymentSchedule = (List<Map<String, Object>>) getLoanRepaymentSchedule(loanAccount);
-        log.info("loanRepaymentSchedule: {}",loanRepaymentSchedule);
+        log.info("loanRepaymentSchedule: {}", loanRepaymentSchedule);
 
         // Step 2: Process the loan repayment schedule
         List<TransactionDTO> filteredResults = processLoanRepaymentSchedule(loanRepaymentSchedule);
-        log.info("filteredResults: {}",filteredResults);
+        log.info("filteredResults: {}", filteredResults);
 
         return filteredResults;
     }
@@ -349,8 +346,6 @@ public class MusoniService {
     }
 
 
-
-
     public Object getLoanRepaymentSchedule(String loanAccount) throws JsonProcessingException {
 //        String repaymentScheduleLoan = String.valueOf(restClient.getRepaymentSchedule(loanAccount));
         HttpEntity<String> entity = new HttpEntity<>(restClient.httpHeaders());
@@ -410,13 +405,9 @@ public class MusoniService {
     }
 
 
-//            @Scheduled(cron = "0 0 * * * ?")
-//@Scheduled(cron = "0 0 0 * * ?")
-//@Scheduled(cron = "0 */30 * * * ?") // Every 30 minutes
+    @Scheduled(cron = "0 */30 * * * ?")
+    public void getLoansByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
 
-public void getLoansByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
-
-//        Long timestamp = MusoniUtils.getUnixTimeMinus1Hour();
         Long timestamp = MusoniUtils.getUnixTimeMinusDays();
         Loans loans = restClient.getLoans(timestamp);
         log.info("Loans from Musoni : {}", loans.toString());
@@ -439,7 +430,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
             String phone_number = "0";
             if (client.getMobileNo() != null) {
                 phone_number = client.getMobileNo();
-                phone_number = "0775797299";
+//                phone_number = "0775797299";
             }
 
 //            String reminderSms = repaymentSchedule(phone_number, String.valueOf(loanId));//            Reminder SMS
@@ -447,7 +438,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 //            String parSms = repaymentSchedule(phone_number, String.valueOf(loanId));//            PAR SMS notification
 
             //Get all transactions for the pageItem
-            transactions = restClient.getTransactions(loanId,timestamp);
+            transactions = restClient.getTransactions(loanId, timestamp);
             log.info("Transactions: {}", transactions);
             if (transactions == null) {
                 continue;
@@ -456,36 +447,36 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
             log.info("Transactions with Repayment or Disbursement: {}", transactions.toString());
 
             pastelTransReqList = musoniProcessor.setPastelFields(transactions);
-            if(pastelTransReqList.isEmpty()){
+            if (pastelTransReqList.isEmpty()) {
                 continue;
             }
 
-            log.info("Pastel Trans Request: {}",pastelTransReqList);
-            for(PastelTransReq pastelTransReq: pastelTransReqList){
+            log.info("Pastel Trans Request: {}", pastelTransReqList);
+            for (PastelTransReq pastelTransReq : pastelTransReqList) {
 
                 try {
                     List<PostGlResponseDTO> res = postGlService.getAllPostGlByRef(pastelTransReq.getReference());
                     log.info("EXISTING TRANS:{}", res);
-                    if(res.isEmpty()) {
+                    if (res.isEmpty()) {
                         TransactionInfo response = restClient.savePostGlTransaction(pastelTransReq);
                         log.info("Posted Tranasction: {} ", response);
 
-                        if(pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_DISBURSEMENT)) {
+                        if (pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_DISBURSEMENT)) {
 
                             String sms_disburse = "This serves to confirm that a loan amount of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been disbursed to Account: " + loanId + " on " + pastelTransReq.getTransactionDate() + " and has been collected.";
                             smsService.sendSingle(phone_number, sms_disburse);
 
                             log.info("SMS SENT: {} ", sms_disburse);
-                        }else if (pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_REPAYMENT)) {
+                        } else if (pastelTransReq.getDescription().equalsIgnoreCase(AppConstants.LOAN_REPAYMENT)) {
                             String sms_repayment = "This serves to confirm that a repayment of " + MusoniUtils.currencyFormatter(new BigDecimal(pastelTransReq.getAmount())) + " has been made to Account: " + loanId + " on " + pastelTransReq.getTransactionDate();
                             smsService.sendSingle(phone_number, sms_repayment);
                         }
-                    }else {
+                    } else {
                         log.info("TRANS ALREADY EXIST:{}", res);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     List<PostGlResponseDTO> responseDTO = postGlService.getAllPostGlByRef(pastelTransReq.getReference());
-                    if(responseDTO.size() !=0){
+                    if (responseDTO.size() != 0) {
                         log.info("TRANSACTION SAVED <<<>>>");
                     }
                     log.info("Failed to save Transaction : {}", e.getMessage());
@@ -495,7 +486,6 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
             }
         }
     }
-
 
 
     //    ToDo: Get Required information from the loan returned
@@ -713,18 +703,17 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
         try {
             settlementAccount = restClient.getSavingsLoanAccountById(savingsId);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info("FAILED TO GET THE ACCOUNT:{}", e.getMessage());
-            throw new SettlementAccountNotFoundException("This Settlement Account : "+ savingsId +" does not exist");
+            throw new SettlementAccountNotFoundException("This Settlement Account : " + savingsId + " does not exist");
         }
 
 
-
         Integer clientId = settlementAccount.getClientId();
-        if (clientId != 0){
+        if (clientId != 0) {
             Client musoniClient = restClient.getClientById(String.valueOf(clientId));
 
-            if (musoniClient.getMobileNo() != null){
+            if (musoniClient.getMobileNo() != null) {
                 settlementAccountResponse.setClientId(String.valueOf(clientId));
                 settlementAccountResponse.setPhoneNumber(musoniClient.getMobileNo());
 
@@ -747,14 +736,14 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                 try {
                     //                TODO Replace phone number
                     smsService.sendSingle(musoniClient.getMobileNo(), smsText);
-                } catch (Exception e){
+                } catch (Exception e) {
                     throw new SmsException(e.getMessage());
                 }
             }
 
 
-        }else {
-            throw new SettlementAccountNotFoundException("This Settlement Account : "+ savingsId +" does not exist");
+        } else {
+            throw new SettlementAccountNotFoundException("This Settlement Account : " + savingsId + " does not exist");
         }
 
 
@@ -769,22 +758,22 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
         try {
             settlementAccount = restClient.getSavingsLoanAccountById(savingsId);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info("FAILED TO GET THE ACCOUNT:{}", e.getMessage());
-            throw new SettlementAccountNotFoundException("This Settlement Account : "+ savingsId +" does not exist");
+            throw new SettlementAccountNotFoundException("This Settlement Account : " + savingsId + " does not exist");
         }
 
         Integer clientId = settlementAccount.getClientId();
-        if (clientId != 0){
+        if (clientId != 0) {
             Client musoniClient = restClient.getClientById(String.valueOf(clientId));
 
-            if (musoniClient.getMobileNo() != null){
+            if (musoniClient.getMobileNo() != null) {
                 settlementAccountResponse.setClientId(String.valueOf(clientId));
                 settlementAccountResponse.setPhoneNumber(musoniClient.getMobileNo());
             }
 
-        }else {
-            throw new SettlementAccountNotFoundException("This Settlement Account : "+ savingsId +" does not exist");
+        } else {
+            throw new SettlementAccountNotFoundException("This Settlement Account : " + savingsId + " does not exist");
         }
 
         return settlementAccountResponse;
@@ -819,8 +808,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                 if (!feesResponses.isEmpty()) {
                     String lastFeeId = feesResponses.get(feesResponses.size() - 1).getId();
                     clientAccounts.setPostMaturityFee(lastFeeId);
-                }
-                else {
+                } else {
                     clientAccounts.setPostMaturityFee("0");
                 }
 
@@ -862,7 +850,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
 
         List<ViewClientLoansResponse> response = new ArrayList<>();
 
-        for (LoanAccount account: loanAccounts){
+        for (LoanAccount account : loanAccounts) {
             ViewClientLoansResponse viewClientLoansResponse = new ViewClientLoansResponse();
 
             viewClientLoansResponse.setLoanId(account.getId());
@@ -871,7 +859,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
             response.add(viewClientLoansResponse);
 
         }
-        if(response.isEmpty()){
+        if (response.isEmpty()) {
             throw new EmptyException("Could not find any Active loans");
         }
 
@@ -998,7 +986,8 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
         List<FilteredLoans> eligibleLoans = new ArrayList<>();
 
         // Loop through each loan account
-        late: for (int i = 0; i < loans.length(); i++) {
+        late:
+        for (int i = 0; i < loans.length(); i++) {
             String accountNo = loans.getJSONObject(i).getString("accountNo");
 
             String clientName = "";
@@ -1083,7 +1072,7 @@ public void getLoansByTimestamp() throws ParseException, JsonProcessingException
                                 LocalDate obligationsMetOnDate = LocalDate.of(year, month, day);
 
                                 // Use helper function to check if repayment is more than 30 days late
-                                if (isMoreThan30DaysLate(dueDate, obligationsMetOnDate) || (periods.length()-1 <= totalRepayments/2) ) {
+                                if (isMoreThan30DaysLate(dueDate, obligationsMetOnDate) || (periods.length() - 1 <= totalRepayments / 2)) {
                                     log.info("skip account: {}", accountNo);
                                     continue late; // No need to check further periods for this loan
                                 }
