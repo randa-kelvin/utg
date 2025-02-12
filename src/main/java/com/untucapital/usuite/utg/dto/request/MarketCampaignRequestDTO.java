@@ -1,160 +1,56 @@
 package com.untucapital.usuite.utg.dto.request;
 
-
 import com.untucapital.usuite.utg.dto.AbstractEntityDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class MarketCampaignRequestDTO extends AbstractEntityDTO {
-//    @Id
-private Long campaignID;
+
+    @JsonProperty("campaignName")
     private String campaignName;
+
+    @JsonProperty("branchName")
     private String branchName;
+
+    @JsonProperty("city")
     private String city;
+
+    @JsonProperty("zoneArea")  // Ensure this matches the exact field name in the JSON
     private String zoneArea;
+
+    @JsonProperty("sector")
     private String sector;
+
+    @JsonProperty("subSector")
     private String subSector;
+
+    @JsonProperty("valueChain")
     private String valueChain;
+
+    @JsonProperty("resourceNeed")
     private String resourceNeed;
+
+    @JsonProperty("startDate")
     private String startDate;
+
+    @JsonProperty("endDate")
     private String endDate;
-    private String AllocatedLoanOfficer;
+
+    @JsonProperty("campaignStatus")
     private String campaignStatus;
+
+    @JsonProperty("venue")
     private String venue;
+
+    @JsonProperty("targetAudience")
     private String targetAudience;
+
+    @JsonProperty("objectives")
     private String objectives;
+
+    @JsonProperty("keyPerformanceIndicator")
     private String keyPerformanceIndicator;
-    public Long getCampaignID() {
-        return campaignID;
-    }
-
-    public void setCampaignID(Long campaignID) {
-        this.campaignID = campaignID;
-    }
-
-    public String getCampaignName() {
-        return campaignName;
-    }
-
-    public void setCampaignName(String campaignName) {
-        this.campaignName = campaignName;
-    }
-
-    public String getBranchName() {
-        return branchName;
-    }
-
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZoneArea() {
-        return zoneArea;
-    }
-
-    public void setZoneArea(String zoneArea) {
-        this.zoneArea = zoneArea;
-    }
-
-    public String getSector() {
-        return sector;
-    }
-
-    public void setSector(String sector) {
-        this.sector = sector;
-    }
-
-    public String getSubSector() {
-        return subSector;
-    }
-
-    public void setSubSector(String subSector) {
-        this.subSector = subSector;
-    }
-
-    public String getValueChain() {
-        return valueChain;
-    }
-
-    public void setValueChain(String valueChain) {
-        this.valueChain = valueChain;
-    }
-
-    public String getResourceNeed() {
-        return resourceNeed;
-    }
-
-    public void setResourceNeed(String resourceNeed) {
-        this.resourceNeed = resourceNeed;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getAllocatedLoanOfficer() {
-        return AllocatedLoanOfficer;
-    }
-
-    public void setAllocatedLoanOfficer(String allocatedLoanOfficer) {
-        AllocatedLoanOfficer = allocatedLoanOfficer;
-    }
-
-    public String getCampaignStatus() {
-        return campaignStatus;
-    }
-
-    public void setCampaignStatus(String campaignStatus) {
-        this.campaignStatus = campaignStatus;
-    }
-
-    public String getVenue() {
-        return venue;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-
-    public String getTargetAudience() {
-        return targetAudience;
-    }
-
-    public void setTargetAudience(String targetAudience) {
-        this.targetAudience = targetAudience;
-    }
-
-    public String getObjectives() {
-        return objectives;
-    }
-
-    public void setObjectives(String objectives) {
-        this.objectives = objectives;
-    }
-
-    public String getKeyPerformanceIndicator() {
-        return keyPerformanceIndicator;
-    }
-
-    public void setKeyPerformanceIndicator(String keyPerformanceIndicator) {
-        this.keyPerformanceIndicator = keyPerformanceIndicator;
-    }
 }

@@ -101,7 +101,7 @@ public class TransactionVoucherService {
                 transactionVoucher.getDenomination5(),
                 transactionVoucher.getDenomination2(),
                 transactionVoucher.getDenomination1()
-    );
+        );
 
         TransactionVoucher transactionVoucher1 = new TransactionVoucher();
         if (transaction.isPresent() && !request.isDuplicate()){
@@ -128,7 +128,8 @@ public class TransactionVoucherService {
                 "Transaction Approval",
 //                "You have a new transaction to approve (" + transactionVoucherProcessor.createApplicationId(transactionVoucher1.getApplicationDate(), transactionVoucher1.getId()) + "). The transactional purpose is " + transactionPurpose.getName() + ".",
                 "You have a new transaction to approve - " + transactionVoucher1.getReference() + ". The transactional purpose is " + transactionVoucher1.getWithdrawalPurpose() + ".",
-                user.getFirstName() + " " + user.getLastName()
+                "Untu CMS"
+//                user.getFirstName() + " " + user.getLastName()
         );
 
 
@@ -155,9 +156,9 @@ public class TransactionVoucherService {
                     transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName(),
                     transactionVoucher.getSecondApprover().getContactDetail().getEmailAddress(),
                     "Transaction Approval",
-//                    "You have a new transaction to approve (" + transactionVoucherProcessor.createApplicationId(transactionVoucher.getApplicationDate(), transactionVoucher.getId()) + "). The transactional purpose is " + transactionPurpose.getName() + ".",
                     "You have a new transaction to approve - " + transactionVoucher.getReference() + ". The transactional purpose is " + transactionVoucher.getWithdrawalPurpose()+ ".",
-                    transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
+                    "Untu CMS"
+//                    transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
             );
         }
 
@@ -171,7 +172,8 @@ public class TransactionVoucherService {
                     "Revise Transaction",
 //                    "Revise transaction (" + transactionVoucherProcessor.createApplicationId(transactionVoucher.getApplicationDate(), transactionVoucher.getId()) + "). The transactional purpose is " + transactionPurpose.getName() + " ." + transactionVoucher.getFirstApprovalComment(),
                     "Revise transaction - " + transactionVoucher.getReference() + " The transactional purpose is " + transactionVoucher.getWithdrawalPurpose() + " ." + transactionVoucher.getFirstApprovalComment(),
-                    transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
+                    "Untu CMS"
+//                    transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
             );
         }
 
@@ -227,7 +229,8 @@ public class TransactionVoucherService {
                         transactionVoucher.getInitiator().getContactDetail().getEmailAddress(),
                         "Transaction Approved Successfully",
                         "Revise transaction - " + transactionVoucher.getReference() + ". The transactional purpose is " + transactionVoucher.getWithdrawalPurpose() + " ." + transactionVoucher.getFirstApprovalComment(),
-                        transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
+                        "Untu CMS"
+//                        transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
                 );
                 transactionVoucher.setSecondApprovedAt(LocalDateTime.now());
 
@@ -244,7 +247,8 @@ public class TransactionVoucherService {
                     transactionVoucher.getInitiator().getContactDetail().getEmailAddress(),
                     "Make Transaction adjustments",
                     "Make adjustments to the transaction with reference: " + transactionVoucher.getReference() + ". Comment for adjustments: " + transactionVoucher.getWithdrawalPurpose() + " ." + transactionVoucher.getFirstApprovalComment(),
-                    transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
+                    "Untu CMS"
+//                    transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
             );
         }
 
@@ -440,7 +444,8 @@ public class TransactionVoucherService {
                         transactionVoucher.getSecondApprover().getContactDetail().getEmailAddress(),
                         "Transaction Approved",
                         "You have a new transaction to approve - " + referenceNumbers + ". The transactional purpose is " + transactionVoucher.getWithdrawalPurpose() + ".",
-                        transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
+                        "Untu CMS"
+//                        transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
                 );
             }
 
@@ -450,7 +455,8 @@ public class TransactionVoucherService {
                         transactionVoucher.getInitiator().getContactDetail().getEmailAddress(),
                         "Make Transaction adjustments",
                         "Make adjustments to the transaction with reference : " + referenceNumbers + ". Comment for adjustments : " + transactionVoucher.getWithdrawalPurpose() + " ." + transactionVoucher.getFirstApprovalComment(),
-                        transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
+                        "Untu CMS"
+//                        transactionVoucher.getFirstApprover().getFirstName() + " " + transactionVoucher.getFirstApprover().getLastName()
                 );
             }
         }
@@ -474,6 +480,7 @@ public class TransactionVoucherService {
             if(transactionVoucher.getFirstApprovalStatus() == ApprovalStatus.APPROVED && transactionVoucher.getSecondApprovalStatus() == ApprovalStatus.PENDING){
                 if (request.getApprovalStatus().equalsIgnoreCase("APPROVED")) {
                     transactionVoucher.setSecondApprovalStatus(ApprovalStatus.APPROVED);
+                    transactionVoucher.setSecondApprovedAt(LocalDateTime.now());
 
                     if (transactionVoucher.getWithdrawalPurpose() != null){
 
@@ -516,6 +523,7 @@ public class TransactionVoucherService {
             if(transactionVoucher.getFirstApprovalStatus() == ApprovalStatus.PENDING && transactionVoucher.getSecondApprovalStatus() == ApprovalStatus.PENDING){
                 if (request.getApprovalStatus().equalsIgnoreCase("APPROVED")) {
                     transactionVoucher.setFirstApprovalStatus(ApprovalStatus.APPROVED);
+                    transactionVoucher.setFirstApprovedAt(LocalDateTime.now());
                 }
 
                 if (request.getApprovalStatus().equalsIgnoreCase("REVISE")) {
@@ -524,7 +532,6 @@ public class TransactionVoucherService {
                 }
             }
 
-            transactionVoucher.setSecondApprovedAt(LocalDateTime.now());
             transactionVouchers.add(transactionVoucher);
 
         }
@@ -539,7 +546,8 @@ public class TransactionVoucherService {
                         transactionVoucher.getInitiator().getContactDetail().getEmailAddress(),
                         "Transaction Approved Successfully",
                         "The following transaction with Reference : " + referenceNumbers + " approved successfully. Purpose for transaction is: " + transactionVoucher.getWithdrawalPurpose() + " .",
-                        transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
+                        "Untu CMS"
+//                        transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
                 );
             }
 
@@ -549,17 +557,18 @@ public class TransactionVoucherService {
                         transactionVoucher.getInitiator().getContactDetail().getEmailAddress(),
                         "Make Transaction adjustments",
                         "Make adjustments to the transaction with reference : " + referenceNumbers + ".",
-                        transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
+                        "Untu CMS"
+//                        transactionVoucher.getSecondApprover().getFirstName() + " " + transactionVoucher.getSecondApprover().getLastName()
                 );
             }
-
-
 
         }
 
         List<TransactionVoucher> transactionVoucherList = transactionVoucherRepository.saveAll(transactionVouchers);
 
-        postGlService.saveBulkPostGlFromCMS(pastelTransReqs);
+        if (transactionVouchers.get(0).getSecondApprovalStatus() == ApprovalStatus.APPROVED) {
+            postGlService.saveBulkPostGlFromCMS(pastelTransReqs);
+        }
 
         return transactionVoucherProcessor.transactionVouchersResponseSerializer(transactionVoucherList);
     }

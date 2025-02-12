@@ -3,11 +3,13 @@ package com.untucapital.usuite.utg.controller;
 import com.untucapital.usuite.utg.dto.request.MarketCampaignRequestDTO;
 import com.untucapital.usuite.utg.dto.response.MarketCampaignResponseDTO;
 import com.untucapital.usuite.utg.service.MarketCampaignService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/market_campaigns")
 public class MarketCampaignController {
@@ -34,6 +36,7 @@ public class MarketCampaignController {
 
     @PostMapping
     public MarketCampaignResponseDTO createMarketCampaign(@RequestBody MarketCampaignRequestDTO marketCampaign) {
+        log.info("marketCampaign: {}", marketCampaign);
         return marketCampaignService.createMarketCampaign(marketCampaign);
     }
 

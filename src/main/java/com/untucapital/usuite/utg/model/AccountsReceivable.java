@@ -1,9 +1,14 @@
 package com.untucapital.usuite.utg.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "AccountsReceivablesMicro")
 public class AccountsReceivable extends AbstractEntity {
@@ -34,54 +39,6 @@ public class AccountsReceivable extends AbstractEntity {
         this.dueSince = dueSince;
         this.expectedPayment = expectedPayment;
         this.paymentProbability = paymentProbability;
-        this.debtValue = debtValue;
-    }
-
-    public String getLoanId() {
-        return loanId;
-    }
-
-    public void setLoanId(String loanId) {
-        this.loanId = loanId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getDueSince() {
-        return dueSince;
-    }
-
-    public void setDueSince(String dueSince) {
-        this.dueSince = dueSince;
-    }
-
-    public String getExpectedPayment() {
-        return expectedPayment;
-    }
-
-    public void setExpectedPayment(String expectedPayment) {
-        this.expectedPayment = expectedPayment;
-    }
-
-    public String getPaymentProbability() {
-        return paymentProbability;
-    }
-
-    public void setPaymentProbability(String paymentProbability) {
-        this.paymentProbability = paymentProbability;
-    }
-
-    public String getDebtValue() {
-        return debtValue;
-    }
-
-    public void setDebtValue(String debtValue) {
         this.debtValue = debtValue;
     }
 

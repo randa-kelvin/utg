@@ -656,11 +656,11 @@ public class MusoniController {
 //        return restClient.getClientByDateOfBirth(dob);
 //    }
 
-    @GetMapping("/getClientsByDob/{dob}")
-    @Operation(summary = "Get a client by dob (Date Format: YYYY-MM-DD)")
-    public String getClientByDateOfBirth(@PathVariable String dob) {
-        return musoniService.getClientByDateOfBirth();
-    }
+//    @GetMapping("/getClientsByDob/{dob}")
+//    @Operation(summary = "Get a client by dob (Date Format: YYYY-MM-DD)")
+//    public String getClientByDateOfBirth(@PathVariable String dob) {
+//        return musoniService.getClientByDateOfBirth();
+//    }
 
     @GetMapping("/getLoansByFilter/{loanStatus}/{loanAmount}/{dayInArrears}")
     @Operation(summary = "Get Filtered loans")

@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "requisitions")
 public class Requisitions extends AbstractEntity {

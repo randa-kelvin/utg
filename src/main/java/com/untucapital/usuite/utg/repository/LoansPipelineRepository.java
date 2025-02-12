@@ -26,8 +26,9 @@ public interface LoansPipelineRepository extends JpaRepository<LoansPipeline, Lo
     @Query(nativeQuery = true, value = "SELECT `branch_name`, `loan_officer`, SUM(CASE WHEN loan_status IN ('Assessment', 'Pending Disbursement', 'Prospect') THEN `sought_loan` ELSE 0 END) AS total_pipeline, SUM(CASE WHEN loan_status = 'Disbursement' THEN `sought_loan` ELSE 0 END) AS total_disbursed FROM loanspipeline WHERE `branch_name` = ?1 GROUP BY `loan_officer`")
     List<Object[]> getLoTotalPipelineAndDisbursementsByBranch(String branchName);
 
+    List<LoansPipeline> findLoansPipelineByLoanOfficerAndLoanStatusNotContainingAndLoanStatusNotContaining(String userId, String loanStatus1, String loanStatus2);
 
-    List<LoansPipeline> findLoansPipelineByLoanOfficer(String userId);
+    List<LoansPipeline> findLoansPipelineByLoanOfficerAndLoanStatus(String userId, String loanStatus);
 
     List<LoansPipeline> findByBranchNameOrderByLoanOfficerAsc(String branchName);
 

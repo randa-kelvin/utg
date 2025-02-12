@@ -345,6 +345,12 @@ public class ClientLoanController {
         return new ResponseEntity<List<ClientLoan>>(clientRepository.findClientLoansByLoanStatusAndProcessLoanStatusAndBocoSignatureAndPipelineStatusAndBranchNameOrderByCreatedAtDesc(loanStatus, processLoanStatus, bocoSignature, pipelineStatus, branchName), HttpStatus.OK);
     }
 
+    // audit all tickets not signed yet.
+    @GetMapping("/auditTicketNotSigned/{loanStatus}/{processLoanStatus}/{finSignature}/{pipelineStatus}")
+    public ResponseEntity<List<ClientLoan>> getAuditClientLoanApplicationsBySignatureStatus(@PathVariable("loanStatus") String loanStatus, @PathVariable("processLoanStatus") String processLoanStatus, @PathVariable("finSignature") String finSignature, @PathVariable("pipelineStatus") String pipelineStatus) {
+        return new ResponseEntity<List<ClientLoan>>(clientRepository.findClientLoansByLoanStatusAndProcessLoanStatusAndFinSignatureAndPipelineStatus(loanStatus, processLoanStatus, finSignature, pipelineStatus), HttpStatus.OK);
+    }
+
     // show BM all tickets not signed yet.
     @GetMapping("/bmTicketNotSigned/{loanStatus}/{processLoanStatus}/{bmSignature}/{bocoSignature}/{pipelineStatus}/{branchName}")
     public ResponseEntity<List<ClientLoan>> getClientLoanApplicationsByforBmSignatureStatus(@PathVariable("loanStatus") String loanStatus, @PathVariable("processLoanStatus") String processLoanStatus, @PathVariable("bmSignature") String bmSignature, @PathVariable("bocoSignature") String bocoSignature, @PathVariable("pipelineStatus") String pipelineStatus, @PathVariable("branchName") String branchName) {

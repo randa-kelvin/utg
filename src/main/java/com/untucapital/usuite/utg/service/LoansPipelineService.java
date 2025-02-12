@@ -108,10 +108,25 @@ public class LoansPipelineService {
 
 
     @org.springframework.transaction.annotation.Transactional(value = "transactionManager")
-    public List<LoansPipelineResponseDTO> getLoPipeline(String userId) {
+    public List<LoansPipelineResponseDTO> getLoPipeline(String userId, String loanStatus1, String loanStatus2) {
 
         List<LoansPipelineResponseDTO> response = new ArrayList<>();
-        List<LoansPipeline> loansPipelineList = loansPipelineRepository.findLoansPipelineByLoanOfficer(userId);
+        List<LoansPipeline> loansPipelineList = loansPipelineRepository.findLoansPipelineByLoanOfficerAndLoanStatusNotContainingAndLoanStatusNotContaining(userId, loanStatus1, loanStatus2);
+
+        for (LoansPipeline loansPipeline : loansPipelineList) {
+            LoansPipelineResponseDTO loanResponseDTO = new LoansPipelineResponseDTO();
+            BeanUtils.copyProperties(loansPipeline, loanResponseDTO);
+
+            response.add(loanResponseDTO);
+        }
+        return response;
+    }
+
+    @org.springframework.transaction.annotation.Transactional(value = "transactionManager")
+    public List<LoansPipelineResponseDTO> getLoPipelineByLoanStatus(String userId, String loanStatus) {
+
+        List<LoansPipelineResponseDTO> response = new ArrayList<>();
+        List<LoansPipeline> loansPipelineList = loansPipelineRepository.findLoansPipelineByLoanOfficerAndLoanStatus(userId, loanStatus);
 
         for (LoansPipeline loansPipeline : loansPipelineList) {
             LoansPipelineResponseDTO loanResponseDTO = new LoansPipelineResponseDTO();

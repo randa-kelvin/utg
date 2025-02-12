@@ -136,8 +136,7 @@ public class MusoniService {
     }
 
 
-    //    @Scheduled(cron = "0 0 * * * ?")
-    @Scheduled(cron = "0 0/20 * * * ?")
+//    @Scheduled(cron = "0 0/20 * * * ?")
     public void getSavingsLoanAccountsByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
 
         Long timestamp = MusoniUtils.getUnixTimeMinusDays();
@@ -405,7 +404,7 @@ public class MusoniService {
     }
 
 
-    @Scheduled(cron = "0 */30 * * * ?")
+//    @Scheduled(cron = "0 */30 * * * ?")
     public void getLoansByTimestamp() throws ParseException, JsonProcessingException, AccountNotFoundException {
 
         Long timestamp = MusoniUtils.getUnixTimeMinusDays();
@@ -945,8 +944,8 @@ public class MusoniService {
     }
 
 
-    @Scheduled(cron = "0 0 10 * * ?")
-    public String getClientByDateOfBirth() {
+//    @Scheduled(cron = "0 0 10 * * ?")
+    public void getClientByDateOfBirth() {
         String response = restClient.getClientByDateOfBirth();
 
         // Parse the response to extract the client ID
@@ -972,7 +971,6 @@ public class MusoniService {
         } catch (Exception e) {
             log.error("Error parsing client data or sending SMS: ", e);
         }
-        return response;
     }
 
 

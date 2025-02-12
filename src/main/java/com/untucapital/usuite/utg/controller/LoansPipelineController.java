@@ -60,6 +60,12 @@ public class LoansPipelineController {
         return new ResponseEntity<>(loans, HttpStatus.OK);
     }
 
+//    @GetMapping("/loans")
+//    public ResponseEntity<List<LoansPipelineResponseDTO>> getAllLoans() {
+//        List<LoansPipelineResponseDTO> loans = loansPipelineService.getAllLoans();
+//        return new ResponseEntity<>(loans, HttpStatus.OK);
+//    }
+
     @GetMapping("/loans/count/{loanOfficer}")
     public ResponseEntity<Integer> getCountByLoanOfficer(@PathVariable("loanOfficer") String loanOfficer) {
         Integer count = loansPipelineService.getCountByLoanOfficer(loanOfficer);
@@ -72,11 +78,18 @@ public class LoansPipelineController {
 //
 //    }
 
-    @GetMapping("/getLoPipeline/{userId}")
-    public ResponseEntity<List<LoansPipelineResponseDTO>> getLoPipeline(@PathVariable("userId") String userId) {
-        List<LoansPipelineResponseDTO> loans = loansPipelineService.getLoPipeline(userId);
+    @GetMapping("/getLoPipeline/{userId}/{loanStatus1}/{loanStatus2}")
+    public ResponseEntity<List<LoansPipelineResponseDTO>> getLoPipeline(@PathVariable("userId") String userId, @PathVariable("loanStatus1") String loanStatus1, @PathVariable("loanStatus2") String loanStatus2) {
+        List<LoansPipelineResponseDTO> loans = loansPipelineService.getLoPipeline(userId, loanStatus1, loanStatus2);
         return new ResponseEntity<>(loans, HttpStatus.OK);
     }
+
+    @GetMapping("/getLoPipelineByLoanStatus/{userId}/{loanStatus}")
+    public ResponseEntity<List<LoansPipelineResponseDTO>> getLoPipelineByLoanStatus(@PathVariable("userId") String userId, @PathVariable("loanStatus") String loanStatus) {
+        List<LoansPipelineResponseDTO> loans = loansPipelineService.getLoPipelineByLoanStatus(userId, loanStatus);
+        return new ResponseEntity<>(loans, HttpStatus.OK);
+    }
+
 
     @GetMapping("/getPipelineByBranch/{branchName}")
     public ResponseEntity<List<LoansPipelineResponseDTO>> getPipelineByBranch(@PathVariable("branchName") String branchName) {
